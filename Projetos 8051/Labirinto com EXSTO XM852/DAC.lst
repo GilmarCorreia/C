@@ -1,0 +1,885 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
+                              4 ; This file was generated Mon Aug 19 00:21:25 2019
+                              5 ;--------------------------------------------------------
+                              6 	.module DAC
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _squareWave
+                             13 	.globl _speaker
+                             14 	.globl _adobe_noteTime
+                             15 	.globl _adobe_melody
+                             16 	.globl _underworld_noteTime
+                             17 	.globl _underworld_melody
+                             18 	.globl _mainMario_noteTime
+                             19 	.globl _mainMario_melody
+                             20 	.globl _squareWave_PARM_2
+                             21 	.globl _speaker_PARM_2
+                             22 	.globl _Timer0
+                             23 	.globl _sing
+                             24 ;--------------------------------------------------------
+                             25 ; special function registers
+                             26 ;--------------------------------------------------------
+                             27 	.area RSEG    (DATA)
+                             28 ;--------------------------------------------------------
+                             29 ; special function bits
+                             30 ;--------------------------------------------------------
+                             31 	.area RSEG    (DATA)
+                             32 ;--------------------------------------------------------
+                             33 ; overlayable register banks
+                             34 ;--------------------------------------------------------
+                             35 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      36 	.ds 8
+                             37 ;--------------------------------------------------------
+                             38 ; internal ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area DSEG    (DATA)
+   0000                      41 _speaker_sloc0_1_0:
+   0000                      42 	.ds 4
+                             43 ;--------------------------------------------------------
+                             44 ; overlayable items in internal ram 
+                             45 ;--------------------------------------------------------
+                             46 	.area OSEG    (OVR,DATA)
+                             47 ;--------------------------------------------------------
+                             48 ; indirectly addressable internal ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area ISEG    (DATA)
+                             51 ;--------------------------------------------------------
+                             52 ; absolute internal ram data
+                             53 ;--------------------------------------------------------
+                             54 	.area IABS    (ABS,DATA)
+                             55 	.area IABS    (ABS,DATA)
+                             56 ;--------------------------------------------------------
+                             57 ; bit data
+                             58 ;--------------------------------------------------------
+                             59 	.area BSEG    (BIT)
+                             60 ;--------------------------------------------------------
+                             61 ; paged external ram data
+                             62 ;--------------------------------------------------------
+                             63 	.area PSEG    (PAG,XDATA)
+                             64 ;--------------------------------------------------------
+                             65 ; external ram data
+                             66 ;--------------------------------------------------------
+                             67 	.area XSEG    (XDATA)
+                    FFC4     68 _dacWrite	=	0xffc4
+   0000                      69 _Timer0::
+   0000                      70 	.ds 7
+   0007                      71 _speaker_PARM_2:
+   0007                      72 	.ds 2
+   0009                      73 _speaker_note_1_1:
+   0009                      74 	.ds 2
+   000B                      75 _squareWave_PARM_2:
+   000B                      76 	.ds 2
+   000D                      77 _squareWave_note_1_1:
+   000D                      78 	.ds 2
+   000F                      79 _sing_song_1_1:
+   000F                      80 	.ds 1
+                             81 ;--------------------------------------------------------
+                             82 ; absolute external ram data
+                             83 ;--------------------------------------------------------
+                             84 	.area XABS    (ABS,XDATA)
+                             85 ;--------------------------------------------------------
+                             86 ; external initialized ram data
+                             87 ;--------------------------------------------------------
+                             88 	.area XISEG   (XDATA)
+   0000                      89 _mainMario_melody::
+   0000                      90 	.ds 156
+   009C                      91 _mainMario_noteTime::
+   009C                      92 	.ds 78
+   00EA                      93 _underworld_melody::
+   00EA                      94 	.ds 112
+   015A                      95 _underworld_noteTime::
+   015A                      96 	.ds 56
+   0192                      97 _adobe_melody::
+   0192                      98 	.ds 32
+   01B2                      99 _adobe_noteTime::
+   01B2                     100 	.ds 16
+                            101 	.area HOME    (CODE)
+                            102 	.area GSINIT0 (CODE)
+                            103 	.area GSINIT1 (CODE)
+                            104 	.area GSINIT2 (CODE)
+                            105 	.area GSINIT3 (CODE)
+                            106 	.area GSINIT4 (CODE)
+                            107 	.area GSINIT5 (CODE)
+                            108 	.area GSINIT  (CODE)
+                            109 	.area GSFINAL (CODE)
+                            110 	.area CSEG    (CODE)
+                            111 ;--------------------------------------------------------
+                            112 ; global & static initialisations
+                            113 ;--------------------------------------------------------
+                            114 	.area HOME    (CODE)
+                            115 	.area GSINIT  (CODE)
+                            116 	.area GSFINAL (CODE)
+                            117 	.area GSINIT  (CODE)
+                            118 ;--------------------------------------------------------
+                            119 ; Home
+                            120 ;--------------------------------------------------------
+                            121 	.area HOME    (CODE)
+                            122 	.area HOME    (CODE)
+                            123 ;--------------------------------------------------------
+                            124 ; code
+                            125 ;--------------------------------------------------------
+                            126 	.area CSEG    (CODE)
+                            127 ;------------------------------------------------------------
+                            128 ;Allocation info for local variables in function 'speaker'
+                            129 ;------------------------------------------------------------
+                            130 ;sloc0                     Allocated with name '_speaker_sloc0_1_0'
+                            131 ;noteDuration              Allocated with name '_speaker_PARM_2'
+                            132 ;note                      Allocated with name '_speaker_note_1_1'
+                            133 ;delayValue                Allocated with name '_speaker_delayValue_1_1'
+                            134 ;numCycles                 Allocated with name '_speaker_numCycles_1_1'
+                            135 ;i                         Allocated with name '_speaker_i_1_1'
+                            136 ;------------------------------------------------------------
+                            137 ;	DAC.c:117: void speaker(unsigned int note, unsigned int noteDuration){
+                            138 ;	-----------------------------------------
+                            139 ;	 function speaker
+                            140 ;	-----------------------------------------
+   0000                     141 _speaker:
+                    0002    142 	ar2 = 0x02
+                    0003    143 	ar3 = 0x03
+                    0004    144 	ar4 = 0x04
+                    0005    145 	ar5 = 0x05
+                    0006    146 	ar6 = 0x06
+                    0007    147 	ar7 = 0x07
+                    0000    148 	ar0 = 0x00
+                    0001    149 	ar1 = 0x01
+   0000 AA 83               150 	mov	r2,dph
+   0002 E5 82               151 	mov	a,dpl
+   0004 90s00r09            152 	mov	dptr,#_speaker_note_1_1
+   0007 F0                  153 	movx	@dptr,a
+   0008 A3                  154 	inc	dptr
+   0009 EA                  155 	mov	a,r2
+   000A F0                  156 	movx	@dptr,a
+                            157 ;	DAC.c:118: long delayValue = 1000000 / note / 2; 
+   000B 90s00r09            158 	mov	dptr,#_speaker_note_1_1
+   000E E0                  159 	movx	a,@dptr
+   000F FA                  160 	mov	r2,a
+   0010 A3                  161 	inc	dptr
+   0011 E0                  162 	movx	a,@dptr
+   0012 FB                  163 	mov	r3,a
+                            164 ;	DAC.c:119: long numCycles = note * noteDuration / 1000; 
+   0013 90s00r07            165 	mov	dptr,#_speaker_PARM_2
+   0016 E0                  166 	movx	a,@dptr
+   0017 FC                  167 	mov	r4,a
+   0018 A3                  168 	inc	dptr
+   0019 E0                  169 	movx	a,@dptr
+   001A FD                  170 	mov	r5,a
+   001B 90s00r00            171 	mov	dptr,#__mulint_PARM_2
+   001E EC                  172 	mov	a,r4
+   001F F0                  173 	movx	@dptr,a
+   0020 A3                  174 	inc	dptr
+   0021 ED                  175 	mov	a,r5
+   0022 F0                  176 	movx	@dptr,a
+   0023 8A 82               177 	mov	dpl,r2
+   0025 8B 83               178 	mov	dph,r3
+   0027 C0 02               179 	push	ar2
+   0029 C0 03               180 	push	ar3
+   002B 12s00r00            181 	lcall	__mulint
+   002E AC 82               182 	mov	r4,dpl
+   0030 AD 83               183 	mov	r5,dph
+   0032 90s00r00            184 	mov	dptr,#__divuint_PARM_2
+   0035 74 E8               185 	mov	a,#0xE8
+   0037 F0                  186 	movx	@dptr,a
+   0038 A3                  187 	inc	dptr
+   0039 74 03               188 	mov	a,#0x03
+   003B F0                  189 	movx	@dptr,a
+   003C 8C 82               190 	mov	dpl,r4
+   003E 8D 83               191 	mov	dph,r5
+   0040 12s00r00            192 	lcall	__divuint
+   0043 AC 82               193 	mov	r4,dpl
+   0045 AD 83               194 	mov	r5,dph
+   0047 D0 03               195 	pop	ar3
+   0049 D0 02               196 	pop	ar2
+                            197 ;	DAC.c:122: for (i = 0; i < numCycles; i++) { 
+   004B E4                  198 	clr	a
+   004C FE                  199 	mov	r6,a
+   004D FF                  200 	mov	r7,a
+   004E F5*00               201 	mov	_speaker_sloc0_1_0,a
+   0050 F5*01               202 	mov	(_speaker_sloc0_1_0 + 1),a
+   0052 F5*02               203 	mov	(_speaker_sloc0_1_0 + 2),a
+   0054 F5*03               204 	mov	(_speaker_sloc0_1_0 + 3),a
+   0056                     205 00101$:
+   0056 C3                  206 	clr	c
+   0057 E5*00               207 	mov	a,_speaker_sloc0_1_0
+   0059 9C                  208 	subb	a,r4
+   005A E5*01               209 	mov	a,(_speaker_sloc0_1_0 + 1)
+   005C 9D                  210 	subb	a,r5
+   005D E5*02               211 	mov	a,(_speaker_sloc0_1_0 + 2)
+   005F 9E                  212 	subb	a,r6
+   0060 E5*03               213 	mov	a,(_speaker_sloc0_1_0 + 3)
+   0062 64 80               214 	xrl	a,#0x80
+   0064 8F F0               215 	mov	b,r7
+   0066 63 F0 80            216 	xrl	b,#0x80
+   0069 95 F0               217 	subb	a,b
+   006B 50 66               218 	jnc	00105$
+                            219 ;	DAC.c:123: dacWrite = 255;
+   006D 90 FF C4            220 	mov	dptr,#_dacWrite
+   0070 74 FF               221 	mov	a,#0xFF
+   0072 F0                  222 	movx	@dptr,a
+                            223 ;	DAC.c:124: delay(note,0);
+   0073 90s00r00            224 	mov	dptr,#_delay_PARM_2
+   0076 E4                  225 	clr	a
+   0077 F0                  226 	movx	@dptr,a
+   0078 8A 82               227 	mov	dpl,r2
+   007A 8B 83               228 	mov	dph,r3
+   007C C0 02               229 	push	ar2
+   007E C0 03               230 	push	ar3
+   0080 C0 04               231 	push	ar4
+   0082 C0 05               232 	push	ar5
+   0084 C0 06               233 	push	ar6
+   0086 C0 07               234 	push	ar7
+   0088 12s00r00            235 	lcall	_delay
+   008B D0 07               236 	pop	ar7
+   008D D0 06               237 	pop	ar6
+   008F D0 05               238 	pop	ar5
+   0091 D0 04               239 	pop	ar4
+   0093 D0 03               240 	pop	ar3
+   0095 D0 02               241 	pop	ar2
+                            242 ;	DAC.c:125: dacWrite = 0;
+   0097 90 FF C4            243 	mov	dptr,#_dacWrite
+                            244 ;	DAC.c:126: delay(note,0);
+   009A E4                  245 	clr	a
+   009B F0                  246 	movx	@dptr,a
+   009C 90s00r00            247 	mov	dptr,#_delay_PARM_2
+   009F F0                  248 	movx	@dptr,a
+   00A0 8A 82               249 	mov	dpl,r2
+   00A2 8B 83               250 	mov	dph,r3
+   00A4 C0 02               251 	push	ar2
+   00A6 C0 03               252 	push	ar3
+   00A8 C0 04               253 	push	ar4
+   00AA C0 05               254 	push	ar5
+   00AC C0 06               255 	push	ar6
+   00AE C0 07               256 	push	ar7
+   00B0 12s00r00            257 	lcall	_delay
+   00B3 D0 07               258 	pop	ar7
+   00B5 D0 06               259 	pop	ar6
+   00B7 D0 05               260 	pop	ar5
+   00B9 D0 04               261 	pop	ar4
+   00BB D0 03               262 	pop	ar3
+   00BD D0 02               263 	pop	ar2
+                            264 ;	DAC.c:122: for (i = 0; i < numCycles; i++) { 
+   00BF 05*00               265 	inc	_speaker_sloc0_1_0
+   00C1 E4                  266 	clr	a
+   00C2 B5*00 0C            267 	cjne	a,_speaker_sloc0_1_0,00111$
+   00C5 05*01               268 	inc	(_speaker_sloc0_1_0 + 1)
+   00C7 B5*01 07            269 	cjne	a,(_speaker_sloc0_1_0 + 1),00111$
+   00CA 05*02               270 	inc	(_speaker_sloc0_1_0 + 2)
+   00CC B5*02 87            271 	cjne	a,(_speaker_sloc0_1_0 + 2),00101$
+   00CF 05*03               272 	inc	(_speaker_sloc0_1_0 + 3)
+   00D1                     273 00111$:
+   00D1 80 83               274 	sjmp	00101$
+   00D3                     275 00105$:
+   00D3 22                  276 	ret
+                            277 ;------------------------------------------------------------
+                            278 ;Allocation info for local variables in function 'squareWave'
+                            279 ;------------------------------------------------------------
+                            280 ;tempo                     Allocated with name '_squareWave_PARM_2'
+                            281 ;note                      Allocated with name '_squareWave_note_1_1'
+                            282 ;noteDuration              Allocated with name '_squareWave_noteDuration_1_1'
+                            283 ;pauseBetweenNotes         Allocated with name '_squareWave_pauseBetweenNotes_1_1'
+                            284 ;------------------------------------------------------------
+                            285 ;	DAC.c:130: void squareWave(unsigned int note, unsigned int tempo){
+                            286 ;	-----------------------------------------
+                            287 ;	 function squareWave
+                            288 ;	-----------------------------------------
+   00D4                     289 _squareWave:
+   00D4 AA 83               290 	mov	r2,dph
+   00D6 E5 82               291 	mov	a,dpl
+   00D8 90s00r0D            292 	mov	dptr,#_squareWave_note_1_1
+   00DB F0                  293 	movx	@dptr,a
+   00DC A3                  294 	inc	dptr
+   00DD EA                  295 	mov	a,r2
+   00DE F0                  296 	movx	@dptr,a
+                            297 ;	DAC.c:132: unsigned int noteDuration = 1000 / tempo;
+   00DF 90s00r0B            298 	mov	dptr,#_squareWave_PARM_2
+   00E2 E0                  299 	movx	a,@dptr
+   00E3 FA                  300 	mov	r2,a
+   00E4 A3                  301 	inc	dptr
+   00E5 E0                  302 	movx	a,@dptr
+   00E6 FB                  303 	mov	r3,a
+   00E7 90s00r00            304 	mov	dptr,#__divuint_PARM_2
+   00EA EA                  305 	mov	a,r2
+   00EB F0                  306 	movx	@dptr,a
+   00EC A3                  307 	inc	dptr
+   00ED EB                  308 	mov	a,r3
+   00EE F0                  309 	movx	@dptr,a
+                            310 ;	DAC.c:135: speaker(note,noteDuration);  
+   00EF 90 03 E8            311 	mov	dptr,#0x03E8
+   00F2 12s00r00            312 	lcall	__divuint
+   00F5 AA 82               313 	mov	r2,dpl
+   00F7 AB 83               314 	mov	r3,dph
+   00F9 90s00r0D            315 	mov	dptr,#_squareWave_note_1_1
+   00FC E0                  316 	movx	a,@dptr
+   00FD FC                  317 	mov	r4,a
+   00FE A3                  318 	inc	dptr
+   00FF E0                  319 	movx	a,@dptr
+   0100 FD                  320 	mov	r5,a
+   0101 90s00r07            321 	mov	dptr,#_speaker_PARM_2
+   0104 EA                  322 	mov	a,r2
+   0105 F0                  323 	movx	@dptr,a
+   0106 A3                  324 	inc	dptr
+   0107 EB                  325 	mov	a,r3
+   0108 F0                  326 	movx	@dptr,a
+   0109 8C 82               327 	mov	dpl,r4
+   010B 8D 83               328 	mov	dph,r5
+   010D C0 02               329 	push	ar2
+   010F C0 03               330 	push	ar3
+   0111 12s00r00            331 	lcall	_speaker
+   0114 D0 03               332 	pop	ar3
+   0116 D0 02               333 	pop	ar2
+                            334 ;	DAC.c:137: pauseBetweenNotes = noteDuration * 1.30;
+   0118 8A 82               335 	mov	dpl,r2
+   011A 8B 83               336 	mov	dph,r3
+   011C C0 02               337 	push	ar2
+   011E C0 03               338 	push	ar3
+   0120 12s00r00            339 	lcall	___uint2fs
+   0123 AC 82               340 	mov	r4,dpl
+   0125 AD 83               341 	mov	r5,dph
+   0127 AE F0               342 	mov	r6,b
+   0129 FF                  343 	mov	r7,a
+   012A C0 04               344 	push	ar4
+   012C C0 05               345 	push	ar5
+   012E C0 06               346 	push	ar6
+   0130 C0 07               347 	push	ar7
+   0132 90 66 66            348 	mov	dptr,#0x6666
+   0135 75 F0 A6            349 	mov	b,#0xA6
+   0138 74 3F               350 	mov	a,#0x3F
+   013A 12s00r00            351 	lcall	___fsmul
+   013D AC 82               352 	mov	r4,dpl
+   013F AD 83               353 	mov	r5,dph
+   0141 AE F0               354 	mov	r6,b
+   0143 FF                  355 	mov	r7,a
+   0144 E5 81               356 	mov	a,sp
+   0146 24 FC               357 	add	a,#0xfc
+   0148 F5 81               358 	mov	sp,a
+   014A 8C 82               359 	mov	dpl,r4
+   014C 8D 83               360 	mov	dph,r5
+   014E 8E F0               361 	mov	b,r6
+   0150 EF                  362 	mov	a,r7
+   0151 12s00r00            363 	lcall	___fs2uint
+   0154 AC 82               364 	mov	r4,dpl
+   0156 AD 83               365 	mov	r5,dph
+                            366 ;	DAC.c:138: delay(pauseBetweenNotes,1);
+   0158 90s00r00            367 	mov	dptr,#_delay_PARM_2
+   015B 74 01               368 	mov	a,#0x01
+   015D F0                  369 	movx	@dptr,a
+   015E 8C 82               370 	mov	dpl,r4
+   0160 8D 83               371 	mov	dph,r5
+   0162 12s00r00            372 	lcall	_delay
+   0165 D0 03               373 	pop	ar3
+   0167 D0 02               374 	pop	ar2
+                            375 ;	DAC.c:140: speaker(PAUSE,noteDuration); 
+   0169 90s00r07            376 	mov	dptr,#_speaker_PARM_2
+   016C EA                  377 	mov	a,r2
+   016D F0                  378 	movx	@dptr,a
+   016E A3                  379 	inc	dptr
+   016F EB                  380 	mov	a,r3
+   0170 F0                  381 	movx	@dptr,a
+   0171 90 00 00            382 	mov	dptr,#0x0000
+   0174 02s00r00            383 	ljmp	_speaker
+                            384 ;------------------------------------------------------------
+                            385 ;Allocation info for local variables in function 'sing'
+                            386 ;------------------------------------------------------------
+                            387 ;song                      Allocated with name '_sing_song_1_1'
+                            388 ;i                         Allocated with name '_sing_i_1_1'
+                            389 ;------------------------------------------------------------
+                            390 ;	DAC.c:145: void sing(unsigned char song) {
+                            391 ;	-----------------------------------------
+                            392 ;	 function sing
+                            393 ;	-----------------------------------------
+   0177                     394 _sing:
+   0177 E5 82               395 	mov	a,dpl
+   0179 90s00r0F            396 	mov	dptr,#_sing_song_1_1
+   017C F0                  397 	movx	@dptr,a
+                            398 ;	DAC.c:148: if(song == 1){
+   017D 90s00r0F            399 	mov	dptr,#_sing_song_1_1
+   0180 E0                  400 	movx	a,@dptr
+   0181 FA                  401 	mov	r2,a
+   0182 BA 01 4D            402 	cjne	r2,#0x01,00102$
+                            403 ;	DAC.c:149: for( i=0;i<(sizeof(adobe_melody)/sizeof(int));i++)
+   0185 7A 00               404 	mov	r2,#0x00
+   0187 7B 00               405 	mov	r3,#0x00
+   0189                     406 00107$:
+   0189 C3                  407 	clr	c
+   018A EA                  408 	mov	a,r2
+   018B 94 10               409 	subb	a,#0x10
+   018D EB                  410 	mov	a,r3
+   018E 94 00               411 	subb	a,#0x00
+   0190 50 40               412 	jnc	00102$
+                            413 ;	DAC.c:150: squareWave(adobe_melody[i],adobe_noteTime[i]);
+   0192 8A 04               414 	mov	ar4,r2
+   0194 EB                  415 	mov	a,r3
+   0195 CC                  416 	xch	a,r4
+   0196 25 E0               417 	add	a,acc
+   0198 CC                  418 	xch	a,r4
+   0199 33                  419 	rlc	a
+   019A FD                  420 	mov	r5,a
+   019B EC                  421 	mov	a,r4
+   019C 24r92               422 	add	a,#_adobe_melody
+   019E F5 82               423 	mov	dpl,a
+   01A0 ED                  424 	mov	a,r5
+   01A1 34s01               425 	addc	a,#(_adobe_melody >> 8)
+   01A3 F5 83               426 	mov	dph,a
+   01A5 E0                  427 	movx	a,@dptr
+   01A6 FC                  428 	mov	r4,a
+   01A7 A3                  429 	inc	dptr
+   01A8 E0                  430 	movx	a,@dptr
+   01A9 FD                  431 	mov	r5,a
+   01AA EA                  432 	mov	a,r2
+   01AB 24rB2               433 	add	a,#_adobe_noteTime
+   01AD F5 82               434 	mov	dpl,a
+   01AF EB                  435 	mov	a,r3
+   01B0 34s01               436 	addc	a,#(_adobe_noteTime >> 8)
+   01B2 F5 83               437 	mov	dph,a
+   01B4 E0                  438 	movx	a,@dptr
+   01B5 90s00r0B            439 	mov	dptr,#_squareWave_PARM_2
+   01B8 F0                  440 	movx	@dptr,a
+   01B9 A3                  441 	inc	dptr
+   01BA E4                  442 	clr	a
+   01BB F0                  443 	movx	@dptr,a
+   01BC 8C 82               444 	mov	dpl,r4
+   01BE 8D 83               445 	mov	dph,r5
+   01C0 C0 02               446 	push	ar2
+   01C2 C0 03               447 	push	ar3
+   01C4 12s00rD4            448 	lcall	_squareWave
+   01C7 D0 03               449 	pop	ar3
+   01C9 D0 02               450 	pop	ar2
+                            451 ;	DAC.c:149: for( i=0;i<(sizeof(adobe_melody)/sizeof(int));i++)
+   01CB 0A                  452 	inc	r2
+   01CC BA 00 BA            453 	cjne	r2,#0x00,00107$
+   01CF 0B                  454 	inc	r3
+   01D0 80 B7               455 	sjmp	00107$
+   01D2                     456 00102$:
+                            457 ;	DAC.c:152: if(song == 2){
+   01D2 90s00r0F            458 	mov	dptr,#_sing_song_1_1
+   01D5 E0                  459 	movx	a,@dptr
+   01D6 FA                  460 	mov	r2,a
+   01D7 BA 02 4D            461 	cjne	r2,#0x02,00104$
+                            462 ;	DAC.c:153: for(i =0;i<(sizeof(underworld_melody)/sizeof(int));i++)
+   01DA 7A 00               463 	mov	r2,#0x00
+   01DC 7B 00               464 	mov	r3,#0x00
+   01DE                     465 00111$:
+   01DE C3                  466 	clr	c
+   01DF EA                  467 	mov	a,r2
+   01E0 94 38               468 	subb	a,#0x38
+   01E2 EB                  469 	mov	a,r3
+   01E3 94 00               470 	subb	a,#0x00
+   01E5 50 40               471 	jnc	00104$
+                            472 ;	DAC.c:154: squareWave(underworld_melody[i],underworld_noteTime[i]);
+   01E7 8A 04               473 	mov	ar4,r2
+   01E9 EB                  474 	mov	a,r3
+   01EA CC                  475 	xch	a,r4
+   01EB 25 E0               476 	add	a,acc
+   01ED CC                  477 	xch	a,r4
+   01EE 33                  478 	rlc	a
+   01EF FD                  479 	mov	r5,a
+   01F0 EC                  480 	mov	a,r4
+   01F1 24rEA               481 	add	a,#_underworld_melody
+   01F3 F5 82               482 	mov	dpl,a
+   01F5 ED                  483 	mov	a,r5
+   01F6 34s00               484 	addc	a,#(_underworld_melody >> 8)
+   01F8 F5 83               485 	mov	dph,a
+   01FA E0                  486 	movx	a,@dptr
+   01FB FC                  487 	mov	r4,a
+   01FC A3                  488 	inc	dptr
+   01FD E0                  489 	movx	a,@dptr
+   01FE FD                  490 	mov	r5,a
+   01FF EA                  491 	mov	a,r2
+   0200 24r5A               492 	add	a,#_underworld_noteTime
+   0202 F5 82               493 	mov	dpl,a
+   0204 EB                  494 	mov	a,r3
+   0205 34s01               495 	addc	a,#(_underworld_noteTime >> 8)
+   0207 F5 83               496 	mov	dph,a
+   0209 E0                  497 	movx	a,@dptr
+   020A 90s00r0B            498 	mov	dptr,#_squareWave_PARM_2
+   020D F0                  499 	movx	@dptr,a
+   020E A3                  500 	inc	dptr
+   020F E4                  501 	clr	a
+   0210 F0                  502 	movx	@dptr,a
+   0211 8C 82               503 	mov	dpl,r4
+   0213 8D 83               504 	mov	dph,r5
+   0215 C0 02               505 	push	ar2
+   0217 C0 03               506 	push	ar3
+   0219 12s00rD4            507 	lcall	_squareWave
+   021C D0 03               508 	pop	ar3
+   021E D0 02               509 	pop	ar2
+                            510 ;	DAC.c:153: for(i =0;i<(sizeof(underworld_melody)/sizeof(int));i++)
+   0220 0A                  511 	inc	r2
+   0221 BA 00 BA            512 	cjne	r2,#0x00,00111$
+   0224 0B                  513 	inc	r3
+   0225 80 B7               514 	sjmp	00111$
+   0227                     515 00104$:
+                            516 ;	DAC.c:156: if(song == 3){
+   0227 90s00r0F            517 	mov	dptr,#_sing_song_1_1
+   022A E0                  518 	movx	a,@dptr
+   022B FA                  519 	mov	r2,a
+   022C BA 03 4D            520 	cjne	r2,#0x03,00119$
+                            521 ;	DAC.c:157: for( i =0;i<(sizeof(mainMario_melody)/sizeof(int));i++)
+   022F 7A 00               522 	mov	r2,#0x00
+   0231 7B 00               523 	mov	r3,#0x00
+   0233                     524 00115$:
+   0233 C3                  525 	clr	c
+   0234 EA                  526 	mov	a,r2
+   0235 94 4E               527 	subb	a,#0x4E
+   0237 EB                  528 	mov	a,r3
+   0238 94 00               529 	subb	a,#0x00
+   023A 50 40               530 	jnc	00119$
+                            531 ;	DAC.c:158: squareWave(mainMario_melody[i],mainMario_noteTime[i]);
+   023C 8A 04               532 	mov	ar4,r2
+   023E EB                  533 	mov	a,r3
+   023F CC                  534 	xch	a,r4
+   0240 25 E0               535 	add	a,acc
+   0242 CC                  536 	xch	a,r4
+   0243 33                  537 	rlc	a
+   0244 FD                  538 	mov	r5,a
+   0245 EC                  539 	mov	a,r4
+   0246 24r00               540 	add	a,#_mainMario_melody
+   0248 F5 82               541 	mov	dpl,a
+   024A ED                  542 	mov	a,r5
+   024B 34s00               543 	addc	a,#(_mainMario_melody >> 8)
+   024D F5 83               544 	mov	dph,a
+   024F E0                  545 	movx	a,@dptr
+   0250 FC                  546 	mov	r4,a
+   0251 A3                  547 	inc	dptr
+   0252 E0                  548 	movx	a,@dptr
+   0253 FD                  549 	mov	r5,a
+   0254 EA                  550 	mov	a,r2
+   0255 24r9C               551 	add	a,#_mainMario_noteTime
+   0257 F5 82               552 	mov	dpl,a
+   0259 EB                  553 	mov	a,r3
+   025A 34s00               554 	addc	a,#(_mainMario_noteTime >> 8)
+   025C F5 83               555 	mov	dph,a
+   025E E0                  556 	movx	a,@dptr
+   025F 90s00r0B            557 	mov	dptr,#_squareWave_PARM_2
+   0262 F0                  558 	movx	@dptr,a
+   0263 A3                  559 	inc	dptr
+   0264 E4                  560 	clr	a
+   0265 F0                  561 	movx	@dptr,a
+   0266 8C 82               562 	mov	dpl,r4
+   0268 8D 83               563 	mov	dph,r5
+   026A C0 02               564 	push	ar2
+   026C C0 03               565 	push	ar3
+   026E 12s00rD4            566 	lcall	_squareWave
+   0271 D0 03               567 	pop	ar3
+   0273 D0 02               568 	pop	ar2
+                            569 ;	DAC.c:157: for( i =0;i<(sizeof(mainMario_melody)/sizeof(int));i++)
+   0275 0A                  570 	inc	r2
+   0276 BA 00 BA            571 	cjne	r2,#0x00,00115$
+   0279 0B                  572 	inc	r3
+   027A 80 B7               573 	sjmp	00115$
+   027C                     574 00119$:
+   027C 22                  575 	ret
+                            576 	.area CSEG    (CODE)
+                            577 	.area CONST   (CODE)
+                            578 	.area XINIT   (CODE)
+   0000                     579 __xinit__mainMario_melody:
+   0000 4D 0A               580 	.byte #0x4D,#0x0A
+   0002 4D 0A               581 	.byte #0x4D,#0x0A
+   0004 00 00               582 	.byte #0x00,#0x00
+   0006 4D 0A               583 	.byte #0x4D,#0x0A
+   0008 00 00               584 	.byte #0x00,#0x00
+   000A 2D 08               585 	.byte #0x2D,#0x08
+   000C 4D 0A               586 	.byte #0x4D,#0x0A
+   000E 00 00               587 	.byte #0x00,#0x00
+   0010 40 0C               588 	.byte #0x40,#0x0C
+   0012 00 00               589 	.byte #0x00,#0x00
+   0014 00 00               590 	.byte #0x00,#0x00
+   0016 00 00               591 	.byte #0x00,#0x00
+   0018 20 06               592 	.byte #0x20,#0x06
+   001A 00 00               593 	.byte #0x00,#0x00
+   001C 00 00               594 	.byte #0x00,#0x00
+   001E 00 00               595 	.byte #0x00,#0x00
+   0020 2D 08               596 	.byte #0x2D,#0x08
+   0022 00 00               597 	.byte #0x00,#0x00
+   0024 00 00               598 	.byte #0x00,#0x00
+   0026 20 06               599 	.byte #0x20,#0x06
+   0028 00 00               600 	.byte #0x00,#0x00
+   002A 00 00               601 	.byte #0x00,#0x00
+   002C 27 05               602 	.byte #0x27,#0x05
+   002E 00 00               603 	.byte #0x00,#0x00
+   0030 00 00               604 	.byte #0x00,#0x00
+   0032 E0 06               605 	.byte #0xE0,#0x06
+   0034 00 00               606 	.byte #0x00,#0x00
+   0036 B8 07               607 	.byte #0xB8,#0x07
+   0038 00 00               608 	.byte #0x00,#0x00
+   003A 49 07               609 	.byte #0x49,#0x07
+   003C E0 06               610 	.byte #0xE0,#0x06
+   003E 00 00               611 	.byte #0x00,#0x00
+   0040 20 06               612 	.byte #0x20,#0x06
+   0042 4D 0A               613 	.byte #0x4D,#0x0A
+   0044 40 0C               614 	.byte #0x40,#0x0C
+   0046 C0 0D               615 	.byte #0xC0,#0x0D
+   0048 00 00               616 	.byte #0x00,#0x00
+   004A EA 0A               617 	.byte #0xEA,#0x0A
+   004C 40 0C               618 	.byte #0x40,#0x0C
+   004E 00 00               619 	.byte #0x00,#0x00
+   0050 4D 0A               620 	.byte #0x4D,#0x0A
+   0052 00 00               621 	.byte #0x00,#0x00
+   0054 2D 08               622 	.byte #0x2D,#0x08
+   0056 2D 09               623 	.byte #0x2D,#0x09
+   0058 B8 07               624 	.byte #0xB8,#0x07
+   005A 00 00               625 	.byte #0x00,#0x00
+   005C 00 00               626 	.byte #0x00,#0x00
+   005E 2D 08               627 	.byte #0x2D,#0x08
+   0060 00 00               628 	.byte #0x00,#0x00
+   0062 00 00               629 	.byte #0x00,#0x00
+   0064 20 06               630 	.byte #0x20,#0x06
+   0066 00 00               631 	.byte #0x00,#0x00
+   0068 00 00               632 	.byte #0x00,#0x00
+   006A 27 05               633 	.byte #0x27,#0x05
+   006C 00 00               634 	.byte #0x00,#0x00
+   006E 00 00               635 	.byte #0x00,#0x00
+   0070 E0 06               636 	.byte #0xE0,#0x06
+   0072 00 00               637 	.byte #0x00,#0x00
+   0074 B8 07               638 	.byte #0xB8,#0x07
+   0076 00 00               639 	.byte #0x00,#0x00
+   0078 49 07               640 	.byte #0x49,#0x07
+   007A E0 06               641 	.byte #0xE0,#0x06
+   007C 00 00               642 	.byte #0x00,#0x00
+   007E 20 06               643 	.byte #0x20,#0x06
+   0080 4D 0A               644 	.byte #0x4D,#0x0A
+   0082 40 0C               645 	.byte #0x40,#0x0C
+   0084 C0 0D               646 	.byte #0xC0,#0x0D
+   0086 00 00               647 	.byte #0x00,#0x00
+   0088 EA 0A               648 	.byte #0xEA,#0x0A
+   008A 40 0C               649 	.byte #0x40,#0x0C
+   008C 00 00               650 	.byte #0x00,#0x00
+   008E 4D 0A               651 	.byte #0x4D,#0x0A
+   0090 00 00               652 	.byte #0x00,#0x00
+   0092 2D 08               653 	.byte #0x2D,#0x08
+   0094 2D 09               654 	.byte #0x2D,#0x09
+   0096 B8 07               655 	.byte #0xB8,#0x07
+   0098 00 00               656 	.byte #0x00,#0x00
+   009A 00 00               657 	.byte #0x00,#0x00
+   009C                     658 __xinit__mainMario_noteTime:
+   009C 0C                  659 	.db #0x0C
+   009D 0C                  660 	.db #0x0C
+   009E 0C                  661 	.db #0x0C
+   009F 0C                  662 	.db #0x0C
+   00A0 0C                  663 	.db #0x0C
+   00A1 0C                  664 	.db #0x0C
+   00A2 0C                  665 	.db #0x0C
+   00A3 0C                  666 	.db #0x0C
+   00A4 0C                  667 	.db #0x0C
+   00A5 0C                  668 	.db #0x0C
+   00A6 0C                  669 	.db #0x0C
+   00A7 0C                  670 	.db #0x0C
+   00A8 0C                  671 	.db #0x0C
+   00A9 0C                  672 	.db #0x0C
+   00AA 0C                  673 	.db #0x0C
+   00AB 0C                  674 	.db #0x0C
+   00AC 0C                  675 	.db #0x0C
+   00AD 0C                  676 	.db #0x0C
+   00AE 0C                  677 	.db #0x0C
+   00AF 0C                  678 	.db #0x0C
+   00B0 0C                  679 	.db #0x0C
+   00B1 0C                  680 	.db #0x0C
+   00B2 0C                  681 	.db #0x0C
+   00B3 0C                  682 	.db #0x0C
+   00B4 0C                  683 	.db #0x0C
+   00B5 0C                  684 	.db #0x0C
+   00B6 0C                  685 	.db #0x0C
+   00B7 0C                  686 	.db #0x0C
+   00B8 0C                  687 	.db #0x0C
+   00B9 0C                  688 	.db #0x0C
+   00BA 0C                  689 	.db #0x0C
+   00BB 0C                  690 	.db #0x0C
+   00BC 09                  691 	.db #0x09
+   00BD 09                  692 	.db #0x09
+   00BE 09                  693 	.db #0x09
+   00BF 0C                  694 	.db #0x0C
+   00C0 0C                  695 	.db #0x0C
+   00C1 0C                  696 	.db #0x0C
+   00C2 0C                  697 	.db #0x0C
+   00C3 0C                  698 	.db #0x0C
+   00C4 0C                  699 	.db #0x0C
+   00C5 0C                  700 	.db #0x0C
+   00C6 0C                  701 	.db #0x0C
+   00C7 0C                  702 	.db #0x0C
+   00C8 0C                  703 	.db #0x0C
+   00C9 0C                  704 	.db #0x0C
+   00CA 0C                  705 	.db #0x0C
+   00CB 0C                  706 	.db #0x0C
+   00CC 0C                  707 	.db #0x0C
+   00CD 0C                  708 	.db #0x0C
+   00CE 0C                  709 	.db #0x0C
+   00CF 0C                  710 	.db #0x0C
+   00D0 0C                  711 	.db #0x0C
+   00D1 0C                  712 	.db #0x0C
+   00D2 0C                  713 	.db #0x0C
+   00D3 0C                  714 	.db #0x0C
+   00D4 0C                  715 	.db #0x0C
+   00D5 0C                  716 	.db #0x0C
+   00D6 0C                  717 	.db #0x0C
+   00D7 0C                  718 	.db #0x0C
+   00D8 0C                  719 	.db #0x0C
+   00D9 0C                  720 	.db #0x0C
+   00DA 0C                  721 	.db #0x0C
+   00DB 09                  722 	.db #0x09
+   00DC 09                  723 	.db #0x09
+   00DD 09                  724 	.db #0x09
+   00DE 0C                  725 	.db #0x0C
+   00DF 0C                  726 	.db #0x0C
+   00E0 0C                  727 	.db #0x0C
+   00E1 0C                  728 	.db #0x0C
+   00E2 0C                  729 	.db #0x0C
+   00E3 0C                  730 	.db #0x0C
+   00E4 0C                  731 	.db #0x0C
+   00E5 0C                  732 	.db #0x0C
+   00E6 0C                  733 	.db #0x0C
+   00E7 0C                  734 	.db #0x0C
+   00E8 0C                  735 	.db #0x0C
+   00E9 0C                  736 	.db #0x0C
+   00EA                     737 __xinit__underworld_melody:
+   00EA 06 01               738 	.byte #0x06,#0x01
+   00EC 0B 02               739 	.byte #0x0B,#0x02
+   00EE DC 00               740 	.byte #0xDC,#0x00
+   00F0 B8 01               741 	.byte #0xB8,#0x01
+   00F2 E9 00               742 	.byte #0xE9,#0x00
+   00F4 D2 01               743 	.byte #0xD2,#0x01
+   00F6 00 00               744 	.byte #0x00,#0x00
+   00F8 00 00               745 	.byte #0x00,#0x00
+   00FA 06 01               746 	.byte #0x06,#0x01
+   00FC 0B 02               747 	.byte #0x0B,#0x02
+   00FE DC 00               748 	.byte #0xDC,#0x00
+   0100 B8 01               749 	.byte #0xB8,#0x01
+   0102 E9 00               750 	.byte #0xE9,#0x00
+   0104 D2 01               751 	.byte #0xD2,#0x01
+   0106 00 00               752 	.byte #0x00,#0x00
+   0108 00 00               753 	.byte #0x00,#0x00
+   010A AF 00               754 	.byte #0xAF,#0x00
+   010C 5D 01               755 	.byte #0x5D,#0x01
+   010E 93 00               756 	.byte #0x93,#0x00
+   0110 26 01               757 	.byte #0x26,#0x01
+   0112 9C 00               758 	.byte #0x9C,#0x00
+   0114 37 01               759 	.byte #0x37,#0x01
+   0116 00 00               760 	.byte #0x00,#0x00
+   0118 00 00               761 	.byte #0x00,#0x00
+   011A AF 00               762 	.byte #0xAF,#0x00
+   011C 5D 01               763 	.byte #0x5D,#0x01
+   011E 93 00               764 	.byte #0x93,#0x00
+   0120 26 01               765 	.byte #0x26,#0x01
+   0122 9C 00               766 	.byte #0x9C,#0x00
+   0124 37 01               767 	.byte #0x37,#0x01
+   0126 00 00               768 	.byte #0x00,#0x00
+   0128 00 00               769 	.byte #0x00,#0x00
+   012A 37 01               770 	.byte #0x37,#0x01
+   012C 15 01               771 	.byte #0x15,#0x01
+   012E 26 01               772 	.byte #0x26,#0x01
+   0130 15 01               773 	.byte #0x15,#0x01
+   0132 37 01               774 	.byte #0x37,#0x01
+   0134 37 01               775 	.byte #0x37,#0x01
+   0136 D0 00               776 	.byte #0xD0,#0x00
+   0138 C4 00               777 	.byte #0xC4,#0x00
+   013A 15 01               778 	.byte #0x15,#0x01
+   013C 06 01               779 	.byte #0x06,#0x01
+   013E 72 01               780 	.byte #0x72,#0x01
+   0140 5D 01               781 	.byte #0x5D,#0x01
+   0142 A5 00               782 	.byte #0xA5,#0x00
+   0144 D2 01               783 	.byte #0xD2,#0x01
+   0146 B8 01               784 	.byte #0xB8,#0x01
+   0148 9F 01               785 	.byte #0x9F,#0x01
+   014A 37 01               786 	.byte #0x37,#0x01
+   014C F7 00               787 	.byte #0xF7,#0x00
+   014E E9 00               788 	.byte #0xE9,#0x00
+   0150 DC 00               789 	.byte #0xDC,#0x00
+   0152 D0 00               790 	.byte #0xD0,#0x00
+   0154 00 00               791 	.byte #0x00,#0x00
+   0156 00 00               792 	.byte #0x00,#0x00
+   0158 00 00               793 	.byte #0x00,#0x00
+   015A                     794 __xinit__underworld_noteTime:
+   015A 0C                  795 	.db #0x0C
+   015B 0C                  796 	.db #0x0C
+   015C 0C                  797 	.db #0x0C
+   015D 0C                  798 	.db #0x0C
+   015E 0C                  799 	.db #0x0C
+   015F 0C                  800 	.db #0x0C
+   0160 06                  801 	.db #0x06
+   0161 03                  802 	.db #0x03
+   0162 0C                  803 	.db #0x0C
+   0163 0C                  804 	.db #0x0C
+   0164 0C                  805 	.db #0x0C
+   0165 0C                  806 	.db #0x0C
+   0166 0C                  807 	.db #0x0C
+   0167 0C                  808 	.db #0x0C
+   0168 06                  809 	.db #0x06
+   0169 03                  810 	.db #0x03
+   016A 0C                  811 	.db #0x0C
+   016B 0C                  812 	.db #0x0C
+   016C 0C                  813 	.db #0x0C
+   016D 0C                  814 	.db #0x0C
+   016E 0C                  815 	.db #0x0C
+   016F 0C                  816 	.db #0x0C
+   0170 06                  817 	.db #0x06
+   0171 03                  818 	.db #0x03
+   0172 0C                  819 	.db #0x0C
+   0173 0C                  820 	.db #0x0C
+   0174 0C                  821 	.db #0x0C
+   0175 0C                  822 	.db #0x0C
+   0176 0C                  823 	.db #0x0C
+   0177 0C                  824 	.db #0x0C
+   0178 06                  825 	.db #0x06
+   0179 06                  826 	.db #0x06
+   017A 12                  827 	.db #0x12
+   017B 12                  828 	.db #0x12
+   017C 12                  829 	.db #0x12
+   017D 06                  830 	.db #0x06
+   017E 06                  831 	.db #0x06
+   017F 06                  832 	.db #0x06
+   0180 06                  833 	.db #0x06
+   0181 06                  834 	.db #0x06
+   0182 06                  835 	.db #0x06
+   0183 12                  836 	.db #0x12
+   0184 12                  837 	.db #0x12
+   0185 12                  838 	.db #0x12
+   0186 12                  839 	.db #0x12
+   0187 12                  840 	.db #0x12
+   0188 12                  841 	.db #0x12
+   0189 0A                  842 	.db #0x0A
+   018A 0A                  843 	.db #0x0A
+   018B 0A                  844 	.db #0x0A
+   018C 0A                  845 	.db #0x0A
+   018D 0A                  846 	.db #0x0A
+   018E 0A                  847 	.db #0x0A
+   018F 03                  848 	.db #0x03
+   0190 03                  849 	.db #0x03
+   0191 03                  850 	.db #0x03
+   0192                     851 __xinit__adobe_melody:
+   0192 EE 01               852 	.byte #0xEE,#0x01
+   0194 EE 01               853 	.byte #0xEE,#0x01
+   0196 00 00               854 	.byte #0x00,#0x00
+   0198 EE 01               855 	.byte #0xEE,#0x01
+   019A 4B 02               856 	.byte #0x4B,#0x02
+   019C 4B 02               857 	.byte #0x4B,#0x02
+   019E 00 00               858 	.byte #0x00,#0x00
+   01A0 4B 02               859 	.byte #0x4B,#0x02
+   01A2 B8 01               860 	.byte #0xB8,#0x01
+   01A4 B8 01               861 	.byte #0xB8,#0x01
+   01A6 00 00               862 	.byte #0x00,#0x00
+   01A8 B8 01               863 	.byte #0xB8,#0x01
+   01AA EE 01               864 	.byte #0xEE,#0x01
+   01AC EE 01               865 	.byte #0xEE,#0x01
+   01AE 00 00               866 	.byte #0x00,#0x00
+   01B0 00 00               867 	.byte #0x00,#0x00
+   01B2                     868 __xinit__adobe_noteTime:
+   01B2 0C                  869 	.db #0x0C
+   01B3 0C                  870 	.db #0x0C
+   01B4 0C                  871 	.db #0x0C
+   01B5 0C                  872 	.db #0x0C
+   01B6 0C                  873 	.db #0x0C
+   01B7 0C                  874 	.db #0x0C
+   01B8 0C                  875 	.db #0x0C
+   01B9 0C                  876 	.db #0x0C
+   01BA 0C                  877 	.db #0x0C
+   01BB 0C                  878 	.db #0x0C
+   01BC 0C                  879 	.db #0x0C
+   01BD 0C                  880 	.db #0x0C
+   01BE 0C                  881 	.db #0x0C
+   01BF 0C                  882 	.db #0x0C
+   01C0 0C                  883 	.db #0x0C
+   01C1 0C                  884 	.db #0x0C
+                            885 	.area CABS    (ABS,CODE)

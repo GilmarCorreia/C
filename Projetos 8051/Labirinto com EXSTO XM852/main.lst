@@ -1,0 +1,1690 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
+                              4 ; This file was generated Mon Aug 19 00:21:26 2019
+                              5 ;--------------------------------------------------------
+                              6 	.module main
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _setFinish
+                             14 	.globl _setLevel5
+                             15 	.globl _setLevel4
+                             16 	.globl _setLevel3
+                             17 	.globl _setLevel2
+                             18 	.globl _setLevel1
+                             19 	.globl _setInstructions
+                             20 	.globl _setInitialScreen
+                             21 	.globl _configs
+                             22 	.globl _interruptConfig
+                             23 	.globl _CY
+                             24 	.globl _AC
+                             25 	.globl _F0
+                             26 	.globl _RS1
+                             27 	.globl _RS0
+                             28 	.globl _OV
+                             29 	.globl _F1
+                             30 	.globl _P
+                             31 	.globl _PS
+                             32 	.globl _PT1
+                             33 	.globl _PX1
+                             34 	.globl _PT0
+                             35 	.globl _PX0
+                             36 	.globl _RD
+                             37 	.globl _WR
+                             38 	.globl _T1
+                             39 	.globl _T0
+                             40 	.globl _INT1
+                             41 	.globl _INT0
+                             42 	.globl _TXD
+                             43 	.globl _RXD
+                             44 	.globl _P3_7
+                             45 	.globl _P3_6
+                             46 	.globl _P3_5
+                             47 	.globl _P3_4
+                             48 	.globl _P3_3
+                             49 	.globl _P3_2
+                             50 	.globl _P3_1
+                             51 	.globl _P3_0
+                             52 	.globl _EA
+                             53 	.globl _ES
+                             54 	.globl _ET1
+                             55 	.globl _EX1
+                             56 	.globl _ET0
+                             57 	.globl _EX0
+                             58 	.globl _P2_7
+                             59 	.globl _P2_6
+                             60 	.globl _P2_5
+                             61 	.globl _P2_4
+                             62 	.globl _P2_3
+                             63 	.globl _P2_2
+                             64 	.globl _P2_1
+                             65 	.globl _P2_0
+                             66 	.globl _SM0
+                             67 	.globl _SM1
+                             68 	.globl _SM2
+                             69 	.globl _REN
+                             70 	.globl _TB8
+                             71 	.globl _RB8
+                             72 	.globl _TI
+                             73 	.globl _RI
+                             74 	.globl _P1_7
+                             75 	.globl _P1_6
+                             76 	.globl _P1_5
+                             77 	.globl _P1_4
+                             78 	.globl _P1_3
+                             79 	.globl _P1_2
+                             80 	.globl _P1_1
+                             81 	.globl _P1_0
+                             82 	.globl _TF1
+                             83 	.globl _TR1
+                             84 	.globl _TF0
+                             85 	.globl _TR0
+                             86 	.globl _IE1
+                             87 	.globl _IT1
+                             88 	.globl _IE0
+                             89 	.globl _IT0
+                             90 	.globl _P0_7
+                             91 	.globl _P0_6
+                             92 	.globl _P0_5
+                             93 	.globl _P0_4
+                             94 	.globl _P0_3
+                             95 	.globl _P0_2
+                             96 	.globl _P0_1
+                             97 	.globl _P0_0
+                             98 	.globl _B
+                             99 	.globl _ACC
+                            100 	.globl _PSW
+                            101 	.globl _IP
+                            102 	.globl _P3
+                            103 	.globl _IE
+                            104 	.globl _P2
+                            105 	.globl _SBUF
+                            106 	.globl _SCON
+                            107 	.globl _P1
+                            108 	.globl _TH1
+                            109 	.globl _TH0
+                            110 	.globl _TL1
+                            111 	.globl _TL0
+                            112 	.globl _TMOD
+                            113 	.globl _TCON
+                            114 	.globl _PCON
+                            115 	.globl _DPH
+                            116 	.globl _DPL
+                            117 	.globl _SP
+                            118 	.globl _P0
+                            119 	.globl _player
+                            120 	.globl _Timer0
+                            121 	.globl _map
+                            122 	.globl _SCmap
+                            123 ;--------------------------------------------------------
+                            124 ; special function registers
+                            125 ;--------------------------------------------------------
+                            126 	.area RSEG    (DATA)
+                    0080    127 _P0	=	0x0080
+                    0081    128 _SP	=	0x0081
+                    0082    129 _DPL	=	0x0082
+                    0083    130 _DPH	=	0x0083
+                    0087    131 _PCON	=	0x0087
+                    0088    132 _TCON	=	0x0088
+                    0089    133 _TMOD	=	0x0089
+                    008A    134 _TL0	=	0x008a
+                    008B    135 _TL1	=	0x008b
+                    008C    136 _TH0	=	0x008c
+                    008D    137 _TH1	=	0x008d
+                    0090    138 _P1	=	0x0090
+                    0098    139 _SCON	=	0x0098
+                    0099    140 _SBUF	=	0x0099
+                    00A0    141 _P2	=	0x00a0
+                    00A8    142 _IE	=	0x00a8
+                    00B0    143 _P3	=	0x00b0
+                    00B8    144 _IP	=	0x00b8
+                    00D0    145 _PSW	=	0x00d0
+                    00E0    146 _ACC	=	0x00e0
+                    00F0    147 _B	=	0x00f0
+                            148 ;--------------------------------------------------------
+                            149 ; special function bits
+                            150 ;--------------------------------------------------------
+                            151 	.area RSEG    (DATA)
+                    0080    152 _P0_0	=	0x0080
+                    0081    153 _P0_1	=	0x0081
+                    0082    154 _P0_2	=	0x0082
+                    0083    155 _P0_3	=	0x0083
+                    0084    156 _P0_4	=	0x0084
+                    0085    157 _P0_5	=	0x0085
+                    0086    158 _P0_6	=	0x0086
+                    0087    159 _P0_7	=	0x0087
+                    0088    160 _IT0	=	0x0088
+                    0089    161 _IE0	=	0x0089
+                    008A    162 _IT1	=	0x008a
+                    008B    163 _IE1	=	0x008b
+                    008C    164 _TR0	=	0x008c
+                    008D    165 _TF0	=	0x008d
+                    008E    166 _TR1	=	0x008e
+                    008F    167 _TF1	=	0x008f
+                    0090    168 _P1_0	=	0x0090
+                    0091    169 _P1_1	=	0x0091
+                    0092    170 _P1_2	=	0x0092
+                    0093    171 _P1_3	=	0x0093
+                    0094    172 _P1_4	=	0x0094
+                    0095    173 _P1_5	=	0x0095
+                    0096    174 _P1_6	=	0x0096
+                    0097    175 _P1_7	=	0x0097
+                    0098    176 _RI	=	0x0098
+                    0099    177 _TI	=	0x0099
+                    009A    178 _RB8	=	0x009a
+                    009B    179 _TB8	=	0x009b
+                    009C    180 _REN	=	0x009c
+                    009D    181 _SM2	=	0x009d
+                    009E    182 _SM1	=	0x009e
+                    009F    183 _SM0	=	0x009f
+                    00A0    184 _P2_0	=	0x00a0
+                    00A1    185 _P2_1	=	0x00a1
+                    00A2    186 _P2_2	=	0x00a2
+                    00A3    187 _P2_3	=	0x00a3
+                    00A4    188 _P2_4	=	0x00a4
+                    00A5    189 _P2_5	=	0x00a5
+                    00A6    190 _P2_6	=	0x00a6
+                    00A7    191 _P2_7	=	0x00a7
+                    00A8    192 _EX0	=	0x00a8
+                    00A9    193 _ET0	=	0x00a9
+                    00AA    194 _EX1	=	0x00aa
+                    00AB    195 _ET1	=	0x00ab
+                    00AC    196 _ES	=	0x00ac
+                    00AF    197 _EA	=	0x00af
+                    00B0    198 _P3_0	=	0x00b0
+                    00B1    199 _P3_1	=	0x00b1
+                    00B2    200 _P3_2	=	0x00b2
+                    00B3    201 _P3_3	=	0x00b3
+                    00B4    202 _P3_4	=	0x00b4
+                    00B5    203 _P3_5	=	0x00b5
+                    00B6    204 _P3_6	=	0x00b6
+                    00B7    205 _P3_7	=	0x00b7
+                    00B0    206 _RXD	=	0x00b0
+                    00B1    207 _TXD	=	0x00b1
+                    00B2    208 _INT0	=	0x00b2
+                    00B3    209 _INT1	=	0x00b3
+                    00B4    210 _T0	=	0x00b4
+                    00B5    211 _T1	=	0x00b5
+                    00B6    212 _WR	=	0x00b6
+                    00B7    213 _RD	=	0x00b7
+                    00B8    214 _PX0	=	0x00b8
+                    00B9    215 _PT0	=	0x00b9
+                    00BA    216 _PX1	=	0x00ba
+                    00BB    217 _PT1	=	0x00bb
+                    00BC    218 _PS	=	0x00bc
+                    00D0    219 _P	=	0x00d0
+                    00D1    220 _F1	=	0x00d1
+                    00D2    221 _OV	=	0x00d2
+                    00D3    222 _RS0	=	0x00d3
+                    00D4    223 _RS1	=	0x00d4
+                    00D5    224 _F0	=	0x00d5
+                    00D6    225 _AC	=	0x00d6
+                    00D7    226 _CY	=	0x00d7
+                            227 ;--------------------------------------------------------
+                            228 ; overlayable register banks
+                            229 ;--------------------------------------------------------
+                            230 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                     231 	.ds 8
+                            232 ;--------------------------------------------------------
+                            233 ; internal ram data
+                            234 ;--------------------------------------------------------
+                            235 	.area DSEG    (DATA)
+                            236 ;--------------------------------------------------------
+                            237 ; overlayable items in internal ram 
+                            238 ;--------------------------------------------------------
+                            239 	.area OSEG    (OVR,DATA)
+                            240 ;--------------------------------------------------------
+                            241 ; Stack segment in internal ram 
+                            242 ;--------------------------------------------------------
+                            243 	.area	SSEG	(DATA)
+   0000                     244 __start__stack:
+   0000                     245 	.ds	1
+                            246 
+                            247 ;--------------------------------------------------------
+                            248 ; indirectly addressable internal ram data
+                            249 ;--------------------------------------------------------
+                            250 	.area ISEG    (DATA)
+                            251 ;--------------------------------------------------------
+                            252 ; absolute internal ram data
+                            253 ;--------------------------------------------------------
+                            254 	.area IABS    (ABS,DATA)
+                            255 	.area IABS    (ABS,DATA)
+                            256 ;--------------------------------------------------------
+                            257 ; bit data
+                            258 ;--------------------------------------------------------
+                            259 	.area BSEG    (BIT)
+                            260 ;--------------------------------------------------------
+                            261 ; paged external ram data
+                            262 ;--------------------------------------------------------
+                            263 	.area PSEG    (PAG,XDATA)
+                            264 ;--------------------------------------------------------
+                            265 ; external ram data
+                            266 ;--------------------------------------------------------
+                            267 	.area XSEG    (XDATA)
+                    FFC2    268 _winstLCD	=	0xffc2
+                    FFD2    269 _wdataLCD	=	0xffd2
+                    FFE2    270 _rinstLCD	=	0xffe2
+                    FFF2    271 _rdataLCD	=	0xfff2
+   0000                     272 _point:
+   0000                     273 	.ds 8
+   0008                     274 _SCmap::
+   0008                     275 	.ds 64
+   0048                     276 _map::
+   0048                     277 	.ds 64
+   0088                     278 _Timer0::
+   0088                     279 	.ds 7
+                    FFC4    280 _dacWrite	=	0xffc4
+   008F                     281 _player::
+   008F                     282 	.ds 3
+   0092                     283 _setInitialScreen_control_1_1:
+   0092                     284 	.ds 1
+   0093                     285 _setLevel1_control_1_1:
+   0093                     286 	.ds 1
+   0094                     287 _setLevel2_control_1_1:
+   0094                     288 	.ds 1
+   0095                     289 _setLevel3_control_1_1:
+   0095                     290 	.ds 1
+   0096                     291 _setLevel4_control_1_1:
+   0096                     292 	.ds 1
+   0097                     293 _setLevel5_control_1_1:
+   0097                     294 	.ds 1
+                            295 ;--------------------------------------------------------
+                            296 ; absolute external ram data
+                            297 ;--------------------------------------------------------
+                            298 	.area XABS    (ABS,XDATA)
+                            299 ;--------------------------------------------------------
+                            300 ; external initialized ram data
+                            301 ;--------------------------------------------------------
+                            302 	.area XISEG   (XDATA)
+   0000                     303 _rxMsg:
+   0000                     304 	.ds 1
+                            305 	.area HOME    (CODE)
+                            306 	.area GSINIT0 (CODE)
+                            307 	.area GSINIT1 (CODE)
+                            308 	.area GSINIT2 (CODE)
+                            309 	.area GSINIT3 (CODE)
+                            310 	.area GSINIT4 (CODE)
+                            311 	.area GSINIT5 (CODE)
+                            312 	.area GSINIT  (CODE)
+                            313 	.area GSFINAL (CODE)
+                            314 	.area CSEG    (CODE)
+                            315 ;--------------------------------------------------------
+                            316 ; interrupt vector 
+                            317 ;--------------------------------------------------------
+                            318 	.area HOME    (CODE)
+   0000                     319 __interrupt_vect:
+   0000 02s00r00            320 	ljmp	__sdcc_gsinit_startup
+   0003 32                  321 	reti
+   0004                     322 	.ds	7
+   000B 02s00r00            323 	ljmp	_timer
+                            324 ;--------------------------------------------------------
+                            325 ; global & static initialisations
+                            326 ;--------------------------------------------------------
+                            327 	.area HOME    (CODE)
+                            328 	.area GSINIT  (CODE)
+                            329 	.area GSFINAL (CODE)
+                            330 	.area GSINIT  (CODE)
+                            331 	.globl __sdcc_gsinit_startup
+                            332 	.globl __sdcc_program_startup
+                            333 	.globl __start__stack
+                            334 	.globl __mcs51_genXINIT
+                            335 	.globl __mcs51_genXRAMCLEAR
+                            336 	.globl __mcs51_genRAMCLEAR
+                            337 	.area GSFINAL (CODE)
+   0000 02s00r0E            338 	ljmp	__sdcc_program_startup
+                            339 ;--------------------------------------------------------
+                            340 ; Home
+                            341 ;--------------------------------------------------------
+                            342 	.area HOME    (CODE)
+                            343 	.area HOME    (CODE)
+   000E                     344 __sdcc_program_startup:
+   000E 12s07r28            345 	lcall	_main
+                            346 ;	return from main will lock up
+   0011 80 FE               347 	sjmp .
+                            348 ;--------------------------------------------------------
+                            349 ; code
+                            350 ;--------------------------------------------------------
+                            351 	.area CSEG    (CODE)
+                            352 ;------------------------------------------------------------
+                            353 ;Allocation info for local variables in function 'interruptConfig'
+                            354 ;------------------------------------------------------------
+                            355 ;------------------------------------------------------------
+                            356 ;	main.c:19: void interruptConfig(){
+                            357 ;	-----------------------------------------
+                            358 ;	 function interruptConfig
+                            359 ;	-----------------------------------------
+   0000                     360 _interruptConfig:
+                    0002    361 	ar2 = 0x02
+                    0003    362 	ar3 = 0x03
+                    0004    363 	ar4 = 0x04
+                    0005    364 	ar5 = 0x05
+                    0006    365 	ar6 = 0x06
+                    0007    366 	ar7 = 0x07
+                    0000    367 	ar0 = 0x00
+                    0001    368 	ar1 = 0x01
+                            369 ;	main.c:20: IE = 0x82; 								// Habilitando interrupções, Serial e timer0 (slide sistmicro 03_Interrup��es.pdf pg.9)
+   0000 75 A8 82            370 	mov	_IE,#0x82
+                            371 ;	main.c:21: IP = 0x08;								// Prioridade de interrupção Serial
+   0003 75 B8 08            372 	mov	_IP,#0x08
+   0006 22                  373 	ret
+                            374 ;------------------------------------------------------------
+                            375 ;Allocation info for local variables in function 'configs'
+                            376 ;------------------------------------------------------------
+                            377 ;------------------------------------------------------------
+                            378 ;	main.c:24: void configs(){
+                            379 ;	-----------------------------------------
+                            380 ;	 function configs
+                            381 ;	-----------------------------------------
+   0007                     382 _configs:
+                            383 ;	main.c:25: interruptConfig();						// Habilitando configuracoes
+   0007 12s00r00            384 	lcall	_interruptConfig
+                            385 ;	main.c:26: timerConfig();
+   000A 12s00r00            386 	lcall	_timerConfig
+                            387 ;	main.c:27: LCDconfig();
+   000D 12s00r00            388 	lcall	_LCDconfig
+                            389 ;	main.c:28: serialConfig(1,player);
+   0010 90s00r8F            390 	mov	dptr,#_player
+   0013 E0                  391 	movx	a,@dptr
+   0014 FA                  392 	mov	r2,a
+   0015 A3                  393 	inc	dptr
+   0016 E0                  394 	movx	a,@dptr
+   0017 FB                  395 	mov	r3,a
+   0018 A3                  396 	inc	dptr
+   0019 E0                  397 	movx	a,@dptr
+   001A FC                  398 	mov	r4,a
+   001B 90s00r00            399 	mov	dptr,#_serialConfig_PARM_2
+   001E EA                  400 	mov	a,r2
+   001F F0                  401 	movx	@dptr,a
+   0020 A3                  402 	inc	dptr
+   0021 EB                  403 	mov	a,r3
+   0022 F0                  404 	movx	@dptr,a
+   0023 A3                  405 	inc	dptr
+   0024 EC                  406 	mov	a,r4
+   0025 F0                  407 	movx	@dptr,a
+   0026 75 82 01            408 	mov	dpl,#0x01
+   0029 02s00r00            409 	ljmp	_serialConfig
+                            410 ;------------------------------------------------------------
+                            411 ;Allocation info for local variables in function 'setInitialScreen'
+                            412 ;------------------------------------------------------------
+                            413 ;control                   Allocated with name '_setInitialScreen_control_1_1'
+                            414 ;------------------------------------------------------------
+                            415 ;	main.c:32: void setInitialScreen(){
+                            416 ;	-----------------------------------------
+                            417 ;	 function setInitialScreen
+                            418 ;	-----------------------------------------
+   002C                     419 _setInitialScreen:
+                            420 ;	main.c:34: unsigned char control = 1;
+   002C 90s00r92            421 	mov	dptr,#_setInitialScreen_control_1_1
+   002F 74 01               422 	mov	a,#0x01
+   0031 F0                  423 	movx	@dptr,a
+                            424 ;	main.c:36: setMap1CGram();
+   0032 12s00r00            425 	lcall	_setMap1CGram
+                            426 ;	main.c:37: LCD_putTextAt("MAZE GAME",2,CENTER);
+   0035 90s00r00            427 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0038 74 02               428 	mov	a,#0x02
+   003A F0                  429 	movx	@dptr,a
+   003B 90s00r00            430 	mov	dptr,#_LCD_putTextAt_PARM_3
+   003E 74 02               431 	mov	a,#0x02
+   0040 F0                  432 	movx	@dptr,a
+   0041 90s00r00            433 	mov	dptr,#__str_0
+   0044 75 F0 80            434 	mov	b,#0x80
+   0047 12s00r00            435 	lcall	_LCD_putTextAt
+                            436 ;	main.c:39: while(control)
+   004A                     437 00101$:
+   004A 90s00r92            438 	mov	dptr,#_setInitialScreen_control_1_1
+   004D E0                  439 	movx	a,@dptr
+   004E FA                  440 	mov	r2,a
+   004F 60 20               441 	jz	00103$
+                            442 ;	main.c:40: control = LCD_putText(" aperte ESPACO para iniciar",3, 250);
+   0051 90s00r00            443 	mov	dptr,#_LCD_putText_PARM_2
+   0054 74 03               444 	mov	a,#0x03
+   0056 F0                  445 	movx	@dptr,a
+   0057 90s00r00            446 	mov	dptr,#_LCD_putText_PARM_3
+   005A 74 FA               447 	mov	a,#0xFA
+   005C F0                  448 	movx	@dptr,a
+   005D E4                  449 	clr	a
+   005E A3                  450 	inc	dptr
+   005F F0                  451 	movx	@dptr,a
+   0060 90s00r0A            452 	mov	dptr,#__str_1
+   0063 75 F0 80            453 	mov	b,#0x80
+   0066 12s00r00            454 	lcall	_LCD_putText
+   0069 E5 82               455 	mov	a,dpl
+   006B 90s00r92            456 	mov	dptr,#_setInitialScreen_control_1_1
+   006E F0                  457 	movx	@dptr,a
+   006F 80 D9               458 	sjmp	00101$
+   0071                     459 00103$:
+                            460 ;	main.c:42: clearLCD();
+   0071 02s00r00            461 	ljmp	_clearLCD
+                            462 ;------------------------------------------------------------
+                            463 ;Allocation info for local variables in function 'setInstructions'
+                            464 ;------------------------------------------------------------
+                            465 ;------------------------------------------------------------
+                            466 ;	main.c:46: void setInstructions(){
+                            467 ;	-----------------------------------------
+                            468 ;	 function setInstructions
+                            469 ;	-----------------------------------------
+   0074                     470 _setInstructions:
+                            471 ;	main.c:48: LCD_putTextAt("INSTRUCOES",1,CENTER);
+   0074 90s00r00            472 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0077 74 01               473 	mov	a,#0x01
+   0079 F0                  474 	movx	@dptr,a
+   007A 90s00r00            475 	mov	dptr,#_LCD_putTextAt_PARM_3
+   007D 74 02               476 	mov	a,#0x02
+   007F F0                  477 	movx	@dptr,a
+   0080 90s00r26            478 	mov	dptr,#__str_2
+   0083 75 F0 80            479 	mov	b,#0x80
+   0086 12s00r00            480 	lcall	_LCD_putTextAt
+                            481 ;	main.c:49: LCD_putTextAt("1) Movimente com",2,LEFT);
+   0089 90s00r00            482 	mov	dptr,#_LCD_putTextAt_PARM_2
+   008C 74 02               483 	mov	a,#0x02
+   008E F0                  484 	movx	@dptr,a
+   008F 90s00r00            485 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0092 74 01               486 	mov	a,#0x01
+   0094 F0                  487 	movx	@dptr,a
+   0095 90s00r31            488 	mov	dptr,#__str_3
+   0098 75 F0 80            489 	mov	b,#0x80
+   009B 12s00r00            490 	lcall	_LCD_putTextAt
+                            491 ;	main.c:50: LCD_putTextAt("W,S,A,D ",3,CENTER);
+   009E 90s00r00            492 	mov	dptr,#_LCD_putTextAt_PARM_2
+   00A1 74 03               493 	mov	a,#0x03
+   00A3 F0                  494 	movx	@dptr,a
+   00A4 90s00r00            495 	mov	dptr,#_LCD_putTextAt_PARM_3
+   00A7 74 02               496 	mov	a,#0x02
+   00A9 F0                  497 	movx	@dptr,a
+   00AA 90s00r42            498 	mov	dptr,#__str_4
+   00AD 75 F0 80            499 	mov	b,#0x80
+   00B0 12s00r00            500 	lcall	_LCD_putTextAt
+                            501 ;	main.c:51: delay(3500,1);
+   00B3 90s00r00            502 	mov	dptr,#_delay_PARM_2
+   00B6 74 01               503 	mov	a,#0x01
+   00B8 F0                  504 	movx	@dptr,a
+   00B9 90 0D AC            505 	mov	dptr,#0x0DAC
+   00BC 12s00r00            506 	lcall	_delay
+                            507 ;	main.c:52: clearLCD();
+   00BF 12s00r00            508 	lcall	_clearLCD
+                            509 ;	main.c:54: LCD_putTextAt("COMO GANHAR",1,CENTER);
+   00C2 90s00r00            510 	mov	dptr,#_LCD_putTextAt_PARM_2
+   00C5 74 01               511 	mov	a,#0x01
+   00C7 F0                  512 	movx	@dptr,a
+   00C8 90s00r00            513 	mov	dptr,#_LCD_putTextAt_PARM_3
+   00CB 74 02               514 	mov	a,#0x02
+   00CD F0                  515 	movx	@dptr,a
+   00CE 90s00r4B            516 	mov	dptr,#__str_5
+   00D1 75 F0 80            517 	mov	b,#0x80
+   00D4 12s00r00            518 	lcall	_LCD_putTextAt
+                            519 ;	main.c:55: LCD_putTextAt("Ache uma saida ",2,LEFT);
+   00D7 90s00r00            520 	mov	dptr,#_LCD_putTextAt_PARM_2
+   00DA 74 02               521 	mov	a,#0x02
+   00DC F0                  522 	movx	@dptr,a
+   00DD 90s00r00            523 	mov	dptr,#_LCD_putTextAt_PARM_3
+   00E0 74 01               524 	mov	a,#0x01
+   00E2 F0                  525 	movx	@dptr,a
+   00E3 90s00r57            526 	mov	dptr,#__str_6
+   00E6 75 F0 80            527 	mov	b,#0x80
+   00E9 12s00r00            528 	lcall	_LCD_putTextAt
+                            529 ;	main.c:56: LCD_putTextAt("para CIMA,DIREI-",3,LEFT);
+   00EC 90s00r00            530 	mov	dptr,#_LCD_putTextAt_PARM_2
+   00EF 74 03               531 	mov	a,#0x03
+   00F1 F0                  532 	movx	@dptr,a
+   00F2 90s00r00            533 	mov	dptr,#_LCD_putTextAt_PARM_3
+   00F5 74 01               534 	mov	a,#0x01
+   00F7 F0                  535 	movx	@dptr,a
+   00F8 90s00r67            536 	mov	dptr,#__str_7
+   00FB 75 F0 80            537 	mov	b,#0x80
+   00FE 12s00r00            538 	lcall	_LCD_putTextAt
+                            539 ;	main.c:57: LCD_putTextAt("TA ou ESQUERDA",4,LEFT);
+   0101 90s00r00            540 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0104 74 04               541 	mov	a,#0x04
+   0106 F0                  542 	movx	@dptr,a
+   0107 90s00r00            543 	mov	dptr,#_LCD_putTextAt_PARM_3
+   010A 74 01               544 	mov	a,#0x01
+   010C F0                  545 	movx	@dptr,a
+   010D 90s00r78            546 	mov	dptr,#__str_8
+   0110 75 F0 80            547 	mov	b,#0x80
+   0113 12s00r00            548 	lcall	_LCD_putTextAt
+                            549 ;	main.c:58: delay(3500,1);
+   0116 90s00r00            550 	mov	dptr,#_delay_PARM_2
+   0119 74 01               551 	mov	a,#0x01
+   011B F0                  552 	movx	@dptr,a
+   011C 90 0D AC            553 	mov	dptr,#0x0DAC
+   011F 12s00r00            554 	lcall	_delay
+                            555 ;	main.c:59: clearLCD();
+   0122 02s00r00            556 	ljmp	_clearLCD
+                            557 ;------------------------------------------------------------
+                            558 ;Allocation info for local variables in function 'setLevel1'
+                            559 ;------------------------------------------------------------
+                            560 ;control                   Allocated with name '_setLevel1_control_1_1'
+                            561 ;------------------------------------------------------------
+                            562 ;	main.c:64: void setLevel1(){
+                            563 ;	-----------------------------------------
+                            564 ;	 function setLevel1
+                            565 ;	-----------------------------------------
+   0125                     566 _setLevel1:
+                            567 ;	main.c:65: unsigned char control = 1;
+   0125 90s00r93            568 	mov	dptr,#_setLevel1_control_1_1
+   0128 74 01               569 	mov	a,#0x01
+   012A F0                  570 	movx	@dptr,a
+                            571 ;	main.c:67: LCD_putTextAt("PASSA",1,CENTER);
+   012B 90s00r00            572 	mov	dptr,#_LCD_putTextAt_PARM_2
+   012E 74 01               573 	mov	a,#0x01
+   0130 F0                  574 	movx	@dptr,a
+   0131 90s00r00            575 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0134 74 02               576 	mov	a,#0x02
+   0136 F0                  577 	movx	@dptr,a
+   0137 90s00r87            578 	mov	dptr,#__str_9
+   013A 75 F0 80            579 	mov	b,#0x80
+   013D 12s00r00            580 	lcall	_LCD_putTextAt
+                            581 ;	main.c:68: LCD_putTextAt("A",2,CENTER);
+   0140 90s00r00            582 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0143 74 02               583 	mov	a,#0x02
+   0145 F0                  584 	movx	@dptr,a
+   0146 90s00r00            585 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0149 74 02               586 	mov	a,#0x02
+   014B F0                  587 	movx	@dptr,a
+   014C 90s00r8D            588 	mov	dptr,#__str_10
+   014F 75 F0 80            589 	mov	b,#0x80
+   0152 12s00r00            590 	lcall	_LCD_putTextAt
+                            591 ;	main.c:69: LCD_putTextAt("LAMBIDA",3,CENTER);
+   0155 90s00r00            592 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0158 74 03               593 	mov	a,#0x03
+   015A F0                  594 	movx	@dptr,a
+   015B 90s00r00            595 	mov	dptr,#_LCD_putTextAt_PARM_3
+   015E 74 02               596 	mov	a,#0x02
+   0160 F0                  597 	movx	@dptr,a
+   0161 90s00r8F            598 	mov	dptr,#__str_11
+   0164 75 F0 80            599 	mov	b,#0x80
+   0167 12s00r00            600 	lcall	_LCD_putTextAt
+                            601 ;	main.c:70: LCD_putTextAt("NO BEICOLA 1",4,CENTER);
+   016A 90s00r00            602 	mov	dptr,#_LCD_putTextAt_PARM_2
+   016D 74 04               603 	mov	a,#0x04
+   016F F0                  604 	movx	@dptr,a
+   0170 90s00r00            605 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0173 74 02               606 	mov	a,#0x02
+   0175 F0                  607 	movx	@dptr,a
+   0176 90s00r97            608 	mov	dptr,#__str_12
+   0179 75 F0 80            609 	mov	b,#0x80
+   017C 12s00r00            610 	lcall	_LCD_putTextAt
+                            611 ;	main.c:71: delay(3000,1);
+   017F 90s00r00            612 	mov	dptr,#_delay_PARM_2
+   0182 74 01               613 	mov	a,#0x01
+   0184 F0                  614 	movx	@dptr,a
+   0185 90 0B B8            615 	mov	dptr,#0x0BB8
+   0188 12s00r00            616 	lcall	_delay
+                            617 ;	main.c:72: clearLCD();
+   018B 12s00r00            618 	lcall	_clearLCD
+                            619 ;	main.c:74: player->sline = 7;
+   018E 90s00r8F            620 	mov	dptr,#_player
+   0191 E0                  621 	movx	a,@dptr
+   0192 FA                  622 	mov	r2,a
+   0193 A3                  623 	inc	dptr
+   0194 E0                  624 	movx	a,@dptr
+   0195 FB                  625 	mov	r3,a
+   0196 A3                  626 	inc	dptr
+   0197 E0                  627 	movx	a,@dptr
+   0198 FC                  628 	mov	r4,a
+   0199 8A 82               629 	mov	dpl,r2
+   019B 8B 83               630 	mov	dph,r3
+   019D 8C F0               631 	mov	b,r4
+   019F 74 07               632 	mov	a,#0x07
+   01A1 12s00r00            633 	lcall	__gptrput
+                            634 ;	main.c:75: player->scol = 3;
+   01A4 90s00r8F            635 	mov	dptr,#_player
+   01A7 E0                  636 	movx	a,@dptr
+   01A8 FA                  637 	mov	r2,a
+   01A9 A3                  638 	inc	dptr
+   01AA E0                  639 	movx	a,@dptr
+   01AB FB                  640 	mov	r3,a
+   01AC A3                  641 	inc	dptr
+   01AD E0                  642 	movx	a,@dptr
+   01AE FC                  643 	mov	r4,a
+   01AF 0A                  644 	inc	r2
+   01B0 BA 00 01            645 	cjne	r2,#0x00,00108$
+   01B3 0B                  646 	inc	r3
+   01B4                     647 00108$:
+   01B4 8A 82               648 	mov	dpl,r2
+   01B6 8B 83               649 	mov	dph,r3
+   01B8 8C F0               650 	mov	b,r4
+   01BA 74 03               651 	mov	a,#0x03
+   01BC 12s00r00            652 	lcall	__gptrput
+                            653 ;	main.c:76: player->line = 4;
+   01BF 90s00r8F            654 	mov	dptr,#_player
+   01C2 E0                  655 	movx	a,@dptr
+   01C3 FA                  656 	mov	r2,a
+   01C4 A3                  657 	inc	dptr
+   01C5 E0                  658 	movx	a,@dptr
+   01C6 FB                  659 	mov	r3,a
+   01C7 A3                  660 	inc	dptr
+   01C8 E0                  661 	movx	a,@dptr
+   01C9 FC                  662 	mov	r4,a
+   01CA 74 02               663 	mov	a,#0x02
+   01CC 2A                  664 	add	a,r2
+   01CD FA                  665 	mov	r2,a
+   01CE E4                  666 	clr	a
+   01CF 3B                  667 	addc	a,r3
+   01D0 FB                  668 	mov	r3,a
+   01D1 8A 82               669 	mov	dpl,r2
+   01D3 8B 83               670 	mov	dph,r3
+   01D5 8C F0               671 	mov	b,r4
+   01D7 74 04               672 	mov	a,#0x04
+   01D9 12s00r00            673 	lcall	__gptrput
+                            674 ;	main.c:77: player->col = 10;
+   01DC 90s00r8F            675 	mov	dptr,#_player
+   01DF E0                  676 	movx	a,@dptr
+   01E0 FA                  677 	mov	r2,a
+   01E1 A3                  678 	inc	dptr
+   01E2 E0                  679 	movx	a,@dptr
+   01E3 FB                  680 	mov	r3,a
+   01E4 A3                  681 	inc	dptr
+   01E5 E0                  682 	movx	a,@dptr
+   01E6 FC                  683 	mov	r4,a
+   01E7 74 03               684 	mov	a,#0x03
+   01E9 2A                  685 	add	a,r2
+   01EA FA                  686 	mov	r2,a
+   01EB E4                  687 	clr	a
+   01EC 3B                  688 	addc	a,r3
+   01ED FB                  689 	mov	r3,a
+   01EE 8A 82               690 	mov	dpl,r2
+   01F0 8B 83               691 	mov	dph,r3
+   01F2 8C F0               692 	mov	b,r4
+   01F4 74 0A               693 	mov	a,#0x0A
+   01F6 12s00r00            694 	lcall	__gptrput
+                            695 ;	main.c:79: printMap();
+   01F9 12s00r00            696 	lcall	_printMap
+                            697 ;	main.c:81: while(control)
+   01FC                     698 00101$:
+   01FC 90s00r93            699 	mov	dptr,#_setLevel1_control_1_1
+   01FF E0                  700 	movx	a,@dptr
+   0200 FA                  701 	mov	r2,a
+   0201 60 48               702 	jz	00103$
+                            703 ;	main.c:82: control = configMap(player->line, player->col);
+   0203 90s00r8F            704 	mov	dptr,#_player
+   0206 E0                  705 	movx	a,@dptr
+   0207 FA                  706 	mov	r2,a
+   0208 A3                  707 	inc	dptr
+   0209 E0                  708 	movx	a,@dptr
+   020A FB                  709 	mov	r3,a
+   020B A3                  710 	inc	dptr
+   020C E0                  711 	movx	a,@dptr
+   020D FC                  712 	mov	r4,a
+   020E 74 02               713 	mov	a,#0x02
+   0210 2A                  714 	add	a,r2
+   0211 FA                  715 	mov	r2,a
+   0212 E4                  716 	clr	a
+   0213 3B                  717 	addc	a,r3
+   0214 FB                  718 	mov	r3,a
+   0215 8A 82               719 	mov	dpl,r2
+   0217 8B 83               720 	mov	dph,r3
+   0219 8C F0               721 	mov	b,r4
+   021B 12s00r00            722 	lcall	__gptrget
+   021E FA                  723 	mov	r2,a
+   021F 90s00r8F            724 	mov	dptr,#_player
+   0222 E0                  725 	movx	a,@dptr
+   0223 FB                  726 	mov	r3,a
+   0224 A3                  727 	inc	dptr
+   0225 E0                  728 	movx	a,@dptr
+   0226 FC                  729 	mov	r4,a
+   0227 A3                  730 	inc	dptr
+   0228 E0                  731 	movx	a,@dptr
+   0229 FD                  732 	mov	r5,a
+   022A 74 03               733 	mov	a,#0x03
+   022C 2B                  734 	add	a,r3
+   022D FB                  735 	mov	r3,a
+   022E E4                  736 	clr	a
+   022F 3C                  737 	addc	a,r4
+   0230 FC                  738 	mov	r4,a
+   0231 8B 82               739 	mov	dpl,r3
+   0233 8C 83               740 	mov	dph,r4
+   0235 8D F0               741 	mov	b,r5
+   0237 12s00r00            742 	lcall	__gptrget
+   023A 90s00r00            743 	mov	dptr,#_configMap_PARM_2
+   023D F0                  744 	movx	@dptr,a
+   023E 8A 82               745 	mov	dpl,r2
+   0240 12s00r00            746 	lcall	_configMap
+   0243 E5 82               747 	mov	a,dpl
+   0245 90s00r93            748 	mov	dptr,#_setLevel1_control_1_1
+   0248 F0                  749 	movx	@dptr,a
+   0249 80 B1               750 	sjmp	00101$
+   024B                     751 00103$:
+                            752 ;	main.c:84: clearLCD();
+   024B 02s00r00            753 	ljmp	_clearLCD
+                            754 ;------------------------------------------------------------
+                            755 ;Allocation info for local variables in function 'setLevel2'
+                            756 ;------------------------------------------------------------
+                            757 ;control                   Allocated with name '_setLevel2_control_1_1'
+                            758 ;------------------------------------------------------------
+                            759 ;	main.c:87: void setLevel2(){
+                            760 ;	-----------------------------------------
+                            761 ;	 function setLevel2
+                            762 ;	-----------------------------------------
+   024E                     763 _setLevel2:
+                            764 ;	main.c:88: unsigned char control = 1;
+   024E 90s00r94            765 	mov	dptr,#_setLevel2_control_1_1
+   0251 74 01               766 	mov	a,#0x01
+   0253 F0                  767 	movx	@dptr,a
+                            768 ;	main.c:90: LCD_putTextAt("PASSA",1,CENTER);
+   0254 90s00r00            769 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0257 74 01               770 	mov	a,#0x01
+   0259 F0                  771 	movx	@dptr,a
+   025A 90s00r00            772 	mov	dptr,#_LCD_putTextAt_PARM_3
+   025D 74 02               773 	mov	a,#0x02
+   025F F0                  774 	movx	@dptr,a
+   0260 90s00r87            775 	mov	dptr,#__str_9
+   0263 75 F0 80            776 	mov	b,#0x80
+   0266 12s00r00            777 	lcall	_LCD_putTextAt
+                            778 ;	main.c:91: LCD_putTextAt("A",2,CENTER);
+   0269 90s00r00            779 	mov	dptr,#_LCD_putTextAt_PARM_2
+   026C 74 02               780 	mov	a,#0x02
+   026E F0                  781 	movx	@dptr,a
+   026F 90s00r00            782 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0272 74 02               783 	mov	a,#0x02
+   0274 F0                  784 	movx	@dptr,a
+   0275 90s00r8D            785 	mov	dptr,#__str_10
+   0278 75 F0 80            786 	mov	b,#0x80
+   027B 12s00r00            787 	lcall	_LCD_putTextAt
+                            788 ;	main.c:92: LCD_putTextAt("LAMBIDA",3,CENTER);
+   027E 90s00r00            789 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0281 74 03               790 	mov	a,#0x03
+   0283 F0                  791 	movx	@dptr,a
+   0284 90s00r00            792 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0287 74 02               793 	mov	a,#0x02
+   0289 F0                  794 	movx	@dptr,a
+   028A 90s00r8F            795 	mov	dptr,#__str_11
+   028D 75 F0 80            796 	mov	b,#0x80
+   0290 12s00r00            797 	lcall	_LCD_putTextAt
+                            798 ;	main.c:93: LCD_putTextAt("NO BEICOLA 2",4,CENTER);
+   0293 90s00r00            799 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0296 74 04               800 	mov	a,#0x04
+   0298 F0                  801 	movx	@dptr,a
+   0299 90s00r00            802 	mov	dptr,#_LCD_putTextAt_PARM_3
+   029C 74 02               803 	mov	a,#0x02
+   029E F0                  804 	movx	@dptr,a
+   029F 90s00rA4            805 	mov	dptr,#__str_13
+   02A2 75 F0 80            806 	mov	b,#0x80
+   02A5 12s00r00            807 	lcall	_LCD_putTextAt
+                            808 ;	main.c:94: delay(3000,1);
+   02A8 90s00r00            809 	mov	dptr,#_delay_PARM_2
+   02AB 74 01               810 	mov	a,#0x01
+   02AD F0                  811 	movx	@dptr,a
+   02AE 90 0B B8            812 	mov	dptr,#0x0BB8
+   02B1 12s00r00            813 	lcall	_delay
+                            814 ;	main.c:95: clearLCD();
+   02B4 12s00r00            815 	lcall	_clearLCD
+                            816 ;	main.c:97: setMap2CGram();
+   02B7 12s00r00            817 	lcall	_setMap2CGram
+                            818 ;	main.c:99: player->sline = 7;
+   02BA 90s00r8F            819 	mov	dptr,#_player
+   02BD E0                  820 	movx	a,@dptr
+   02BE FA                  821 	mov	r2,a
+   02BF A3                  822 	inc	dptr
+   02C0 E0                  823 	movx	a,@dptr
+   02C1 FB                  824 	mov	r3,a
+   02C2 A3                  825 	inc	dptr
+   02C3 E0                  826 	movx	a,@dptr
+   02C4 FC                  827 	mov	r4,a
+   02C5 8A 82               828 	mov	dpl,r2
+   02C7 8B 83               829 	mov	dph,r3
+   02C9 8C F0               830 	mov	b,r4
+   02CB 74 07               831 	mov	a,#0x07
+   02CD 12s00r00            832 	lcall	__gptrput
+                            833 ;	main.c:100: player->scol = 2;
+   02D0 90s00r8F            834 	mov	dptr,#_player
+   02D3 E0                  835 	movx	a,@dptr
+   02D4 FA                  836 	mov	r2,a
+   02D5 A3                  837 	inc	dptr
+   02D6 E0                  838 	movx	a,@dptr
+   02D7 FB                  839 	mov	r3,a
+   02D8 A3                  840 	inc	dptr
+   02D9 E0                  841 	movx	a,@dptr
+   02DA FC                  842 	mov	r4,a
+   02DB 0A                  843 	inc	r2
+   02DC BA 00 01            844 	cjne	r2,#0x00,00108$
+   02DF 0B                  845 	inc	r3
+   02E0                     846 00108$:
+   02E0 8A 82               847 	mov	dpl,r2
+   02E2 8B 83               848 	mov	dph,r3
+   02E4 8C F0               849 	mov	b,r4
+   02E6 74 02               850 	mov	a,#0x02
+   02E8 12s00r00            851 	lcall	__gptrput
+                            852 ;	main.c:101: player->line = 4;
+   02EB 90s00r8F            853 	mov	dptr,#_player
+   02EE E0                  854 	movx	a,@dptr
+   02EF FA                  855 	mov	r2,a
+   02F0 A3                  856 	inc	dptr
+   02F1 E0                  857 	movx	a,@dptr
+   02F2 FB                  858 	mov	r3,a
+   02F3 A3                  859 	inc	dptr
+   02F4 E0                  860 	movx	a,@dptr
+   02F5 FC                  861 	mov	r4,a
+   02F6 74 02               862 	mov	a,#0x02
+   02F8 2A                  863 	add	a,r2
+   02F9 FA                  864 	mov	r2,a
+   02FA E4                  865 	clr	a
+   02FB 3B                  866 	addc	a,r3
+   02FC FB                  867 	mov	r3,a
+   02FD 8A 82               868 	mov	dpl,r2
+   02FF 8B 83               869 	mov	dph,r3
+   0301 8C F0               870 	mov	b,r4
+   0303 74 04               871 	mov	a,#0x04
+   0305 12s00r00            872 	lcall	__gptrput
+                            873 ;	main.c:102: player->col = 2;
+   0308 90s00r8F            874 	mov	dptr,#_player
+   030B E0                  875 	movx	a,@dptr
+   030C FA                  876 	mov	r2,a
+   030D A3                  877 	inc	dptr
+   030E E0                  878 	movx	a,@dptr
+   030F FB                  879 	mov	r3,a
+   0310 A3                  880 	inc	dptr
+   0311 E0                  881 	movx	a,@dptr
+   0312 FC                  882 	mov	r4,a
+   0313 74 03               883 	mov	a,#0x03
+   0315 2A                  884 	add	a,r2
+   0316 FA                  885 	mov	r2,a
+   0317 E4                  886 	clr	a
+   0318 3B                  887 	addc	a,r3
+   0319 FB                  888 	mov	r3,a
+   031A 8A 82               889 	mov	dpl,r2
+   031C 8B 83               890 	mov	dph,r3
+   031E 8C F0               891 	mov	b,r4
+   0320 74 02               892 	mov	a,#0x02
+   0322 12s00r00            893 	lcall	__gptrput
+                            894 ;	main.c:104: while(control)
+   0325                     895 00101$:
+   0325 90s00r94            896 	mov	dptr,#_setLevel2_control_1_1
+   0328 E0                  897 	movx	a,@dptr
+   0329 FA                  898 	mov	r2,a
+   032A 60 48               899 	jz	00103$
+                            900 ;	main.c:105: control = configMap(player->line, player->col);
+   032C 90s00r8F            901 	mov	dptr,#_player
+   032F E0                  902 	movx	a,@dptr
+   0330 FA                  903 	mov	r2,a
+   0331 A3                  904 	inc	dptr
+   0332 E0                  905 	movx	a,@dptr
+   0333 FB                  906 	mov	r3,a
+   0334 A3                  907 	inc	dptr
+   0335 E0                  908 	movx	a,@dptr
+   0336 FC                  909 	mov	r4,a
+   0337 74 02               910 	mov	a,#0x02
+   0339 2A                  911 	add	a,r2
+   033A FA                  912 	mov	r2,a
+   033B E4                  913 	clr	a
+   033C 3B                  914 	addc	a,r3
+   033D FB                  915 	mov	r3,a
+   033E 8A 82               916 	mov	dpl,r2
+   0340 8B 83               917 	mov	dph,r3
+   0342 8C F0               918 	mov	b,r4
+   0344 12s00r00            919 	lcall	__gptrget
+   0347 FA                  920 	mov	r2,a
+   0348 90s00r8F            921 	mov	dptr,#_player
+   034B E0                  922 	movx	a,@dptr
+   034C FB                  923 	mov	r3,a
+   034D A3                  924 	inc	dptr
+   034E E0                  925 	movx	a,@dptr
+   034F FC                  926 	mov	r4,a
+   0350 A3                  927 	inc	dptr
+   0351 E0                  928 	movx	a,@dptr
+   0352 FD                  929 	mov	r5,a
+   0353 74 03               930 	mov	a,#0x03
+   0355 2B                  931 	add	a,r3
+   0356 FB                  932 	mov	r3,a
+   0357 E4                  933 	clr	a
+   0358 3C                  934 	addc	a,r4
+   0359 FC                  935 	mov	r4,a
+   035A 8B 82               936 	mov	dpl,r3
+   035C 8C 83               937 	mov	dph,r4
+   035E 8D F0               938 	mov	b,r5
+   0360 12s00r00            939 	lcall	__gptrget
+   0363 90s00r00            940 	mov	dptr,#_configMap_PARM_2
+   0366 F0                  941 	movx	@dptr,a
+   0367 8A 82               942 	mov	dpl,r2
+   0369 12s00r00            943 	lcall	_configMap
+   036C E5 82               944 	mov	a,dpl
+   036E 90s00r94            945 	mov	dptr,#_setLevel2_control_1_1
+   0371 F0                  946 	movx	@dptr,a
+   0372 80 B1               947 	sjmp	00101$
+   0374                     948 00103$:
+                            949 ;	main.c:107: clearLCD();
+   0374 02s00r00            950 	ljmp	_clearLCD
+                            951 ;------------------------------------------------------------
+                            952 ;Allocation info for local variables in function 'setLevel3'
+                            953 ;------------------------------------------------------------
+                            954 ;control                   Allocated with name '_setLevel3_control_1_1'
+                            955 ;------------------------------------------------------------
+                            956 ;	main.c:110: void setLevel3(){
+                            957 ;	-----------------------------------------
+                            958 ;	 function setLevel3
+                            959 ;	-----------------------------------------
+   0377                     960 _setLevel3:
+                            961 ;	main.c:111: unsigned char control = 1;
+   0377 90s00r95            962 	mov	dptr,#_setLevel3_control_1_1
+   037A 74 01               963 	mov	a,#0x01
+   037C F0                  964 	movx	@dptr,a
+                            965 ;	main.c:113: LCD_putTextAt("PASSA",1,CENTER);
+   037D 90s00r00            966 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0380 74 01               967 	mov	a,#0x01
+   0382 F0                  968 	movx	@dptr,a
+   0383 90s00r00            969 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0386 74 02               970 	mov	a,#0x02
+   0388 F0                  971 	movx	@dptr,a
+   0389 90s00r87            972 	mov	dptr,#__str_9
+   038C 75 F0 80            973 	mov	b,#0x80
+   038F 12s00r00            974 	lcall	_LCD_putTextAt
+                            975 ;	main.c:114: LCD_putTextAt("A",2,CENTER);
+   0392 90s00r00            976 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0395 74 02               977 	mov	a,#0x02
+   0397 F0                  978 	movx	@dptr,a
+   0398 90s00r00            979 	mov	dptr,#_LCD_putTextAt_PARM_3
+   039B 74 02               980 	mov	a,#0x02
+   039D F0                  981 	movx	@dptr,a
+   039E 90s00r8D            982 	mov	dptr,#__str_10
+   03A1 75 F0 80            983 	mov	b,#0x80
+   03A4 12s00r00            984 	lcall	_LCD_putTextAt
+                            985 ;	main.c:115: LCD_putTextAt("LAMBIDA",3,CENTER);
+   03A7 90s00r00            986 	mov	dptr,#_LCD_putTextAt_PARM_2
+   03AA 74 03               987 	mov	a,#0x03
+   03AC F0                  988 	movx	@dptr,a
+   03AD 90s00r00            989 	mov	dptr,#_LCD_putTextAt_PARM_3
+   03B0 74 02               990 	mov	a,#0x02
+   03B2 F0                  991 	movx	@dptr,a
+   03B3 90s00r8F            992 	mov	dptr,#__str_11
+   03B6 75 F0 80            993 	mov	b,#0x80
+   03B9 12s00r00            994 	lcall	_LCD_putTextAt
+                            995 ;	main.c:116: LCD_putTextAt("NO BEICOLA 3",4,CENTER);
+   03BC 90s00r00            996 	mov	dptr,#_LCD_putTextAt_PARM_2
+   03BF 74 04               997 	mov	a,#0x04
+   03C1 F0                  998 	movx	@dptr,a
+   03C2 90s00r00            999 	mov	dptr,#_LCD_putTextAt_PARM_3
+   03C5 74 02              1000 	mov	a,#0x02
+   03C7 F0                 1001 	movx	@dptr,a
+   03C8 90s00rB1           1002 	mov	dptr,#__str_14
+   03CB 75 F0 80           1003 	mov	b,#0x80
+   03CE 12s00r00           1004 	lcall	_LCD_putTextAt
+                           1005 ;	main.c:117: delay(3000,1);
+   03D1 90s00r00           1006 	mov	dptr,#_delay_PARM_2
+   03D4 74 01              1007 	mov	a,#0x01
+   03D6 F0                 1008 	movx	@dptr,a
+   03D7 90 0B B8           1009 	mov	dptr,#0x0BB8
+   03DA 12s00r00           1010 	lcall	_delay
+                           1011 ;	main.c:118: clearLCD();
+   03DD 12s00r00           1012 	lcall	_clearLCD
+                           1013 ;	main.c:120: setMap3CGram();
+   03E0 12s00r00           1014 	lcall	_setMap3CGram
+                           1015 ;	main.c:122: player->sline = 5;
+   03E3 90s00r8F           1016 	mov	dptr,#_player
+   03E6 E0                 1017 	movx	a,@dptr
+   03E7 FA                 1018 	mov	r2,a
+   03E8 A3                 1019 	inc	dptr
+   03E9 E0                 1020 	movx	a,@dptr
+   03EA FB                 1021 	mov	r3,a
+   03EB A3                 1022 	inc	dptr
+   03EC E0                 1023 	movx	a,@dptr
+   03ED FC                 1024 	mov	r4,a
+   03EE 8A 82              1025 	mov	dpl,r2
+   03F0 8B 83              1026 	mov	dph,r3
+   03F2 8C F0              1027 	mov	b,r4
+   03F4 74 05              1028 	mov	a,#0x05
+   03F6 12s00r00           1029 	lcall	__gptrput
+                           1030 ;	main.c:123: player->scol = 5;
+   03F9 90s00r8F           1031 	mov	dptr,#_player
+   03FC E0                 1032 	movx	a,@dptr
+   03FD FA                 1033 	mov	r2,a
+   03FE A3                 1034 	inc	dptr
+   03FF E0                 1035 	movx	a,@dptr
+   0400 FB                 1036 	mov	r3,a
+   0401 A3                 1037 	inc	dptr
+   0402 E0                 1038 	movx	a,@dptr
+   0403 FC                 1039 	mov	r4,a
+   0404 0A                 1040 	inc	r2
+   0405 BA 00 01           1041 	cjne	r2,#0x00,00108$
+   0408 0B                 1042 	inc	r3
+   0409                    1043 00108$:
+   0409 8A 82              1044 	mov	dpl,r2
+   040B 8B 83              1045 	mov	dph,r3
+   040D 8C F0              1046 	mov	b,r4
+   040F 74 05              1047 	mov	a,#0x05
+   0411 12s00r00           1048 	lcall	__gptrput
+                           1049 ;	main.c:124: player->line = 4;
+   0414 90s00r8F           1050 	mov	dptr,#_player
+   0417 E0                 1051 	movx	a,@dptr
+   0418 FA                 1052 	mov	r2,a
+   0419 A3                 1053 	inc	dptr
+   041A E0                 1054 	movx	a,@dptr
+   041B FB                 1055 	mov	r3,a
+   041C A3                 1056 	inc	dptr
+   041D E0                 1057 	movx	a,@dptr
+   041E FC                 1058 	mov	r4,a
+   041F 74 02              1059 	mov	a,#0x02
+   0421 2A                 1060 	add	a,r2
+   0422 FA                 1061 	mov	r2,a
+   0423 E4                 1062 	clr	a
+   0424 3B                 1063 	addc	a,r3
+   0425 FB                 1064 	mov	r3,a
+   0426 8A 82              1065 	mov	dpl,r2
+   0428 8B 83              1066 	mov	dph,r3
+   042A 8C F0              1067 	mov	b,r4
+   042C 74 04              1068 	mov	a,#0x04
+   042E 12s00r00           1069 	lcall	__gptrput
+                           1070 ;	main.c:125: player->col = 10;
+   0431 90s00r8F           1071 	mov	dptr,#_player
+   0434 E0                 1072 	movx	a,@dptr
+   0435 FA                 1073 	mov	r2,a
+   0436 A3                 1074 	inc	dptr
+   0437 E0                 1075 	movx	a,@dptr
+   0438 FB                 1076 	mov	r3,a
+   0439 A3                 1077 	inc	dptr
+   043A E0                 1078 	movx	a,@dptr
+   043B FC                 1079 	mov	r4,a
+   043C 74 03              1080 	mov	a,#0x03
+   043E 2A                 1081 	add	a,r2
+   043F FA                 1082 	mov	r2,a
+   0440 E4                 1083 	clr	a
+   0441 3B                 1084 	addc	a,r3
+   0442 FB                 1085 	mov	r3,a
+   0443 8A 82              1086 	mov	dpl,r2
+   0445 8B 83              1087 	mov	dph,r3
+   0447 8C F0              1088 	mov	b,r4
+   0449 74 0A              1089 	mov	a,#0x0A
+   044B 12s00r00           1090 	lcall	__gptrput
+                           1091 ;	main.c:127: while(control)
+   044E                    1092 00101$:
+   044E 90s00r95           1093 	mov	dptr,#_setLevel3_control_1_1
+   0451 E0                 1094 	movx	a,@dptr
+   0452 FA                 1095 	mov	r2,a
+   0453 60 48              1096 	jz	00103$
+                           1097 ;	main.c:128: control = configMap(player->line, player->col);
+   0455 90s00r8F           1098 	mov	dptr,#_player
+   0458 E0                 1099 	movx	a,@dptr
+   0459 FA                 1100 	mov	r2,a
+   045A A3                 1101 	inc	dptr
+   045B E0                 1102 	movx	a,@dptr
+   045C FB                 1103 	mov	r3,a
+   045D A3                 1104 	inc	dptr
+   045E E0                 1105 	movx	a,@dptr
+   045F FC                 1106 	mov	r4,a
+   0460 74 02              1107 	mov	a,#0x02
+   0462 2A                 1108 	add	a,r2
+   0463 FA                 1109 	mov	r2,a
+   0464 E4                 1110 	clr	a
+   0465 3B                 1111 	addc	a,r3
+   0466 FB                 1112 	mov	r3,a
+   0467 8A 82              1113 	mov	dpl,r2
+   0469 8B 83              1114 	mov	dph,r3
+   046B 8C F0              1115 	mov	b,r4
+   046D 12s00r00           1116 	lcall	__gptrget
+   0470 FA                 1117 	mov	r2,a
+   0471 90s00r8F           1118 	mov	dptr,#_player
+   0474 E0                 1119 	movx	a,@dptr
+   0475 FB                 1120 	mov	r3,a
+   0476 A3                 1121 	inc	dptr
+   0477 E0                 1122 	movx	a,@dptr
+   0478 FC                 1123 	mov	r4,a
+   0479 A3                 1124 	inc	dptr
+   047A E0                 1125 	movx	a,@dptr
+   047B FD                 1126 	mov	r5,a
+   047C 74 03              1127 	mov	a,#0x03
+   047E 2B                 1128 	add	a,r3
+   047F FB                 1129 	mov	r3,a
+   0480 E4                 1130 	clr	a
+   0481 3C                 1131 	addc	a,r4
+   0482 FC                 1132 	mov	r4,a
+   0483 8B 82              1133 	mov	dpl,r3
+   0485 8C 83              1134 	mov	dph,r4
+   0487 8D F0              1135 	mov	b,r5
+   0489 12s00r00           1136 	lcall	__gptrget
+   048C 90s00r00           1137 	mov	dptr,#_configMap_PARM_2
+   048F F0                 1138 	movx	@dptr,a
+   0490 8A 82              1139 	mov	dpl,r2
+   0492 12s00r00           1140 	lcall	_configMap
+   0495 E5 82              1141 	mov	a,dpl
+   0497 90s00r95           1142 	mov	dptr,#_setLevel3_control_1_1
+   049A F0                 1143 	movx	@dptr,a
+   049B 80 B1              1144 	sjmp	00101$
+   049D                    1145 00103$:
+                           1146 ;	main.c:130: clearLCD();
+   049D 02s00r00           1147 	ljmp	_clearLCD
+                           1148 ;------------------------------------------------------------
+                           1149 ;Allocation info for local variables in function 'setLevel4'
+                           1150 ;------------------------------------------------------------
+                           1151 ;control                   Allocated with name '_setLevel4_control_1_1'
+                           1152 ;------------------------------------------------------------
+                           1153 ;	main.c:133: void setLevel4(){
+                           1154 ;	-----------------------------------------
+                           1155 ;	 function setLevel4
+                           1156 ;	-----------------------------------------
+   04A0                    1157 _setLevel4:
+                           1158 ;	main.c:134: unsigned char control = 1;
+   04A0 90s00r96           1159 	mov	dptr,#_setLevel4_control_1_1
+   04A3 74 01              1160 	mov	a,#0x01
+   04A5 F0                 1161 	movx	@dptr,a
+                           1162 ;	main.c:136: LCD_putTextAt("PASSA",1,CENTER);
+   04A6 90s00r00           1163 	mov	dptr,#_LCD_putTextAt_PARM_2
+   04A9 74 01              1164 	mov	a,#0x01
+   04AB F0                 1165 	movx	@dptr,a
+   04AC 90s00r00           1166 	mov	dptr,#_LCD_putTextAt_PARM_3
+   04AF 74 02              1167 	mov	a,#0x02
+   04B1 F0                 1168 	movx	@dptr,a
+   04B2 90s00r87           1169 	mov	dptr,#__str_9
+   04B5 75 F0 80           1170 	mov	b,#0x80
+   04B8 12s00r00           1171 	lcall	_LCD_putTextAt
+                           1172 ;	main.c:137: LCD_putTextAt("A",2,CENTER);
+   04BB 90s00r00           1173 	mov	dptr,#_LCD_putTextAt_PARM_2
+   04BE 74 02              1174 	mov	a,#0x02
+   04C0 F0                 1175 	movx	@dptr,a
+   04C1 90s00r00           1176 	mov	dptr,#_LCD_putTextAt_PARM_3
+   04C4 74 02              1177 	mov	a,#0x02
+   04C6 F0                 1178 	movx	@dptr,a
+   04C7 90s00r8D           1179 	mov	dptr,#__str_10
+   04CA 75 F0 80           1180 	mov	b,#0x80
+   04CD 12s00r00           1181 	lcall	_LCD_putTextAt
+                           1182 ;	main.c:138: LCD_putTextAt("LAMBIDA",3,CENTER);
+   04D0 90s00r00           1183 	mov	dptr,#_LCD_putTextAt_PARM_2
+   04D3 74 03              1184 	mov	a,#0x03
+   04D5 F0                 1185 	movx	@dptr,a
+   04D6 90s00r00           1186 	mov	dptr,#_LCD_putTextAt_PARM_3
+   04D9 74 02              1187 	mov	a,#0x02
+   04DB F0                 1188 	movx	@dptr,a
+   04DC 90s00r8F           1189 	mov	dptr,#__str_11
+   04DF 75 F0 80           1190 	mov	b,#0x80
+   04E2 12s00r00           1191 	lcall	_LCD_putTextAt
+                           1192 ;	main.c:139: LCD_putTextAt("NO BEICOLA 4",4,CENTER);
+   04E5 90s00r00           1193 	mov	dptr,#_LCD_putTextAt_PARM_2
+   04E8 74 04              1194 	mov	a,#0x04
+   04EA F0                 1195 	movx	@dptr,a
+   04EB 90s00r00           1196 	mov	dptr,#_LCD_putTextAt_PARM_3
+   04EE 74 02              1197 	mov	a,#0x02
+   04F0 F0                 1198 	movx	@dptr,a
+   04F1 90s00rBE           1199 	mov	dptr,#__str_15
+   04F4 75 F0 80           1200 	mov	b,#0x80
+   04F7 12s00r00           1201 	lcall	_LCD_putTextAt
+                           1202 ;	main.c:140: delay(3000,1);
+   04FA 90s00r00           1203 	mov	dptr,#_delay_PARM_2
+   04FD 74 01              1204 	mov	a,#0x01
+   04FF F0                 1205 	movx	@dptr,a
+   0500 90 0B B8           1206 	mov	dptr,#0x0BB8
+   0503 12s00r00           1207 	lcall	_delay
+                           1208 ;	main.c:141: clearLCD();
+   0506 12s00r00           1209 	lcall	_clearLCD
+                           1210 ;	main.c:143: setMap4CGram();
+   0509 12s00r00           1211 	lcall	_setMap4CGram
+                           1212 ;	main.c:145: player->sline = 3;
+   050C 90s00r8F           1213 	mov	dptr,#_player
+   050F E0                 1214 	movx	a,@dptr
+   0510 FA                 1215 	mov	r2,a
+   0511 A3                 1216 	inc	dptr
+   0512 E0                 1217 	movx	a,@dptr
+   0513 FB                 1218 	mov	r3,a
+   0514 A3                 1219 	inc	dptr
+   0515 E0                 1220 	movx	a,@dptr
+   0516 FC                 1221 	mov	r4,a
+   0517 8A 82              1222 	mov	dpl,r2
+   0519 8B 83              1223 	mov	dph,r3
+   051B 8C F0              1224 	mov	b,r4
+   051D 74 03              1225 	mov	a,#0x03
+   051F 12s00r00           1226 	lcall	__gptrput
+                           1227 ;	main.c:146: player->scol = 4;
+   0522 90s00r8F           1228 	mov	dptr,#_player
+   0525 E0                 1229 	movx	a,@dptr
+   0526 FA                 1230 	mov	r2,a
+   0527 A3                 1231 	inc	dptr
+   0528 E0                 1232 	movx	a,@dptr
+   0529 FB                 1233 	mov	r3,a
+   052A A3                 1234 	inc	dptr
+   052B E0                 1235 	movx	a,@dptr
+   052C FC                 1236 	mov	r4,a
+   052D 0A                 1237 	inc	r2
+   052E BA 00 01           1238 	cjne	r2,#0x00,00108$
+   0531 0B                 1239 	inc	r3
+   0532                    1240 00108$:
+   0532 8A 82              1241 	mov	dpl,r2
+   0534 8B 83              1242 	mov	dph,r3
+   0536 8C F0              1243 	mov	b,r4
+   0538 74 04              1244 	mov	a,#0x04
+   053A 12s00r00           1245 	lcall	__gptrput
+                           1246 ;	main.c:147: player->line = 4;
+   053D 90s00r8F           1247 	mov	dptr,#_player
+   0540 E0                 1248 	movx	a,@dptr
+   0541 FA                 1249 	mov	r2,a
+   0542 A3                 1250 	inc	dptr
+   0543 E0                 1251 	movx	a,@dptr
+   0544 FB                 1252 	mov	r3,a
+   0545 A3                 1253 	inc	dptr
+   0546 E0                 1254 	movx	a,@dptr
+   0547 FC                 1255 	mov	r4,a
+   0548 74 02              1256 	mov	a,#0x02
+   054A 2A                 1257 	add	a,r2
+   054B FA                 1258 	mov	r2,a
+   054C E4                 1259 	clr	a
+   054D 3B                 1260 	addc	a,r3
+   054E FB                 1261 	mov	r3,a
+   054F 8A 82              1262 	mov	dpl,r2
+   0551 8B 83              1263 	mov	dph,r3
+   0553 8C F0              1264 	mov	b,r4
+   0555 74 04              1265 	mov	a,#0x04
+   0557 12s00r00           1266 	lcall	__gptrput
+                           1267 ;	main.c:148: player->col = 16;
+   055A 90s00r8F           1268 	mov	dptr,#_player
+   055D E0                 1269 	movx	a,@dptr
+   055E FA                 1270 	mov	r2,a
+   055F A3                 1271 	inc	dptr
+   0560 E0                 1272 	movx	a,@dptr
+   0561 FB                 1273 	mov	r3,a
+   0562 A3                 1274 	inc	dptr
+   0563 E0                 1275 	movx	a,@dptr
+   0564 FC                 1276 	mov	r4,a
+   0565 74 03              1277 	mov	a,#0x03
+   0567 2A                 1278 	add	a,r2
+   0568 FA                 1279 	mov	r2,a
+   0569 E4                 1280 	clr	a
+   056A 3B                 1281 	addc	a,r3
+   056B FB                 1282 	mov	r3,a
+   056C 8A 82              1283 	mov	dpl,r2
+   056E 8B 83              1284 	mov	dph,r3
+   0570 8C F0              1285 	mov	b,r4
+   0572 74 10              1286 	mov	a,#0x10
+   0574 12s00r00           1287 	lcall	__gptrput
+                           1288 ;	main.c:150: while(control)
+   0577                    1289 00101$:
+   0577 90s00r96           1290 	mov	dptr,#_setLevel4_control_1_1
+   057A E0                 1291 	movx	a,@dptr
+   057B FA                 1292 	mov	r2,a
+   057C 60 48              1293 	jz	00103$
+                           1294 ;	main.c:151: control = configMap(player->line, player->col);
+   057E 90s00r8F           1295 	mov	dptr,#_player
+   0581 E0                 1296 	movx	a,@dptr
+   0582 FA                 1297 	mov	r2,a
+   0583 A3                 1298 	inc	dptr
+   0584 E0                 1299 	movx	a,@dptr
+   0585 FB                 1300 	mov	r3,a
+   0586 A3                 1301 	inc	dptr
+   0587 E0                 1302 	movx	a,@dptr
+   0588 FC                 1303 	mov	r4,a
+   0589 74 02              1304 	mov	a,#0x02
+   058B 2A                 1305 	add	a,r2
+   058C FA                 1306 	mov	r2,a
+   058D E4                 1307 	clr	a
+   058E 3B                 1308 	addc	a,r3
+   058F FB                 1309 	mov	r3,a
+   0590 8A 82              1310 	mov	dpl,r2
+   0592 8B 83              1311 	mov	dph,r3
+   0594 8C F0              1312 	mov	b,r4
+   0596 12s00r00           1313 	lcall	__gptrget
+   0599 FA                 1314 	mov	r2,a
+   059A 90s00r8F           1315 	mov	dptr,#_player
+   059D E0                 1316 	movx	a,@dptr
+   059E FB                 1317 	mov	r3,a
+   059F A3                 1318 	inc	dptr
+   05A0 E0                 1319 	movx	a,@dptr
+   05A1 FC                 1320 	mov	r4,a
+   05A2 A3                 1321 	inc	dptr
+   05A3 E0                 1322 	movx	a,@dptr
+   05A4 FD                 1323 	mov	r5,a
+   05A5 74 03              1324 	mov	a,#0x03
+   05A7 2B                 1325 	add	a,r3
+   05A8 FB                 1326 	mov	r3,a
+   05A9 E4                 1327 	clr	a
+   05AA 3C                 1328 	addc	a,r4
+   05AB FC                 1329 	mov	r4,a
+   05AC 8B 82              1330 	mov	dpl,r3
+   05AE 8C 83              1331 	mov	dph,r4
+   05B0 8D F0              1332 	mov	b,r5
+   05B2 12s00r00           1333 	lcall	__gptrget
+   05B5 90s00r00           1334 	mov	dptr,#_configMap_PARM_2
+   05B8 F0                 1335 	movx	@dptr,a
+   05B9 8A 82              1336 	mov	dpl,r2
+   05BB 12s00r00           1337 	lcall	_configMap
+   05BE E5 82              1338 	mov	a,dpl
+   05C0 90s00r96           1339 	mov	dptr,#_setLevel4_control_1_1
+   05C3 F0                 1340 	movx	@dptr,a
+   05C4 80 B1              1341 	sjmp	00101$
+   05C6                    1342 00103$:
+                           1343 ;	main.c:153: clearLCD();
+   05C6 02s00r00           1344 	ljmp	_clearLCD
+                           1345 ;------------------------------------------------------------
+                           1346 ;Allocation info for local variables in function 'setLevel5'
+                           1347 ;------------------------------------------------------------
+                           1348 ;control                   Allocated with name '_setLevel5_control_1_1'
+                           1349 ;------------------------------------------------------------
+                           1350 ;	main.c:156: void setLevel5(){
+                           1351 ;	-----------------------------------------
+                           1352 ;	 function setLevel5
+                           1353 ;	-----------------------------------------
+   05C9                    1354 _setLevel5:
+                           1355 ;	main.c:157: unsigned char control = 1;
+   05C9 90s00r97           1356 	mov	dptr,#_setLevel5_control_1_1
+   05CC 74 01              1357 	mov	a,#0x01
+   05CE F0                 1358 	movx	@dptr,a
+                           1359 ;	main.c:159: LCD_putTextAt("PASSA",1,CENTER);
+   05CF 90s00r00           1360 	mov	dptr,#_LCD_putTextAt_PARM_2
+   05D2 74 01              1361 	mov	a,#0x01
+   05D4 F0                 1362 	movx	@dptr,a
+   05D5 90s00r00           1363 	mov	dptr,#_LCD_putTextAt_PARM_3
+   05D8 74 02              1364 	mov	a,#0x02
+   05DA F0                 1365 	movx	@dptr,a
+   05DB 90s00r87           1366 	mov	dptr,#__str_9
+   05DE 75 F0 80           1367 	mov	b,#0x80
+   05E1 12s00r00           1368 	lcall	_LCD_putTextAt
+                           1369 ;	main.c:160: LCD_putTextAt("A",2,CENTER);
+   05E4 90s00r00           1370 	mov	dptr,#_LCD_putTextAt_PARM_2
+   05E7 74 02              1371 	mov	a,#0x02
+   05E9 F0                 1372 	movx	@dptr,a
+   05EA 90s00r00           1373 	mov	dptr,#_LCD_putTextAt_PARM_3
+   05ED 74 02              1374 	mov	a,#0x02
+   05EF F0                 1375 	movx	@dptr,a
+   05F0 90s00r8D           1376 	mov	dptr,#__str_10
+   05F3 75 F0 80           1377 	mov	b,#0x80
+   05F6 12s00r00           1378 	lcall	_LCD_putTextAt
+                           1379 ;	main.c:161: LCD_putTextAt("LAMBIDA",3,CENTER);
+   05F9 90s00r00           1380 	mov	dptr,#_LCD_putTextAt_PARM_2
+   05FC 74 03              1381 	mov	a,#0x03
+   05FE F0                 1382 	movx	@dptr,a
+   05FF 90s00r00           1383 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0602 74 02              1384 	mov	a,#0x02
+   0604 F0                 1385 	movx	@dptr,a
+   0605 90s00r8F           1386 	mov	dptr,#__str_11
+   0608 75 F0 80           1387 	mov	b,#0x80
+   060B 12s00r00           1388 	lcall	_LCD_putTextAt
+                           1389 ;	main.c:162: LCD_putTextAt("NO BEICOLA 5",4,CENTER);
+   060E 90s00r00           1390 	mov	dptr,#_LCD_putTextAt_PARM_2
+   0611 74 04              1391 	mov	a,#0x04
+   0613 F0                 1392 	movx	@dptr,a
+   0614 90s00r00           1393 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0617 74 02              1394 	mov	a,#0x02
+   0619 F0                 1395 	movx	@dptr,a
+   061A 90s00rCB           1396 	mov	dptr,#__str_16
+   061D 75 F0 80           1397 	mov	b,#0x80
+   0620 12s00r00           1398 	lcall	_LCD_putTextAt
+                           1399 ;	main.c:163: delay(3000,1);
+   0623 90s00r00           1400 	mov	dptr,#_delay_PARM_2
+   0626 74 01              1401 	mov	a,#0x01
+   0628 F0                 1402 	movx	@dptr,a
+   0629 90 0B B8           1403 	mov	dptr,#0x0BB8
+   062C 12s00r00           1404 	lcall	_delay
+                           1405 ;	main.c:164: clearLCD();
+   062F 12s00r00           1406 	lcall	_clearLCD
+                           1407 ;	main.c:166: setMap5CGram();
+   0632 12s00r00           1408 	lcall	_setMap5CGram
+                           1409 ;	main.c:168: player->sline = 7;
+   0635 90s00r8F           1410 	mov	dptr,#_player
+   0638 E0                 1411 	movx	a,@dptr
+   0639 FA                 1412 	mov	r2,a
+   063A A3                 1413 	inc	dptr
+   063B E0                 1414 	movx	a,@dptr
+   063C FB                 1415 	mov	r3,a
+   063D A3                 1416 	inc	dptr
+   063E E0                 1417 	movx	a,@dptr
+   063F FC                 1418 	mov	r4,a
+   0640 8A 82              1419 	mov	dpl,r2
+   0642 8B 83              1420 	mov	dph,r3
+   0644 8C F0              1421 	mov	b,r4
+   0646 74 07              1422 	mov	a,#0x07
+   0648 12s00r00           1423 	lcall	__gptrput
+                           1424 ;	main.c:169: player->scol = 5;
+   064B 90s00r8F           1425 	mov	dptr,#_player
+   064E E0                 1426 	movx	a,@dptr
+   064F FA                 1427 	mov	r2,a
+   0650 A3                 1428 	inc	dptr
+   0651 E0                 1429 	movx	a,@dptr
+   0652 FB                 1430 	mov	r3,a
+   0653 A3                 1431 	inc	dptr
+   0654 E0                 1432 	movx	a,@dptr
+   0655 FC                 1433 	mov	r4,a
+   0656 0A                 1434 	inc	r2
+   0657 BA 00 01           1435 	cjne	r2,#0x00,00108$
+   065A 0B                 1436 	inc	r3
+   065B                    1437 00108$:
+   065B 8A 82              1438 	mov	dpl,r2
+   065D 8B 83              1439 	mov	dph,r3
+   065F 8C F0              1440 	mov	b,r4
+   0661 74 05              1441 	mov	a,#0x05
+   0663 12s00r00           1442 	lcall	__gptrput
+                           1443 ;	main.c:170: player->line = 4;
+   0666 90s00r8F           1444 	mov	dptr,#_player
+   0669 E0                 1445 	movx	a,@dptr
+   066A FA                 1446 	mov	r2,a
+   066B A3                 1447 	inc	dptr
+   066C E0                 1448 	movx	a,@dptr
+   066D FB                 1449 	mov	r3,a
+   066E A3                 1450 	inc	dptr
+   066F E0                 1451 	movx	a,@dptr
+   0670 FC                 1452 	mov	r4,a
+   0671 74 02              1453 	mov	a,#0x02
+   0673 2A                 1454 	add	a,r2
+   0674 FA                 1455 	mov	r2,a
+   0675 E4                 1456 	clr	a
+   0676 3B                 1457 	addc	a,r3
+   0677 FB                 1458 	mov	r3,a
+   0678 8A 82              1459 	mov	dpl,r2
+   067A 8B 83              1460 	mov	dph,r3
+   067C 8C F0              1461 	mov	b,r4
+   067E 74 04              1462 	mov	a,#0x04
+   0680 12s00r00           1463 	lcall	__gptrput
+                           1464 ;	main.c:171: player->col = 1;
+   0683 90s00r8F           1465 	mov	dptr,#_player
+   0686 E0                 1466 	movx	a,@dptr
+   0687 FA                 1467 	mov	r2,a
+   0688 A3                 1468 	inc	dptr
+   0689 E0                 1469 	movx	a,@dptr
+   068A FB                 1470 	mov	r3,a
+   068B A3                 1471 	inc	dptr
+   068C E0                 1472 	movx	a,@dptr
+   068D FC                 1473 	mov	r4,a
+   068E 74 03              1474 	mov	a,#0x03
+   0690 2A                 1475 	add	a,r2
+   0691 FA                 1476 	mov	r2,a
+   0692 E4                 1477 	clr	a
+   0693 3B                 1478 	addc	a,r3
+   0694 FB                 1479 	mov	r3,a
+   0695 8A 82              1480 	mov	dpl,r2
+   0697 8B 83              1481 	mov	dph,r3
+   0699 8C F0              1482 	mov	b,r4
+   069B 74 01              1483 	mov	a,#0x01
+   069D 12s00r00           1484 	lcall	__gptrput
+                           1485 ;	main.c:173: while(control)
+   06A0                    1486 00101$:
+   06A0 90s00r97           1487 	mov	dptr,#_setLevel5_control_1_1
+   06A3 E0                 1488 	movx	a,@dptr
+   06A4 FA                 1489 	mov	r2,a
+   06A5 60 48              1490 	jz	00103$
+                           1491 ;	main.c:174: control = configMap(player->line, player->col);
+   06A7 90s00r8F           1492 	mov	dptr,#_player
+   06AA E0                 1493 	movx	a,@dptr
+   06AB FA                 1494 	mov	r2,a
+   06AC A3                 1495 	inc	dptr
+   06AD E0                 1496 	movx	a,@dptr
+   06AE FB                 1497 	mov	r3,a
+   06AF A3                 1498 	inc	dptr
+   06B0 E0                 1499 	movx	a,@dptr
+   06B1 FC                 1500 	mov	r4,a
+   06B2 74 02              1501 	mov	a,#0x02
+   06B4 2A                 1502 	add	a,r2
+   06B5 FA                 1503 	mov	r2,a
+   06B6 E4                 1504 	clr	a
+   06B7 3B                 1505 	addc	a,r3
+   06B8 FB                 1506 	mov	r3,a
+   06B9 8A 82              1507 	mov	dpl,r2
+   06BB 8B 83              1508 	mov	dph,r3
+   06BD 8C F0              1509 	mov	b,r4
+   06BF 12s00r00           1510 	lcall	__gptrget
+   06C2 FA                 1511 	mov	r2,a
+   06C3 90s00r8F           1512 	mov	dptr,#_player
+   06C6 E0                 1513 	movx	a,@dptr
+   06C7 FB                 1514 	mov	r3,a
+   06C8 A3                 1515 	inc	dptr
+   06C9 E0                 1516 	movx	a,@dptr
+   06CA FC                 1517 	mov	r4,a
+   06CB A3                 1518 	inc	dptr
+   06CC E0                 1519 	movx	a,@dptr
+   06CD FD                 1520 	mov	r5,a
+   06CE 74 03              1521 	mov	a,#0x03
+   06D0 2B                 1522 	add	a,r3
+   06D1 FB                 1523 	mov	r3,a
+   06D2 E4                 1524 	clr	a
+   06D3 3C                 1525 	addc	a,r4
+   06D4 FC                 1526 	mov	r4,a
+   06D5 8B 82              1527 	mov	dpl,r3
+   06D7 8C 83              1528 	mov	dph,r4
+   06D9 8D F0              1529 	mov	b,r5
+   06DB 12s00r00           1530 	lcall	__gptrget
+   06DE 90s00r00           1531 	mov	dptr,#_configMap_PARM_2
+   06E1 F0                 1532 	movx	@dptr,a
+   06E2 8A 82              1533 	mov	dpl,r2
+   06E4 12s00r00           1534 	lcall	_configMap
+   06E7 E5 82              1535 	mov	a,dpl
+   06E9 90s00r97           1536 	mov	dptr,#_setLevel5_control_1_1
+   06EC F0                 1537 	movx	@dptr,a
+   06ED 80 B1              1538 	sjmp	00101$
+   06EF                    1539 00103$:
+                           1540 ;	main.c:176: clearLCD();
+   06EF 02s00r00           1541 	ljmp	_clearLCD
+                           1542 ;------------------------------------------------------------
+                           1543 ;Allocation info for local variables in function 'setFinish'
+                           1544 ;------------------------------------------------------------
+                           1545 ;------------------------------------------------------------
+                           1546 ;	main.c:178: void setFinish(){
+                           1547 ;	-----------------------------------------
+                           1548 ;	 function setFinish
+                           1549 ;	-----------------------------------------
+   06F2                    1550 _setFinish:
+                           1551 ;	main.c:179: LCD_putTextAt("AGOSTINHO",2,CENTER);
+   06F2 90s00r00           1552 	mov	dptr,#_LCD_putTextAt_PARM_2
+   06F5 74 02              1553 	mov	a,#0x02
+   06F7 F0                 1554 	movx	@dptr,a
+   06F8 90s00r00           1555 	mov	dptr,#_LCD_putTextAt_PARM_3
+   06FB 74 02              1556 	mov	a,#0x02
+   06FD F0                 1557 	movx	@dptr,a
+   06FE 90s00rD8           1558 	mov	dptr,#__str_17
+   0701 75 F0 80           1559 	mov	b,#0x80
+   0704 12s00r00           1560 	lcall	_LCD_putTextAt
+                           1561 ;	main.c:180: LCD_putTextAt("FOI PRESO",3,CENTER);
+   0707 90s00r00           1562 	mov	dptr,#_LCD_putTextAt_PARM_2
+   070A 74 03              1563 	mov	a,#0x03
+   070C F0                 1564 	movx	@dptr,a
+   070D 90s00r00           1565 	mov	dptr,#_LCD_putTextAt_PARM_3
+   0710 74 02              1566 	mov	a,#0x02
+   0712 F0                 1567 	movx	@dptr,a
+   0713 90s00rE2           1568 	mov	dptr,#__str_18
+   0716 75 F0 80           1569 	mov	b,#0x80
+   0719 12s00r00           1570 	lcall	_LCD_putTextAt
+                           1571 ;	main.c:181: delay(3000,1);
+   071C 90s00r00           1572 	mov	dptr,#_delay_PARM_2
+   071F 74 01              1573 	mov	a,#0x01
+   0721 F0                 1574 	movx	@dptr,a
+   0722 90 0B B8           1575 	mov	dptr,#0x0BB8
+   0725 02s00r00           1576 	ljmp	_delay
+                           1577 ;------------------------------------------------------------
+                           1578 ;Allocation info for local variables in function 'main'
+                           1579 ;------------------------------------------------------------
+                           1580 ;------------------------------------------------------------
+                           1581 ;	main.c:184: void main(void){
+                           1582 ;	-----------------------------------------
+                           1583 ;	 function main
+                           1584 ;	-----------------------------------------
+   0728                    1585 _main:
+                           1586 ;	main.c:186: configs();
+   0728 12s00r07           1587 	lcall	_configs
+                           1588 ;	main.c:188: setInitialScreen();
+   072B 12s00r2C           1589 	lcall	_setInitialScreen
+                           1590 ;	main.c:190: setInstructions();
+   072E 12s00r74           1591 	lcall	_setInstructions
+                           1592 ;	main.c:192: setLevel1();
+   0731 12s01r25           1593 	lcall	_setLevel1
+                           1594 ;	main.c:194: setLevel2();
+   0734 12s02r4E           1595 	lcall	_setLevel2
+                           1596 ;	main.c:196: setLevel3();
+   0737 12s03r77           1597 	lcall	_setLevel3
+                           1598 ;	main.c:198: setLevel4();
+   073A 12s04rA0           1599 	lcall	_setLevel4
+                           1600 ;	main.c:200: setLevel5();
+   073D 12s05rC9           1601 	lcall	_setLevel5
+                           1602 ;	main.c:202: setFinish();
+   0740 02s06rF2           1603 	ljmp	_setFinish
+                           1604 	.area CSEG    (CODE)
+                           1605 	.area CONST   (CODE)
+   0000                    1606 __str_0:
+   0000 4D 41 5A 45 20 47  1607 	.ascii "MAZE GAME"
+        41 4D 45
+   0009 00                 1608 	.db 0x00
+   000A                    1609 __str_1:
+   000A 20 61 70 65 72 74  1610 	.ascii " aperte ESPACO para iniciar"
+        65 20 45 53 50 41
+        43 4F 20 70 61 72
+        61 20 69 6E 69 63
+        69 61 72
+   0025 00                 1611 	.db 0x00
+   0026                    1612 __str_2:
+   0026 49 4E 53 54 52 55  1613 	.ascii "INSTRUCOES"
+        43 4F 45 53
+   0030 00                 1614 	.db 0x00
+   0031                    1615 __str_3:
+   0031 31 29 20 4D 6F 76  1616 	.ascii "1) Movimente com"
+        69 6D 65 6E 74 65
+        20 63 6F 6D
+   0041 00                 1617 	.db 0x00
+   0042                    1618 __str_4:
+   0042 57 2C 53 2C 41 2C  1619 	.ascii "W,S,A,D "
+        44 20
+   004A 00                 1620 	.db 0x00
+   004B                    1621 __str_5:
+   004B 43 4F 4D 4F 20 47  1622 	.ascii "COMO GANHAR"
+        41 4E 48 41 52
+   0056 00                 1623 	.db 0x00
+   0057                    1624 __str_6:
+   0057 41 63 68 65 20 75  1625 	.ascii "Ache uma saida "
+        6D 61 20 73 61 69
+        64 61 20
+   0066 00                 1626 	.db 0x00
+   0067                    1627 __str_7:
+   0067 70 61 72 61 20 43  1628 	.ascii "para CIMA,DIREI-"
+        49 4D 41 2C 44 49
+        52 45 49 2D
+   0077 00                 1629 	.db 0x00
+   0078                    1630 __str_8:
+   0078 54 41 20 6F 75 20  1631 	.ascii "TA ou ESQUERDA"
+        45 53 51 55 45 52
+        44 41
+   0086 00                 1632 	.db 0x00
+   0087                    1633 __str_9:
+   0087 50 41 53 53 41     1634 	.ascii "PASSA"
+   008C 00                 1635 	.db 0x00
+   008D                    1636 __str_10:
+   008D 41                 1637 	.ascii "A"
+   008E 00                 1638 	.db 0x00
+   008F                    1639 __str_11:
+   008F 4C 41 4D 42 49 44  1640 	.ascii "LAMBIDA"
+        41
+   0096 00                 1641 	.db 0x00
+   0097                    1642 __str_12:
+   0097 4E 4F 20 42 45 49  1643 	.ascii "NO BEICOLA 1"
+        43 4F 4C 41 20 31
+   00A3 00                 1644 	.db 0x00
+   00A4                    1645 __str_13:
+   00A4 4E 4F 20 42 45 49  1646 	.ascii "NO BEICOLA 2"
+        43 4F 4C 41 20 32
+   00B0 00                 1647 	.db 0x00
+   00B1                    1648 __str_14:
+   00B1 4E 4F 20 42 45 49  1649 	.ascii "NO BEICOLA 3"
+        43 4F 4C 41 20 33
+   00BD 00                 1650 	.db 0x00
+   00BE                    1651 __str_15:
+   00BE 4E 4F 20 42 45 49  1652 	.ascii "NO BEICOLA 4"
+        43 4F 4C 41 20 34
+   00CA 00                 1653 	.db 0x00
+   00CB                    1654 __str_16:
+   00CB 4E 4F 20 42 45 49  1655 	.ascii "NO BEICOLA 5"
+        43 4F 4C 41 20 35
+   00D7 00                 1656 	.db 0x00
+   00D8                    1657 __str_17:
+   00D8 41 47 4F 53 54 49  1658 	.ascii "AGOSTINHO"
+        4E 48 4F
+   00E1 00                 1659 	.db 0x00
+   00E2                    1660 __str_18:
+   00E2 46 4F 49 20 50 52  1661 	.ascii "FOI PRESO"
+        45 53 4F
+   00EB 00                 1662 	.db 0x00
+                           1663 	.area XINIT   (CODE)
+   0000                    1664 __xinit__rxMsg:
+   0000 00                 1665 	.db #0x00
+                           1666 	.area CABS    (ABS,CODE)

@@ -1,0 +1,19 @@
+-myuxi
+-Y
+-b HOME = 0x0000
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\mide\sdcc\bin\..\lib\large
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+main.rel
+LCD.rel
+TIMER.rel
+SERIAL.rel
+DAC.rel
+Math.rel
+
+-e
