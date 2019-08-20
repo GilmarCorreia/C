@@ -13,8 +13,7 @@
 									//  N = (1 - 2 linhas ou 0 - 1 linha)
 									//  F = (1 - 5x10 pontos ou 0 - 5x7 pontos)
 #define onoffControl 0x0C 	// Habilitar Displays, Cursor e Blink  (0 0 0 0 1 D C B)
-#define setCgramAddress 0x40
-#define setDgramAddress 0x83
+#define setCgramAddress 0x40// Habilitar configuração na CGRam
 
 #define dispWriteInst 0xFFC2 // Ativação do decodificador de endereços (F - A15 até A12, F - A11 até A8, C - A7 e A6, 0 - é o endereço CS_DISPLAY)
 #define dispWriteData 0xFFD2 // Ativação do decodificador de endereços (F - A15 até A12, F - A11 até A8, D - A7 e A6, 0 - é o endereço CS_DISPLAY)
@@ -69,6 +68,8 @@ void LCD_putSCharAt(unsigned char sline, unsigned char scol, unsigned char line,
 void clearLCD();
 
 void printMap();
+
+void printMapAt(unsigned char row, unsigned char col);
 
 void setCursorHomeAtLine(unsigned char line);
 #endif

@@ -21,18 +21,14 @@ void timerConfig(){
 }
 
 /* FUNÇÃO delay:
-* 		Funcao para delay em miliegundos que recebe como parâmetro a quantidade de milisegundos desejados
-*		OBS: Diferente do delayMicroseconds, esse delay ele NÃO ESPERA ATÉ TERMINAR A TEMPORIZAÇÃO
-*
+* 		Funcao para delay em milisegundos ou microsegundos que recebe como parâmetro a quantidade de tempo desejado
+*       Se selecionado o modo milisegundos = 1 realiza-se a temporização em milisegundos, se miliseconds = 0 a temporização será de microsegundos.
 */
 void delay(unsigned int time, unsigned char miliseconds){
-	/*
-	* Funcao para delay em milisegundos
-	*/
 	
 	Timer0.flag=1;
 
-	if(!Timer0.finishMili && miliseconds){
+	if(!Timer0.finishMili && miliseconds){	
 		Timer0.cycles = time/65;
 		Timer0.lastClock = 65535 - ((time % 65)*1000);
 

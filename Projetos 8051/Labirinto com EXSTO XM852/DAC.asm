@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Mon Aug 19 00:21:25 2019
+; This file was generated Tue Aug 20 11:45:56 2019
 ;--------------------------------------------------------
 	.module DAC
 	.optsdcc -mmcs51 --model-large
@@ -9,8 +9,11 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _squareWave
-	.globl _speaker
+	.globl _i
+	.globl _beep2_noteTime
+	.globl _beep2_melody
+	.globl _beep1_noteTime
+	.globl _beep1_melody
 	.globl _adobe_noteTime
 	.globl _adobe_melody
 	.globl _underworld_noteTime
@@ -20,6 +23,9 @@
 	.globl _squareWave_PARM_2
 	.globl _speaker_PARM_2
 	.globl _Timer0
+	.globl _dacWrite
+	.globl _speaker
+	.globl _squareWave
 	.globl _sing
 ;--------------------------------------------------------
 ; special function registers
@@ -40,6 +46,8 @@
 	.area DSEG    (DATA)
 _speaker_sloc0_1_0:
 	.ds 4
+_speaker_sloc1_1_0:
+	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -65,7 +73,7 @@ _speaker_sloc0_1_0:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
-_dacWrite	=	0xffc4
+_dacWrite	=	0xffe4
 _Timer0::
 	.ds 7
 _speaker_PARM_2:
@@ -98,6 +106,16 @@ _adobe_melody::
 	.ds 32
 _adobe_noteTime::
 	.ds 16
+_beep1_melody::
+	.ds 4
+_beep1_noteTime::
+	.ds 2
+_beep2_melody::
+	.ds 4
+_beep2_noteTime::
+	.ds 2
+_i::
+	.ds 2
 	.area HOME    (CODE)
 	.area GSINIT0 (CODE)
 	.area GSINIT1 (CODE)
@@ -128,13 +146,14 @@ _adobe_noteTime::
 ;Allocation info for local variables in function 'speaker'
 ;------------------------------------------------------------
 ;sloc0                     Allocated with name '_speaker_sloc0_1_0'
+;sloc1                     Allocated with name '_speaker_sloc1_1_0'
 ;noteDuration              Allocated with name '_speaker_PARM_2'
 ;note                      Allocated with name '_speaker_note_1_1'
-;delayValue                Allocated with name '_speaker_delayValue_1_1'
 ;numCycles                 Allocated with name '_speaker_numCycles_1_1'
 ;i                         Allocated with name '_speaker_i_1_1'
+;n                         Allocated with name '_speaker_n_1_1'
 ;------------------------------------------------------------
-;	DAC.c:117: void speaker(unsigned int note, unsigned int noteDuration){
+;	DAC.c:9: void speaker(unsigned int note, unsigned int noteDuration){
 ;	-----------------------------------------
 ;	 function speaker
 ;	-----------------------------------------
@@ -154,60 +173,61 @@ _speaker:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-;	DAC.c:118: long delayValue = 1000000 / note / 2; 
-	mov	dptr,#_speaker_note_1_1
+;	DAC.c:10: long numCycles = note * noteDuration / 1000; 
+	mov	dptr,#_speaker_PARM_2
 	movx	a,@dptr
 	mov	r2,a
 	inc	dptr
 	movx	a,@dptr
 	mov	r3,a
-;	DAC.c:119: long numCycles = note * noteDuration / 1000; 
-	mov	dptr,#_speaker_PARM_2
+	mov	dptr,#_speaker_note_1_1
 	movx	a,@dptr
 	mov	r4,a
 	inc	dptr
 	movx	a,@dptr
 	mov	r5,a
 	mov	dptr,#__mulint_PARM_2
-	mov	a,r4
+	mov	a,r2
 	movx	@dptr,a
 	inc	dptr
-	mov	a,r5
+	mov	a,r3
 	movx	@dptr,a
-	mov	dpl,r2
-	mov	dph,r3
-	push	ar2
-	push	ar3
+	mov	dpl,r4
+	mov	dph,r5
+	push	ar4
+	push	ar5
 	lcall	__mulint
-	mov	r4,dpl
-	mov	r5,dph
+	mov	r2,dpl
+	mov	r3,dph
 	mov	dptr,#__divuint_PARM_2
 	mov	a,#0xE8
 	movx	@dptr,a
 	inc	dptr
 	mov	a,#0x03
 	movx	@dptr,a
-	mov	dpl,r4
-	mov	dph,r5
+	mov	dpl,r2
+	mov	dph,r3
 	lcall	__divuint
-	mov	r4,dpl
-	mov	r5,dph
-	pop	ar3
-	pop	ar2
-;	DAC.c:122: for (i = 0; i < numCycles; i++) { 
+	mov	r2,dpl
+	mov	r3,dph
+	pop	ar5
+	pop	ar4
+	mov	r6,#0x00
+	mov	r7,#0x00
+;	DAC.c:14: for (i = 0; i < numCycles; i++) { 
+	mov	ar0,r4
+	mov	ar1,r5
 	clr	a
-	mov	r6,a
-	mov	r7,a
 	mov	_speaker_sloc0_1_0,a
 	mov	(_speaker_sloc0_1_0 + 1),a
 	mov	(_speaker_sloc0_1_0 + 2),a
 	mov	(_speaker_sloc0_1_0 + 3),a
-00101$:
+00109$:
 	clr	c
 	mov	a,_speaker_sloc0_1_0
-	subb	a,r4
+	subb	a,r2
 	mov	a,(_speaker_sloc0_1_0 + 1)
-	subb	a,r5
+	subb	a,r3
 	mov	a,(_speaker_sloc0_1_0 + 2)
 	subb	a,r6
 	mov	a,(_speaker_sloc0_1_0 + 3)
@@ -215,64 +235,61 @@ _speaker:
 	mov	b,r7
 	xrl	b,#0x80
 	subb	a,b
-	jnc	00105$
-;	DAC.c:123: dacWrite = 255;
+	jnc	00113$
+;	DAC.c:15: dacWrite = 255;
 	mov	dptr,#_dacWrite
 	mov	a,#0xFF
 	movx	@dptr,a
-;	DAC.c:124: delay(note,0);
-	mov	dptr,#_delay_PARM_2
+;	DAC.c:16: for(n = 0;n< note ;n++);
 	clr	a
-	movx	@dptr,a
-	mov	dpl,r2
-	mov	dph,r3
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	lcall	_delay
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-;	DAC.c:125: dacWrite = 0;
+	mov	_speaker_sloc1_1_0,a
+	mov	(_speaker_sloc1_1_0 + 1),a
+00101$:
+	clr	c
+	mov	a,_speaker_sloc1_1_0
+	subb	a,r0
+	mov	a,(_speaker_sloc1_1_0 + 1)
+	subb	a,r1
+	jnc	00104$
+	inc	_speaker_sloc1_1_0
+	clr	a
+	cjne	a,_speaker_sloc1_1_0,00101$
+	inc	(_speaker_sloc1_1_0 + 1)
+	sjmp	00101$
+00104$:
+;	DAC.c:17: dacWrite = 0;
 	mov	dptr,#_dacWrite
-;	DAC.c:126: delay(note,0);
 	clr	a
 	movx	@dptr,a
-	mov	dptr,#_delay_PARM_2
-	movx	@dptr,a
-	mov	dpl,r2
-	mov	dph,r3
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	lcall	_delay
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-;	DAC.c:122: for (i = 0; i < numCycles; i++) { 
+;	DAC.c:18: for(n = 0;n< note;n++);
+	clr	a
+	mov	_speaker_sloc1_1_0,a
+	mov	(_speaker_sloc1_1_0 + 1),a
+00105$:
+	clr	c
+	mov	a,_speaker_sloc1_1_0
+	subb	a,r4
+	mov	a,(_speaker_sloc1_1_0 + 1)
+	subb	a,r5
+	jnc	00111$
+	inc	_speaker_sloc1_1_0
+	clr	a
+	cjne	a,_speaker_sloc1_1_0,00105$
+	inc	(_speaker_sloc1_1_0 + 1)
+	sjmp	00105$
+00111$:
+;	DAC.c:14: for (i = 0; i < numCycles; i++) { 
 	inc	_speaker_sloc0_1_0
 	clr	a
-	cjne	a,_speaker_sloc0_1_0,00111$
+	cjne	a,_speaker_sloc0_1_0,00127$
 	inc	(_speaker_sloc0_1_0 + 1)
-	cjne	a,(_speaker_sloc0_1_0 + 1),00111$
+	cjne	a,(_speaker_sloc0_1_0 + 1),00127$
 	inc	(_speaker_sloc0_1_0 + 2)
-	cjne	a,(_speaker_sloc0_1_0 + 2),00101$
+	cjne	a,(_speaker_sloc0_1_0 + 2),00109$
 	inc	(_speaker_sloc0_1_0 + 3)
-00111$:
-	sjmp	00101$
-00105$:
+00127$:
+	sjmp	00109$
+00113$:
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'squareWave'
@@ -282,7 +299,7 @@ _speaker:
 ;noteDuration              Allocated with name '_squareWave_noteDuration_1_1'
 ;pauseBetweenNotes         Allocated with name '_squareWave_pauseBetweenNotes_1_1'
 ;------------------------------------------------------------
-;	DAC.c:130: void squareWave(unsigned int note, unsigned int tempo){
+;	DAC.c:25: void squareWave(unsigned int note, unsigned int tempo){
 ;	-----------------------------------------
 ;	 function squareWave
 ;	-----------------------------------------
@@ -294,7 +311,7 @@ _squareWave:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-;	DAC.c:132: unsigned int noteDuration = 1000 / tempo;
+;	DAC.c:27: unsigned int noteDuration = 1000 / tempo;
 	mov	dptr,#_squareWave_PARM_2
 	movx	a,@dptr
 	mov	r2,a
@@ -307,7 +324,7 @@ _squareWave:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-;	DAC.c:135: speaker(note,noteDuration);  
+;	DAC.c:30: speaker(note,noteDuration);  
 	mov	dptr,#0x03E8
 	lcall	__divuint
 	mov	r2,dpl
@@ -331,48 +348,7 @@ _squareWave:
 	lcall	_speaker
 	pop	ar3
 	pop	ar2
-;	DAC.c:137: pauseBetweenNotes = noteDuration * 1.30;
-	mov	dpl,r2
-	mov	dph,r3
-	push	ar2
-	push	ar3
-	lcall	___uint2fs
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r6,b
-	mov	r7,a
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	mov	dptr,#0x6666
-	mov	b,#0xA6
-	mov	a,#0x3F
-	lcall	___fsmul
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r6,b
-	mov	r7,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r6
-	mov	a,r7
-	lcall	___fs2uint
-	mov	r4,dpl
-	mov	r5,dph
-;	DAC.c:138: delay(pauseBetweenNotes,1);
-	mov	dptr,#_delay_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
-	mov	dpl,r4
-	mov	dph,r5
-	lcall	_delay
-	pop	ar3
-	pop	ar2
-;	DAC.c:140: speaker(PAUSE,noteDuration); 
+;	DAC.c:35: speaker(PAUSE,noteDuration); 
 	mov	dptr,#_speaker_PARM_2
 	mov	a,r2
 	movx	@dptr,a
@@ -385,9 +361,8 @@ _squareWave:
 ;Allocation info for local variables in function 'sing'
 ;------------------------------------------------------------
 ;song                      Allocated with name '_sing_song_1_1'
-;i                         Allocated with name '_sing_i_1_1'
 ;------------------------------------------------------------
-;	DAC.c:145: void sing(unsigned char song) {
+;	DAC.c:41: void sing(unsigned char song) {
 ;	-----------------------------------------
 ;	 function sing
 ;	-----------------------------------------
@@ -395,44 +370,39 @@ _sing:
 	mov	a,dpl
 	mov	dptr,#_sing_song_1_1
 	movx	@dptr,a
-;	DAC.c:148: if(song == 1){
+;	DAC.c:44: if(song == 1){
 	mov	dptr,#_sing_song_1_1
 	movx	a,@dptr
 	mov	r2,a
-	cjne	r2,#0x01,00102$
-;	DAC.c:149: for( i=0;i<(sizeof(adobe_melody)/sizeof(int));i++)
-	mov	r2,#0x00
-	mov	r3,#0x00
-00107$:
-	clr	c
-	mov	a,r2
-	subb	a,#0x10
-	mov	a,r3
-	subb	a,#0x00
-	jnc	00102$
-;	DAC.c:150: squareWave(adobe_melody[i],adobe_noteTime[i]);
-	mov	ar4,r2
-	mov	a,r3
-	xch	a,r4
+	cjne	r2,#0x01,00122$
+;	DAC.c:46: squareWave(adobe_melody[i],adobe_noteTime[i]);
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	ar5,r3
+	xch	a,r5
 	add	a,acc
-	xch	a,r4
+	xch	a,r5
 	rlc	a
-	mov	r5,a
-	mov	a,r4
+	mov	r6,a
+	mov	a,r5
 	add	a,#_adobe_melody
 	mov	dpl,a
-	mov	a,r5
+	mov	a,r6
 	addc	a,#(_adobe_melody >> 8)
 	mov	dph,a
 	movx	a,@dptr
-	mov	r4,a
+	mov	r5,a
 	inc	dptr
 	movx	a,@dptr
-	mov	r5,a
-	mov	a,r2
+	mov	r6,a
+	mov	a,r3
 	add	a,#_adobe_noteTime
 	mov	dpl,a
-	mov	a,r3
+	mov	a,r4
 	addc	a,#(_adobe_noteTime >> 8)
 	mov	dph,a
 	movx	a,@dptr
@@ -441,57 +411,77 @@ _sing:
 	inc	dptr
 	clr	a
 	movx	@dptr,a
-	mov	dpl,r4
-	mov	dph,r5
-	push	ar2
-	push	ar3
+	mov	dpl,r5
+	mov	dph,r6
 	lcall	_squareWave
-	pop	ar3
-	pop	ar2
-;	DAC.c:149: for( i=0;i<(sizeof(adobe_melody)/sizeof(int));i++)
-	inc	r2
-	cjne	r2,#0x00,00107$
-	inc	r3
-	sjmp	00107$
-00102$:
-;	DAC.c:152: if(song == 2){
-	mov	dptr,#_sing_song_1_1
+;	DAC.c:48: if(i+1<(sizeof(adobe_melody)/sizeof(unsigned int)))
+	mov	dptr,#_i
 	movx	a,@dptr
-	mov	r2,a
-	cjne	r2,#0x02,00104$
-;	DAC.c:153: for(i =0;i<(sizeof(underworld_melody)/sizeof(int));i++)
-	mov	r2,#0x00
-	mov	r3,#0x00
-00111$:
-	clr	c
-	mov	a,r2
-	subb	a,#0x38
-	mov	a,r3
-	subb	a,#0x00
-	jnc	00104$
-;	DAC.c:154: squareWave(underworld_melody[i],underworld_noteTime[i]);
-	mov	ar4,r2
-	mov	a,r3
-	xch	a,r4
-	add	a,acc
-	xch	a,r4
-	rlc	a
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x01
+	add	a,r3
 	mov	r5,a
-	mov	a,r4
+	clr	a
+	addc	a,r4
+	mov	r6,a
+	clr	c
+	mov	a,r5
+	subb	a,#0x10
+	mov	a,r6
+	subb	a,#0x00
+	jnc	00102$
+;	DAC.c:49: i++;
+	mov	dptr,#_i
+	mov	a,#0x01
+	add	a,r3
+	movx	@dptr,a
+	clr	a
+	addc	a,r4
+	inc	dptr
+	movx	@dptr,a
+	ret
+00102$:
+;	DAC.c:51: i = 0;
+	mov	dptr,#_i
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	ret
+00122$:
+;	DAC.c:54: else if(song == 2){
+	cjne	r2,#0x02,00119$
+;	DAC.c:55: squareWave(underworld_melody[i],underworld_noteTime[i]);
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	ar5,r3
+	xch	a,r5
+	add	a,acc
+	xch	a,r5
+	rlc	a
+	mov	r6,a
+	mov	a,r5
 	add	a,#_underworld_melody
 	mov	dpl,a
-	mov	a,r5
+	mov	a,r6
 	addc	a,#(_underworld_melody >> 8)
 	mov	dph,a
 	movx	a,@dptr
-	mov	r4,a
+	mov	r5,a
 	inc	dptr
 	movx	a,@dptr
-	mov	r5,a
-	mov	a,r2
+	mov	r6,a
+	mov	a,r3
 	add	a,#_underworld_noteTime
 	mov	dpl,a
-	mov	a,r3
+	mov	a,r4
 	addc	a,#(_underworld_noteTime >> 8)
 	mov	dph,a
 	movx	a,@dptr
@@ -500,35 +490,222 @@ _sing:
 	inc	dptr
 	clr	a
 	movx	@dptr,a
-	mov	dpl,r4
-	mov	dph,r5
-	push	ar2
-	push	ar3
+	mov	dpl,r5
+	mov	dph,r6
 	lcall	_squareWave
-	pop	ar3
-	pop	ar2
-;	DAC.c:153: for(i =0;i<(sizeof(underworld_melody)/sizeof(int));i++)
-	inc	r2
-	cjne	r2,#0x00,00111$
-	inc	r3
-	sjmp	00111$
-00104$:
-;	DAC.c:156: if(song == 3){
-	mov	dptr,#_sing_song_1_1
+;	DAC.c:57: if(i+1<(sizeof(underworld_melody)/sizeof(unsigned int)))
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x01
+	add	a,r3
+	mov	r5,a
+	clr	a
+	addc	a,r4
+	mov	r6,a
+	clr	c
+	mov	a,r5
+	subb	a,#0x38
+	mov	a,r6
+	subb	a,#0x00
+	jnc	00105$
+;	DAC.c:58: i++;
+	mov	dptr,#_i
+	mov	a,#0x01
+	add	a,r3
+	movx	@dptr,a
+	clr	a
+	addc	a,r4
+	inc	dptr
+	movx	@dptr,a
+	ret
+00105$:
+;	DAC.c:60: i = 0;
+	mov	dptr,#_i
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	ret
+00119$:
+;	DAC.c:62: else if(song == 3){
+	cjne	r2,#0x03,00116$
+;	DAC.c:63: squareWave(mainMario_melody[i],mainMario_noteTime[i]);
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	ar5,r3
+	xch	a,r5
+	add	a,acc
+	xch	a,r5
+	rlc	a
+	mov	r6,a
+	mov	a,r5
+	add	a,#_mainMario_melody
+	mov	dpl,a
+	mov	a,r6
+	addc	a,#(_mainMario_melody >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	r5,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r6,a
+	mov	a,r3
+	add	a,#_mainMario_noteTime
+	mov	dpl,a
+	mov	a,r4
+	addc	a,#(_mainMario_noteTime >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	dptr,#_squareWave_PARM_2
+	movx	@dptr,a
+	inc	dptr
+	clr	a
+	movx	@dptr,a
+	mov	dpl,r5
+	mov	dph,r6
+	lcall	_squareWave
+;	DAC.c:65: if(i+1<(sizeof(mainMario_melody)/sizeof(unsigned int)))
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x01
+	add	a,r3
+	mov	r5,a
+	clr	a
+	addc	a,r4
+	mov	r6,a
+	clr	c
+	mov	a,r5
+	subb	a,#0x4E
+	mov	a,r6
+	subb	a,#0x00
+	jnc	00108$
+;	DAC.c:66: i++;
+	mov	dptr,#_i
+	mov	a,#0x01
+	add	a,r3
+	movx	@dptr,a
+	clr	a
+	addc	a,r4
+	inc	dptr
+	movx	@dptr,a
+	ret
+00108$:
+;	DAC.c:68: i = 0;
+	mov	dptr,#_i
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	ret
+00116$:
+;	DAC.c:70: else if(song == 4){
+	cjne	r2,#0x04,00113$
+;	DAC.c:71: for( i =0;i<(sizeof(beep1_melody)/sizeof(int));i++)
+	mov	dptr,#_i
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+00124$:
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	clr	c
+	mov	a,r3
+	subb	a,#0x02
+	mov	a,r4
+	subb	a,#0x00
+	jc	00157$
+	ret
+00157$:
+;	DAC.c:72: squareWave(beep1_melody[i],beep1_noteTime[i]);
+	mov	ar5,r3
+	mov	a,r4
+	xch	a,r5
+	add	a,acc
+	xch	a,r5
+	rlc	a
+	mov	r6,a
+	mov	a,r5
+	add	a,#_beep1_melody
+	mov	dpl,a
+	mov	a,r6
+	addc	a,#(_beep1_melody >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	r5,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r6,a
+	mov	a,r3
+	add	a,#_beep1_noteTime
+	mov	dpl,a
+	mov	a,r4
+	addc	a,#(_beep1_noteTime >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	dptr,#_squareWave_PARM_2
+	movx	@dptr,a
+	inc	dptr
+	clr	a
+	movx	@dptr,a
+	mov	dpl,r5
+	mov	dph,r6
+	lcall	_squareWave
+;	DAC.c:71: for( i =0;i<(sizeof(beep1_melody)/sizeof(int));i++)
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	dptr,#_i
+	mov	a,#0x01
+	add	a,r3
+	movx	@dptr,a
+	clr	a
+	addc	a,r4
+	inc	dptr
+	movx	@dptr,a
+	sjmp	00124$
+00113$:
+;	DAC.c:74: else if(song == 5){
+	cjne	r2,#0x05,00132$
+;	DAC.c:75: for( i =0;i<(sizeof(beep2_melody)/sizeof(int));i++)
+	mov	dptr,#_i
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+00128$:
+	mov	dptr,#_i
 	movx	a,@dptr
 	mov	r2,a
-	cjne	r2,#0x03,00119$
-;	DAC.c:157: for( i =0;i<(sizeof(mainMario_melody)/sizeof(int));i++)
-	mov	r2,#0x00
-	mov	r3,#0x00
-00115$:
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
 	clr	c
 	mov	a,r2
-	subb	a,#0x4E
+	subb	a,#0x02
 	mov	a,r3
 	subb	a,#0x00
-	jnc	00119$
-;	DAC.c:158: squareWave(mainMario_melody[i],mainMario_noteTime[i]);
+	jnc	00132$
+;	DAC.c:76: squareWave(beep2_melody[i],beep2_noteTime[i]);
 	mov	ar4,r2
 	mov	a,r3
 	xch	a,r4
@@ -537,10 +714,10 @@ _sing:
 	rlc	a
 	mov	r5,a
 	mov	a,r4
-	add	a,#_mainMario_melody
+	add	a,#_beep2_melody
 	mov	dpl,a
 	mov	a,r5
-	addc	a,#(_mainMario_melody >> 8)
+	addc	a,#(_beep2_melody >> 8)
 	mov	dph,a
 	movx	a,@dptr
 	mov	r4,a
@@ -548,10 +725,10 @@ _sing:
 	movx	a,@dptr
 	mov	r5,a
 	mov	a,r2
-	add	a,#_mainMario_noteTime
+	add	a,#_beep2_noteTime
 	mov	dpl,a
 	mov	a,r3
-	addc	a,#(_mainMario_noteTime >> 8)
+	addc	a,#(_beep2_noteTime >> 8)
 	mov	dph,a
 	movx	a,@dptr
 	mov	dptr,#_squareWave_PARM_2
@@ -561,233 +738,240 @@ _sing:
 	movx	@dptr,a
 	mov	dpl,r4
 	mov	dph,r5
-	push	ar2
-	push	ar3
 	lcall	_squareWave
-	pop	ar3
-	pop	ar2
-;	DAC.c:157: for( i =0;i<(sizeof(mainMario_melody)/sizeof(int));i++)
-	inc	r2
-	cjne	r2,#0x00,00115$
-	inc	r3
-	sjmp	00115$
-00119$:
+;	DAC.c:75: for( i =0;i<(sizeof(beep2_melody)/sizeof(int));i++)
+	mov	dptr,#_i
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	mov	dptr,#_i
+	mov	a,#0x01
+	add	a,r2
+	movx	@dptr,a
+	clr	a
+	addc	a,r3
+	inc	dptr
+	movx	@dptr,a
+	sjmp	00128$
+00132$:
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area XINIT   (CODE)
 __xinit__mainMario_melody:
-	.byte #0x4D,#0x0A
-	.byte #0x4D,#0x0A
+	.byte #0x63,#0x00
+	.byte #0x63,#0x00
 	.byte #0x00,#0x00
-	.byte #0x4D,#0x0A
+	.byte #0x63,#0x00
 	.byte #0x00,#0x00
-	.byte #0x2D,#0x08
-	.byte #0x4D,#0x0A
+	.byte #0x7D,#0x00
+	.byte #0x63,#0x00
 	.byte #0x00,#0x00
-	.byte #0x40,#0x0C
-	.byte #0x00,#0x00
-	.byte #0x00,#0x00
-	.byte #0x00,#0x00
-	.byte #0x20,#0x06
+	.byte #0x54,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x2D,#0x08
+	.byte #0xA7,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x20,#0x06
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x27,#0x05
+	.byte #0xA7,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0xE0,#0x06
-	.byte #0x00,#0x00
-	.byte #0xB8,#0x07
-	.byte #0x00,#0x00
-	.byte #0x49,#0x07
-	.byte #0xE0,#0x06
-	.byte #0x00,#0x00
-	.byte #0x20,#0x06
-	.byte #0x4D,#0x0A
-	.byte #0x40,#0x0C
-	.byte #0xC0,#0x0D
-	.byte #0x00,#0x00
-	.byte #0xEA,#0x0A
-	.byte #0x40,#0x0C
-	.byte #0x00,#0x00
-	.byte #0x4D,#0x0A
-	.byte #0x00,#0x00
-	.byte #0x2D,#0x08
-	.byte #0x2D,#0x09
-	.byte #0xB8,#0x07
+	.byte #0xC7,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x2D,#0x08
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x63,#0x00
+	.byte #0x54,#0x00
+	.byte #0x4B,#0x00
+	.byte #0x00,#0x00
+	.byte #0x5E,#0x00
+	.byte #0x54,#0x00
+	.byte #0x00,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x70,#0x00
+	.byte #0x85,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x20,#0x06
+	.byte #0x7D,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x27,#0x05
+	.byte #0xA7,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0xE0,#0x06
+	.byte #0xC7,#0x00
 	.byte #0x00,#0x00
-	.byte #0xB8,#0x07
 	.byte #0x00,#0x00
-	.byte #0x49,#0x07
-	.byte #0xE0,#0x06
+	.byte #0x95,#0x00
 	.byte #0x00,#0x00
-	.byte #0x20,#0x06
-	.byte #0x4D,#0x0A
-	.byte #0x40,#0x0C
-	.byte #0xC0,#0x0D
+	.byte #0x85,#0x00
 	.byte #0x00,#0x00
-	.byte #0xEA,#0x0A
-	.byte #0x40,#0x0C
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
 	.byte #0x00,#0x00
-	.byte #0x4D,#0x0A
+	.byte #0xA7,#0x00
+	.byte #0x63,#0x00
+	.byte #0x54,#0x00
+	.byte #0x4B,#0x00
 	.byte #0x00,#0x00
-	.byte #0x2D,#0x08
-	.byte #0x2D,#0x09
-	.byte #0xB8,#0x07
+	.byte #0x5E,#0x00
+	.byte #0x54,#0x00
+	.byte #0x00,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x70,#0x00
+	.byte #0x85,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
 __xinit__mainMario_noteTime:
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x09
-	.db #0x09
-	.db #0x09
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x09
-	.db #0x09
-	.db #0x09
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
 __xinit__underworld_melody:
-	.byte #0x06,#0x01
-	.byte #0x0B,#0x02
-	.byte #0xDC,#0x00
-	.byte #0xB8,#0x01
-	.byte #0xE9,#0x00
-	.byte #0xD2,#0x01
+	.byte #0xFB,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x2A,#0x01
+	.byte #0x95,#0x00
+	.byte #0x1A,#0x01
+	.byte #0x8D,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x06,#0x01
-	.byte #0x0B,#0x02
-	.byte #0xDC,#0x00
-	.byte #0xB8,#0x01
-	.byte #0xE9,#0x00
-	.byte #0xD2,#0x01
+	.byte #0xFB,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x2A,#0x01
+	.byte #0x95,#0x00
+	.byte #0x1A,#0x01
+	.byte #0x8D,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0xAF,#0x00
-	.byte #0x5D,#0x01
-	.byte #0x93,#0x00
-	.byte #0x26,#0x01
-	.byte #0x9C,#0x00
-	.byte #0x37,#0x01
+	.byte #0x78,#0x01
+	.byte #0xBC,#0x00
+	.byte #0xBF,#0x01
+	.byte #0xDF,#0x00
+	.byte #0xA6,#0x01
+	.byte #0xD3,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0xAF,#0x00
-	.byte #0x5D,#0x01
-	.byte #0x93,#0x00
-	.byte #0x26,#0x01
-	.byte #0x9C,#0x00
-	.byte #0x37,#0x01
+	.byte #0x78,#0x01
+	.byte #0xBC,#0x00
+	.byte #0xBF,#0x01
+	.byte #0xDF,#0x00
+	.byte #0xA6,#0x01
+	.byte #0xD3,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
-	.byte #0x37,#0x01
-	.byte #0x15,#0x01
-	.byte #0x26,#0x01
-	.byte #0x15,#0x01
-	.byte #0x37,#0x01
-	.byte #0x37,#0x01
-	.byte #0xD0,#0x00
-	.byte #0xC4,#0x00
-	.byte #0x15,#0x01
-	.byte #0x06,#0x01
-	.byte #0x72,#0x01
-	.byte #0x5D,#0x01
-	.byte #0xA5,#0x00
-	.byte #0xD2,#0x01
-	.byte #0xB8,#0x01
-	.byte #0x9F,#0x01
-	.byte #0x37,#0x01
-	.byte #0xF7,#0x00
-	.byte #0xE9,#0x00
-	.byte #0xDC,#0x00
-	.byte #0xD0,#0x00
+	.byte #0xD3,#0x00
+	.byte #0xED,#0x00
+	.byte #0xDF,#0x00
+	.byte #0xED,#0x00
+	.byte #0xD3,#0x00
+	.byte #0xD3,#0x00
+	.byte #0x3C,#0x01
+	.byte #0x4F,#0x01
+	.byte #0xED,#0x00
+	.byte #0xFB,#0x00
+	.byte #0xB1,#0x00
+	.byte #0xBC,#0x00
+	.byte #0x8E,#0x01
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
+	.byte #0x9E,#0x00
+	.byte #0xD3,#0x00
+	.byte #0x0A,#0x01
+	.byte #0x1A,#0x01
+	.byte #0x2A,#0x01
+	.byte #0x3C,#0x01
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
@@ -849,37 +1033,51 @@ __xinit__underworld_noteTime:
 	.db #0x03
 	.db #0x03
 __xinit__adobe_melody:
-	.byte #0xEE,#0x01
-	.byte #0xEE,#0x01
+	.byte #0x85,#0x00
+	.byte #0x85,#0x00
 	.byte #0x00,#0x00
-	.byte #0xEE,#0x01
-	.byte #0x4B,#0x02
-	.byte #0x4B,#0x02
+	.byte #0x85,#0x00
+	.byte #0x70,#0x00
+	.byte #0x70,#0x00
 	.byte #0x00,#0x00
-	.byte #0x4B,#0x02
-	.byte #0xB8,#0x01
-	.byte #0xB8,#0x01
+	.byte #0x70,#0x00
+	.byte #0x95,#0x00
+	.byte #0x95,#0x00
 	.byte #0x00,#0x00
-	.byte #0xB8,#0x01
-	.byte #0xEE,#0x01
-	.byte #0xEE,#0x01
+	.byte #0x95,#0x00
+	.byte #0x85,#0x00
+	.byte #0x85,#0x00
 	.byte #0x00,#0x00
 	.byte #0x00,#0x00
 __xinit__adobe_noteTime:
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+__xinit__beep1_melody:
+	.byte #0xFB,#0x00
+	.byte #0x00,#0x00
+__xinit__beep1_noteTime:
+	.db #0x06
 	.db #0x0C
+__xinit__beep2_melody:
+	.byte #0xED,#0x00
+	.byte #0x00,#0x00
+__xinit__beep2_noteTime:
+	.db #0x06
 	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
-	.db #0x0C
+__xinit__i:
+	.byte #0x00,#0x00
 	.area CABS    (ABS,CODE)

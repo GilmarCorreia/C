@@ -2,6 +2,7 @@
 #include "LCD.h"
 #include "TIMER.h"
 #include "Math.h"
+#include "DAC.h"
 #include "SERIAL.h"
 
 void LCDconfig(){	
@@ -31,6 +32,11 @@ void setCursorAt(unsigned char line, unsigned char col){
 void setChar(char chr){
     wdataLCD = chr;
     delay(10,0);
+}
+
+void printMapAt(unsigned char row, unsigned char col){
+	setCursorAt(row, col);
+	setChar((map[row-1][col-1].schar) - 1);
 }
 
 void printMap(){
@@ -573,9 +579,11 @@ void setMap5CGram(){
 unsigned char configMap(unsigned char pline, unsigned char pcol){
 	
 	unsigned char control = serialControl(SCmap, map);
-	delay(100,0);
+	//delay(100,0);
+	sing(3);
 	setCursorAt(pline, pcol);
 	setChar((map[pline-1][pcol-1].schar) - 1);
+	//sing(3);
 	delay(100,0);
 	
 	return control;
@@ -671,16 +679,16 @@ unsigned char LCD_putText(char* text, unsigned char line, unsigned int time){
 		for(j = 0; j<16 && control ==1;j++)
         	setChar(txt[j]);				// Atribuindo escrita
 
-		delay(time,1);
-		
-		//clearLCD();
 
+		sing(1);
+		//delay(time,1);
+		
         chr = txt[0];
 
         for(k = 1; k< size && control ==1;k++)
-            txt[k-1] = txt[k];
-
-        txt[size-1] = chr;
+			txt[k-1] = txt[k];
+		
+		txt[size-1] = chr;
 		
 		control = serialBegin();
 		

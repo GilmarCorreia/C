@@ -12,8 +12,8 @@
 main.rel
 LCD.rel
 TIMER.rel
-SERIAL.rel
 DAC.rel
+SERIAL.rel
 Math.rel
 
 -e

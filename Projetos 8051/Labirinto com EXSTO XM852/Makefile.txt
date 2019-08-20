@@ -1,9 +1,9 @@
 sdcc --model-large -c Math.c
 sdcc --model-large -c LCD.c
 sdcc --model-large -c TIMER.c
-sdcc --model-large -c SERIAL.c
 sdcc --model-large -c DAC.c
+sdcc --model-large -c SERIAL.c
 
-sdcc --model-large main.c LCD.rel TIMER.rel SERIAL.rel DAC.rel Math.rel 
+sdcc --model-large main.c LCD.rel TIMER.rel DAC.rel SERIAL.rel Math.rel 
 
 packihx main.ihx >main.hex

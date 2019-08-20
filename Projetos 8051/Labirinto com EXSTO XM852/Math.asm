@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Mon Aug 19 00:21:21 2019
+; This file was generated Tue Aug 20 11:45:52 2019
 ;--------------------------------------------------------
 	.module Math
 	.optsdcc -mmcs51 --model-large
@@ -101,7 +101,7 @@ _pow_total_1_1:
 ;n                         Allocated with name '_pow_n_1_1'
 ;total                     Allocated with name '_pow_total_1_1'
 ;------------------------------------------------------------
-;	Math.c:3: unsigned char pow(unsigned char base, unsigned char power){
+;	Math.c:6: unsigned char pow(unsigned char base, unsigned char power){
 ;	-----------------------------------------
 ;	 function pow
 ;	-----------------------------------------
@@ -117,11 +117,11 @@ _pow:
 	mov	a,dpl
 	mov	dptr,#_pow_base_1_1
 	movx	@dptr,a
-;	Math.c:4: unsigned char n, total = 1;
+;	Math.c:7: unsigned char n, total = 1;
 	mov	dptr,#_pow_total_1_1
 	mov	a,#0x01
 	movx	@dptr,a
-;	Math.c:6: for(n = 0; n < power; n++){
+;	Math.c:9: for(n = 0; n < power; n++){
 	mov	dptr,#_pow_base_1_1
 	movx	a,@dptr
 	mov	r2,a
@@ -134,7 +134,7 @@ _pow:
 	mov	a,r4
 	subb	a,r3
 	jnc	00104$
-;	Math.c:7: total*=base; 
+;	Math.c:10: total*=base; 
 	mov	dptr,#_pow_total_1_1
 	movx	a,@dptr
 	mov	r5,a
@@ -143,11 +143,11 @@ _pow:
 	mov	a,r2
 	mul	ab
 	movx	@dptr,a
-;	Math.c:6: for(n = 0; n < power; n++){
+;	Math.c:9: for(n = 0; n < power; n++){
 	inc	r4
 	sjmp	00101$
 00104$:
-;	Math.c:10: return total;
+;	Math.c:13: return total;
 	mov	dptr,#_pow_total_1_1
 	movx	a,@dptr
 	mov	dpl,a

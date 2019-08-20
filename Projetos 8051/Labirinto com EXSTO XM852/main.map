@@ -60,16 +60,16 @@ CABS                               0000   0000 =      0. bytes (ABS,CON,CODE)
   0C:006C    s_GSINIT5
   0C:006F    s_CSEG
   0C:007B    l_DSEG
+  0C:00A3    l_CONST
   0C:00DF    l_SSEG
-  0C:00EC    l_CONST
   0C:0100    l_IRAM
-  0C:01C5    l_XINIT
-  0C:01C5    l_XISEG
-  0C:0397    l_XSEG
-  0C:0397    s_XISEG
-  0C:360D    l_CSEG
-  0C:367C    s_CONST
-  0C:3768    s_XINIT
+  0C:0399    l_XSEG
+  0C:0399    s_XISEG
+  0C:056F    l_XINIT
+  0C:056F    l_XISEG
+  0C:33E4    l_CSEG
+  0C:3453    s_CONST
+  0C:34F6    s_XINIT
 
 
 
@@ -181,6 +181,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
      00F5    _B_5
      00F6    _B_6
      00F7    _B_7
+     FFE4    _dacWrite
 
 
 
@@ -209,54 +210,60 @@ Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-XSEG                               0000   0397 =    919. bytes (REL,CON,XDATA)
+XSEG                               0000   0399 =    921. bytes (REL,CON,XDATA)
 
       Value  Global
    --------  --------------------------------
   0D:0127    _setCursorAt_PARM_2
-  0D:026B    _configMap_PARM_2
-  0D:026E    _setPlayerCursor_PARM_2
-  0D:026F    _setPlayerCursor_PARM_3
-  0D:0270    _setPlayerCursor_PARM_4
-  0D:0272    _LCD_putTextAt_PARM_2
-  0D:0273    _LCD_putTextAt_PARM_3
-  0D:0289    _LCD_putText_PARM_2
-  0D:028A    _LCD_putText_PARM_3
-  0D:02C2    _LCD_putCharAt_PARM_2
-  0D:02C3    _LCD_putCharAt_PARM_3
-  0D:02C5    _LCD_putSCharAt_PARM_2
-  0D:02C6    _LCD_putSCharAt_PARM_3
-  0D:02C7    _LCD_putSCharAt_PARM_4
-  0D:02D0    _delay_PARM_2
-  0D:02DB    _SCmap
-  0D:031B    _map
-  0D:0362    _player
-  0D:0367    _serialConfig_PARM_2
-  0D:036B    _serialControl_PARM_2
-  0D:0372    _Timer0
-  0D:0379    _speaker_PARM_2
-  0D:037D    _squareWave_PARM_2
-  0D:0382    _pow_PARM_2
-  0D:0385    __divuint_PARM_2
-  0D:038B    __gptrput_PARM_2
-  0D:038C    __mulint_PARM_2
-  0D:038E    __moduint_PARM_2
-  0D:0393    __divsint_PARM_2
+  0D:012A    _printMapAt_PARM_2
+  0D:026D    _configMap_PARM_2
+  0D:0270    _setPlayerCursor_PARM_2
+  0D:0271    _setPlayerCursor_PARM_3
+  0D:0272    _setPlayerCursor_PARM_4
+  0D:0274    _LCD_putTextAt_PARM_2
+  0D:0275    _LCD_putTextAt_PARM_3
+  0D:028B    _LCD_putText_PARM_2
+  0D:028C    _LCD_putText_PARM_3
+  0D:02C4    _LCD_putCharAt_PARM_2
+  0D:02C5    _LCD_putCharAt_PARM_3
+  0D:02C7    _LCD_putSCharAt_PARM_2
+  0D:02C8    _LCD_putSCharAt_PARM_3
+  0D:02C9    _LCD_putSCharAt_PARM_4
+  0D:02D2    _delay_PARM_2
+  0D:02DC    _speaker_PARM_2
+  0D:02E0    _squareWave_PARM_2
+  0D:02ED    _SCmap
+  0D:032D    _map
+  0D:036D    _Timer0
+  0D:0374    _player
+  0D:0379    _serialConfig_PARM_2
+  0D:037D    _serialControl_PARM_2
+  0D:0384    _pow_PARM_2
+  0D:0387    __divuint_PARM_2
+  0D:038D    __gptrput_PARM_2
+  0D:038E    __mulint_PARM_2
+  0D:0390    __moduint_PARM_2
+  0D:0395    __divsint_PARM_2
 
 Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-XISEG                              0397   01C5 =    453. bytes (REL,CON,XDATA)
+XISEG                              0399   056F =   1391. bytes (REL,CON,XDATA)
 
       Value  Global
    --------  --------------------------------
-  0D:039A    _mainMario_melody
-  0D:0436    _mainMario_noteTime
-  0D:0484    _underworld_melody
-  0D:04F4    _underworld_noteTime
-  0D:052C    _adobe_melody
-  0D:054C    _adobe_noteTime
+  0D:0737    _mainMario_melody
+  0D:07D3    _mainMario_noteTime
+  0D:0821    _underworld_melody
+  0D:0891    _underworld_noteTime
+  0D:08C9    _adobe_melody
+  0D:08E9    _adobe_noteTime
+  0D:08F9    _beep1_melody
+  0D:08FD    _beep1_noteTime
+  0D:08FF    _beep2_melody
+  0D:0903    _beep2_noteTime
+  0D:0905    _i
 
 Hexadecimal
 
@@ -308,7 +315,7 @@ Hexadecimal
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-CSEG                               006F   360D =  13837. bytes (REL,CON,CODE)
+CSEG                               006F   33E4 =  13284. bytes (REL,CON,CODE)
 
       Value  Global
    --------  --------------------------------
@@ -317,67 +324,51 @@ CSEG                               006F   360D =  13837. bytes (REL,CON,CODE)
   0C:009B    _setInitialScreen
   0C:00E3    _setInstructions
   0C:0194    _setLevel1
-  0C:02BD    _setLevel2
-  0C:03E6    _setLevel3
-  0C:050F    _setLevel4
-  0C:0638    _setLevel5
-  0C:0761    _setFinish
-  0C:0797    _main
-  0C:07B2    _LCDconfig
-  0C:07F6    _setCursorAt
-  0C:084E    _setChar
-  0C:0867    _printMap
-  0C:08D0    _setMap1CGram
-  0C:0CEA    _setMap2CGram
-  0C:1102    _setMap3CGram
-  0C:151A    _setMap4CGram
-  0C:1933    _setMap5CGram
-  0C:1D4C    _configMap
-  0C:1DBF    _setCursorHomeAtLine
-  0C:1DFF    _setPlayerCursor
-  0C:1ECE    _clearLCD
-  0C:1F12    _LCD_putTextAt
-  0C:2024    _LCD_putText
-  0C:2284    _LCD_putCharAt
-  0C:22A5    _LCD_putSCharAt
-  0C:22EB    _timerConfig
-  0C:2309    _delay
-  0C:23E3    _timer
-  0C:247B    _transmitter
-  0C:2490    _transNumber
-  0C:24BE    _receiver
-  0C:24C3    _receivedChar
-  0C:24CA    _serialConfig
-  0C:24F5    _serialBegin
-  0C:250D    _serialControl
-  0C:2FC4    _speaker
-  0C:3098    _squareWave
-  0C:313B    _sing
-  0C:3241    _pow
-  0C:3275    __divuint
-  0C:330F    ___fsmul
-  0C:33B2    fsgetargs
-  0C:33E0    fs_normalize_a
-  0C:3409    __gptrput
-  0C:3422    __mulint
-  0C:3442    __moduint
-  0C:34EF    __divsint
-  0C:3567    ___uint2fs
-  0C:3573    ___fs2uint
-  0C:357E    fs_round_and_return
-  0C:3596    fs_zerocheck_return
-  0C:359F    fs_return_zero
-  0C:35A7    fs_direct_return
-  0C:35B5    fs_return_inf
-  0C:35C2    fs_return_nan
-  0C:35CD    __gptrget
-  0C:35E9    ___ulong2fs
-  0C:35F2    ulong2fs_doit
-  0C:35FC    __sdcc_external_startup
-  0C:3600    ___fs2ulong
-  0C:3602    fs2ulong_begin
-  0C:3627    fs_rshift_a
-  0C:366A    fsgetarg
+  0C:0293    _setLevel2
+  0C:0392    _setLevel3
+  0C:0491    _setLevel4
+  0C:0590    _setLevel5
+  0C:068F    _setFinish
+  0C:06C5    _main
+  0C:06E2    _LCDconfig
+  0C:0726    _setCursorAt
+  0C:077E    _setChar
+  0C:0797    _printMapAt
+  0C:07D5    _printMap
+  0C:083E    _setMap1CGram
+  0C:0C58    _setMap2CGram
+  0C:1070    _setMap3CGram
+  0C:1488    _setMap4CGram
+  0C:18A1    _setMap5CGram
+  0C:1CBA    _configMap
+  0C:1D28    _setCursorHomeAtLine
+  0C:1D68    _setPlayerCursor
+  0C:1E37    _clearLCD
+  0C:1E7B    _LCD_putTextAt
+  0C:1F8D    _LCD_putText
+  0C:21AE    _LCD_putCharAt
+  0C:21CF    _LCD_putSCharAt
+  0C:2215    _timerConfig
+  0C:2233    _delay
+  0C:230D    _timer
+  0C:23A5    _speaker
+  0C:2468    _squareWave
+  0C:24BA    _sing
+  0C:26BE    _transmitter
+  0C:26D3    _transNumber
+  0C:2701    _receiver
+  0C:2706    _receivedChar
+  0C:270D    _serialConfig
+  0C:2738    _serialBegin
+  0C:2750    _serialControl
+  0C:3207    _pow
+  0C:323B    __divuint
+  0C:32D5    __gptrput
+  0C:32EE    __mulint
+  0C:330E    __moduint
+  0C:33BB    __divsint
+  0C:3433    __gptrget
+  0C:344F    __sdcc_external_startup
 
 
 ASxxxx Linker V01.75 + NoICE + SDCC Feb 1999,  page 1.
@@ -387,34 +378,24 @@ Files Linked      [ module(s) ]
 main.rel        
 LCD.rel         
 TIMER.rel       
-SERIAL.rel      
 DAC.rel         
+SERIAL.rel      
 Math.rel        
 
 Libraries Linked            [   object  file   ]
 
 C:\mide\sdcc\bin\..\lib\large/libint.lib    [         _divuint ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [           _fsmul ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [      _fsget2args ]
 C:\mide\sdcc\bin\..\lib\large/mcs51.lib    [     crtclear.rel ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [     _fsnormalize ]
 C:\mide\sdcc\bin\..\lib\large/mcs51.lib    [     crtxinit.rel ]
 C:\mide\sdcc\bin\..\lib\large/libsdcc.lib    [         _gptrput ]
 C:\mide\sdcc\bin\..\lib\large/libint.lib    [          _mulint ]
 C:\mide\sdcc\bin\..\lib\large/libint.lib    [         _moduint ]
 C:\mide\sdcc\bin\..\lib\large/libint.lib    [         _divsint ]
 C:\mide\sdcc\bin\..\lib\large/mcs51.lib    [    crtxclear.rel ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [         _uint2fs ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [         _fs2uint ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [     _fsreturnval ]
 C:\mide\sdcc\bin\..\lib\large/mcs51.lib    [   crtpagesfr.rel ]
 C:\mide\sdcc\bin\..\lib\large/mcs51.lib    [     crtstart.rel ]
 C:\mide\sdcc\bin\..\lib\large/libsdcc.lib    [         _gptrget ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [        _ulong2fs ]
 C:\mide\sdcc\bin\..\lib\large/libsdcc.lib    [         _startup ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [        _fs2ulong ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [        _fsrshift ]
-C:\mide\sdcc\bin\..\lib\large/libfloat.lib    [       _fsget1arg ]
 
 ASxxxx Linker V01.75 + NoICE + SDCC Feb 1999,  page 2.
 

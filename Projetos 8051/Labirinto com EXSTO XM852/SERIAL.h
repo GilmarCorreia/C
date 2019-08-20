@@ -1,8 +1,6 @@
 #ifndef SERIAL_H_INCLUDED
 #define SERIAL_H_INCLUDED
 
-#include "LCD.h"
-
 static char rxMsg = 0;
 
 struct position{
@@ -11,8 +9,6 @@ struct position{
 	unsigned char line;
 	unsigned char col;
 };
-
-//struct position player;
 
 void transmitter(unsigned char message);
 

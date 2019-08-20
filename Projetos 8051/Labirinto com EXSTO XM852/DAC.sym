@@ -171,33 +171,39 @@ Symbol Table
     TR2                                                            00CA 
     TXD                                                            00B1 
   9 _Timer0                                                        0000 GR
-    ___fs2uint                                                     **** GX
-    ___fsmul                                                       **** GX
-    ___uint2fs                                                     **** GX
     __divuint                                                      **** GX
     __divuint_PARM_2                                               **** GX
     __mulint                                                       **** GX
     __mulint_PARM_2                                                **** GX
  17 __xinit__adobe_melody                                          0192 R
  17 __xinit__adobe_noteTime                                        01B2 R
+ 17 __xinit__beep1_melody                                          01C2 R
+ 17 __xinit__beep1_noteTime                                        01C6 R
+ 17 __xinit__beep2_melody                                          01C8 R
+ 17 __xinit__beep2_noteTime                                        01CC R
+ 17 __xinit__i                                                     01CE R
  17 __xinit__mainMario_melody                                      0000 R
  17 __xinit__mainMario_noteTime                                    009C R
  17 __xinit__underworld_melody                                     00EA R
  17 __xinit__underworld_noteTime                                   015A R
   B _adobe_melody                                                  0192 GR
   B _adobe_noteTime                                                01B2 GR
-    _dacWrite                                                   =  FFC4 
-    _delay                                                         **** GX
-    _delay_PARM_2                                                  **** GX
+  B _beep1_melody                                                  01C2 GR
+  B _beep1_noteTime                                                01C6 GR
+  B _beep2_melody                                                  01C8 GR
+  B _beep2_noteTime                                                01CC GR
+    _dacWrite                                                   =  FFE4 G
+  B _i                                                             01CE GR
   B _mainMario_melody                                              0000 GR
   B _mainMario_noteTime                                            009C GR
- 15 _sing                                                          0177 GR
+ 15 _sing                                                          0115 GR
   9 _sing_song_1_1                                                 000F R
  15 _speaker                                                       0000 GR
   9 _speaker_PARM_2                                                0007 GR
   9 _speaker_note_1_1                                              0009 R
   3 _speaker_sloc0_1_0                                             0000 R
- 15 _squareWave                                                    00D4 GR
+  3 _speaker_sloc1_1_0                                             0004 R
+ 15 _squareWave                                                    00C3 GR
   9 _squareWave_PARM_2                                             000B GR
   9 _squareWave_note_1_1                                           000D R
   B _underworld_melody                                             00EA GR
@@ -386,7 +392,7 @@ Area Table
    0 _CODE                                                                              size    0   flags 0
    1 RSEG                                                                               size    0   flags 0
    2 REG_BANK_0                                                                         size    8   flags 4
-   3 DSEG                                                                               size    4   flags 0
+   3 DSEG                                                                               size    6   flags 0
    4 OSEG                                                                               size    0   flags 4
    5 ISEG                                                                               size    0   flags 0
    6 IABS                                                                               size    0   flags 8
@@ -394,7 +400,7 @@ Area Table
    8 PSEG                                                                               size    0   flags 50
    9 XSEG                                                                               size   10   flags 40
    A XABS                                                                               size    0   flags 48
-   B XISEG                                                                              size  1C2   flags 40
+   B XISEG                                                                              size  1D0   flags 40
    C HOME                                                                               size    0   flags 20
    D GSINIT0                                                                            size    0   flags 20
    E GSINIT1                                                                            size    0   flags 20
@@ -404,7 +410,7 @@ Area Table
   12 GSINIT5                                                                            size    0   flags 20
   13 GSINIT                                                                             size    0   flags 20
   14 GSFINAL                                                                            size    0   flags 20
-  15 CSEG                                                                               size  27D   flags 20
+  15 CSEG                                                                               size  319   flags 20
   16 CONST                                                                              size    0   flags 20
-  17 XINIT                                                                              size  1C2   flags 20
+  17 XINIT                                                                              size  1D0   flags 20
   18 CABS                                                                               size    0   flags 28

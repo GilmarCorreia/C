@@ -192,31 +192,29 @@ Symbol Table
     _IP                                                         =  00B8 G
     _IT0                                                        =  0088 G
     _IT1                                                        =  008A G
- 15 _LCD_putCharAt                                                 1AD2 GR
-  9 _LCD_putCharAt_PARM_2                                          022A GR
-  9 _LCD_putCharAt_PARM_3                                          022B GR
-  9 _LCD_putCharAt_chr_1_1                                         022C R
- 15 _LCD_putSCharAt                                                1AF3 GR
-  9 _LCD_putSCharAt_PARM_2                                         022D GR
-  9 _LCD_putSCharAt_PARM_3                                         022E GR
-  9 _LCD_putSCharAt_PARM_4                                         022F GR
-  9 _LCD_putSCharAt_sline_1_1                                      0230 R
- 15 _LCD_putText                                                   1872 GR
- 15 _LCD_putTextAt                                                 1760 GR
-  9 _LCD_putTextAt_PARM_2                                          01DA GR
-  9 _LCD_putTextAt_PARM_3                                          01DB GR
-  9 _LCD_putTextAt_col_1_1                                         01DF R
-  9 _LCD_putTextAt_text_1_1                                        01DC R
-  9 _LCD_putTextAt_txt_1_1                                         01E0 R
-  9 _LCD_putText_PARM_2                                            01F1 GR
-  9 _LCD_putText_PARM_3                                            01F2 GR
-  9 _LCD_putText_control_1_1                                       01F7 R
+ 15 _LCD_putCharAt                                                 1ACC GR
+  9 _LCD_putCharAt_PARM_2                                          022C GR
+  9 _LCD_putCharAt_PARM_3                                          022D GR
+  9 _LCD_putCharAt_chr_1_1                                         022E R
+ 15 _LCD_putSCharAt                                                1AED GR
+  9 _LCD_putSCharAt_PARM_2                                         022F GR
+  9 _LCD_putSCharAt_PARM_3                                         0230 GR
+  9 _LCD_putSCharAt_PARM_4                                         0231 GR
+  9 _LCD_putSCharAt_sline_1_1                                      0232 R
+ 15 _LCD_putText                                                   18AB GR
+ 15 _LCD_putTextAt                                                 1799 GR
+  9 _LCD_putTextAt_PARM_2                                          01DC GR
+  9 _LCD_putTextAt_PARM_3                                          01DD GR
+  9 _LCD_putTextAt_col_1_1                                         01E1 R
+  9 _LCD_putTextAt_text_1_1                                        01DE R
+  9 _LCD_putTextAt_txt_1_1                                         01E2 R
+  9 _LCD_putText_PARM_2                                            01F3 GR
+  9 _LCD_putText_PARM_3                                            01F4 GR
+  9 _LCD_putText_control_1_1                                       01F9 R
   3 _LCD_putText_sloc0_1_0                                         0000 R
   3 _LCD_putText_sloc1_1_0                                         0001 R
-  3 _LCD_putText_sloc2_1_0                                         0002 R
-  3 _LCD_putText_sloc3_1_0                                         0003 R
-  9 _LCD_putText_text_1_1                                          01F4 R
-  9 _LCD_putText_txt_1_1                                           01F8 R
+  9 _LCD_putText_text_1_1                                          01F6 R
+  9 _LCD_putText_txt_1_1                                           01FA R
  15 _LCDconfig                                                     0000 GR
     _OV                                                         =  00D2 G
     _P                                                          =  00D0 G
@@ -297,22 +295,44 @@ Symbol Table
     __divsint                                                      **** GX
     __divsint_PARM_2                                               **** GX
     __gptrget                                                      **** GX
- 17 __xinit__rxMsg                                                 0000 R
- 15 _clearLCD                                                      171C GR
- 15 _configMap                                                     159A GR
-  9 _configMap_PARM_2                                              01D3 GR
-  9 _configMap_pline_1_1                                           01D4 R
+ 17 __xinit__adobe_melody                                          0192 R
+ 17 __xinit__adobe_noteTime                                        01B2 R
+ 17 __xinit__beep1_melody                                          01C2 R
+ 17 __xinit__beep1_noteTime                                        01C6 R
+ 17 __xinit__beep2_melody                                          01C8 R
+ 17 __xinit__beep2_noteTime                                        01CC R
+ 17 __xinit__mainMario_melody                                      0000 R
+ 17 __xinit__mainMario_noteTime                                    009C R
+ 17 __xinit__rxMsg                                                 01CE R
+ 17 __xinit__underworld_melody                                     00EA R
+ 17 __xinit__underworld_noteTime                                   015A R
+  B _adobe_melody                                                  0192 GR
+  B _adobe_noteTime                                                01B2 GR
+  B _beep1_melody                                                  01C2 GR
+  B _beep1_noteTime                                                01C6 GR
+  B _beep2_melody                                                  01C8 GR
+  B _beep2_noteTime                                                01CC GR
+ 15 _clearLCD                                                      1755 GR
+ 15 _configMap                                                     15D8 GR
+  9 _configMap_PARM_2                                              01D5 GR
+  9 _configMap_pline_1_1                                           01D6 R
+    _dacWrite                                                   =  FFE4 G
     _delay                                                         **** GX
     _delay_PARM_2                                                  **** GX
+  B _mainMario_melody                                              0000 GR
+  B _mainMario_noteTime                                            009C GR
   9 _map                                                           0048 GR
   9 _point                                                         0000 R
     _pow                                                           **** GX
     _pow_PARM_2                                                    **** GX
- 15 _printMap                                                      00B5 GR
-  9 _printMap_col_1_1                                              0092 R
+ 15 _printMap                                                      00F3 GR
+ 15 _printMapAt                                                    00B5 GR
+  9 _printMapAt_PARM_2                                             0092 GR
+  9 _printMapAt_row_1_1                                            0093 R
+  9 _printMap_col_1_1                                              0094 R
     _rdataLCD                                                   =  FFF2 
     _rinstLCD                                                   =  FFE2 
-  B _rxMsg                                                         0000 R
+  B _rxMsg                                                         01CE R
     _serialBegin                                                   **** GX
     _serialControl                                                 **** GX
     _serialControl_PARM_2                                          **** GX
@@ -321,58 +341,61 @@ Symbol Table
  15 _setCursorAt                                                   0044 GR
   9 _setCursorAt_PARM_2                                            008F GR
   9 _setCursorAt_line_1_1                                          0090 R
- 15 _setCursorHomeAtLine                                           160D GR
-  9 _setCursorHomeAtLine_line_1_1                                  01D5 R
- 15 _setMap1CGram                                                  011E GR
-  9 _setMap1CGram_c0_1_1                                           0093 R
-  9 _setMap1CGram_c1_1_1                                           009B R
-  9 _setMap1CGram_c2_1_1                                           00A3 R
-  9 _setMap1CGram_c3_1_1                                           00AB R
-  9 _setMap1CGram_c4_1_1                                           00B3 R
-  9 _setMap1CGram_c5_1_1                                           00BB R
-  9 _setMap1CGram_c6_1_1                                           00C3 R
-  9 _setMap1CGram_c7_1_1                                           00CB R
- 15 _setMap2CGram                                                  0538 GR
-  9 _setMap2CGram_c0_1_1                                           00D3 R
-  9 _setMap2CGram_c1_1_1                                           00DB R
-  9 _setMap2CGram_c2_1_1                                           00E3 R
-  9 _setMap2CGram_c3_1_1                                           00EB R
-  9 _setMap2CGram_c4_1_1                                           00F3 R
-  9 _setMap2CGram_c5_1_1                                           00FB R
-  9 _setMap2CGram_c6_1_1                                           0103 R
-  9 _setMap2CGram_c7_1_1                                           010B R
- 15 _setMap3CGram                                                  0950 GR
-  9 _setMap3CGram_c0_1_1                                           0113 R
-  9 _setMap3CGram_c1_1_1                                           011B R
-  9 _setMap3CGram_c2_1_1                                           0123 R
-  9 _setMap3CGram_c3_1_1                                           012B R
-  9 _setMap3CGram_c4_1_1                                           0133 R
-  9 _setMap3CGram_c5_1_1                                           013B R
-  9 _setMap3CGram_c6_1_1                                           0143 R
-  9 _setMap3CGram_c7_1_1                                           014B R
- 15 _setMap4CGram                                                  0D68 GR
-  9 _setMap4CGram_c0_1_1                                           0153 R
-  9 _setMap4CGram_c1_1_1                                           015B R
-  9 _setMap4CGram_c2_1_1                                           0163 R
-  9 _setMap4CGram_c3_1_1                                           016B R
-  9 _setMap4CGram_c4_1_1                                           0173 R
-  9 _setMap4CGram_c5_1_1                                           017B R
-  9 _setMap4CGram_c6_1_1                                           0183 R
-  9 _setMap4CGram_c7_1_1                                           018B R
- 15 _setMap5CGram                                                  1181 GR
-  9 _setMap5CGram_c0_1_1                                           0193 R
-  9 _setMap5CGram_c1_1_1                                           019B R
-  9 _setMap5CGram_c2_1_1                                           01A3 R
-  9 _setMap5CGram_c3_1_1                                           01AB R
-  9 _setMap5CGram_c4_1_1                                           01B3 R
-  9 _setMap5CGram_c5_1_1                                           01BB R
-  9 _setMap5CGram_c6_1_1                                           01C3 R
-  9 _setMap5CGram_c7_1_1                                           01CB R
- 15 _setPlayerCursor                                               164D GR
-  9 _setPlayerCursor_PARM_2                                        01D6 GR
-  9 _setPlayerCursor_PARM_3                                        01D7 GR
-  9 _setPlayerCursor_PARM_4                                        01D8 GR
-  9 _setPlayerCursor_pline_1_1                                     01D9 R
+ 15 _setCursorHomeAtLine                                           1646 GR
+  9 _setCursorHomeAtLine_line_1_1                                  01D7 R
+ 15 _setMap1CGram                                                  015C GR
+  9 _setMap1CGram_c0_1_1                                           0095 R
+  9 _setMap1CGram_c1_1_1                                           009D R
+  9 _setMap1CGram_c2_1_1                                           00A5 R
+  9 _setMap1CGram_c3_1_1                                           00AD R
+  9 _setMap1CGram_c4_1_1                                           00B5 R
+  9 _setMap1CGram_c5_1_1                                           00BD R
+  9 _setMap1CGram_c6_1_1                                           00C5 R
+  9 _setMap1CGram_c7_1_1                                           00CD R
+ 15 _setMap2CGram                                                  0576 GR
+  9 _setMap2CGram_c0_1_1                                           00D5 R
+  9 _setMap2CGram_c1_1_1                                           00DD R
+  9 _setMap2CGram_c2_1_1                                           00E5 R
+  9 _setMap2CGram_c3_1_1                                           00ED R
+  9 _setMap2CGram_c4_1_1                                           00F5 R
+  9 _setMap2CGram_c5_1_1                                           00FD R
+  9 _setMap2CGram_c6_1_1                                           0105 R
+  9 _setMap2CGram_c7_1_1                                           010D R
+ 15 _setMap3CGram                                                  098E GR
+  9 _setMap3CGram_c0_1_1                                           0115 R
+  9 _setMap3CGram_c1_1_1                                           011D R
+  9 _setMap3CGram_c2_1_1                                           0125 R
+  9 _setMap3CGram_c3_1_1                                           012D R
+  9 _setMap3CGram_c4_1_1                                           0135 R
+  9 _setMap3CGram_c5_1_1                                           013D R
+  9 _setMap3CGram_c6_1_1                                           0145 R
+  9 _setMap3CGram_c7_1_1                                           014D R
+ 15 _setMap4CGram                                                  0DA6 GR
+  9 _setMap4CGram_c0_1_1                                           0155 R
+  9 _setMap4CGram_c1_1_1                                           015D R
+  9 _setMap4CGram_c2_1_1                                           0165 R
+  9 _setMap4CGram_c3_1_1                                           016D R
+  9 _setMap4CGram_c4_1_1                                           0175 R
+  9 _setMap4CGram_c5_1_1                                           017D R
+  9 _setMap4CGram_c6_1_1                                           0185 R
+  9 _setMap4CGram_c7_1_1                                           018D R
+ 15 _setMap5CGram                                                  11BF GR
+  9 _setMap5CGram_c0_1_1                                           0195 R
+  9 _setMap5CGram_c1_1_1                                           019D R
+  9 _setMap5CGram_c2_1_1                                           01A5 R
+  9 _setMap5CGram_c3_1_1                                           01AD R
+  9 _setMap5CGram_c4_1_1                                           01B5 R
+  9 _setMap5CGram_c5_1_1                                           01BD R
+  9 _setMap5CGram_c6_1_1                                           01C5 R
+  9 _setMap5CGram_c7_1_1                                           01CD R
+ 15 _setPlayerCursor                                               1686 GR
+  9 _setPlayerCursor_PARM_2                                        01D8 GR
+  9 _setPlayerCursor_PARM_3                                        01D9 GR
+  9 _setPlayerCursor_PARM_4                                        01DA GR
+  9 _setPlayerCursor_pline_1_1                                     01DB R
+    _sing                                                          **** GX
+  B _underworld_melody                                             00EA GR
+  B _underworld_noteTime                                           015A GR
     _wdataLCD                                                   =  FFD2 
     _winstLCD                                                   =  FFC2 
     a                                                              00D6 
@@ -559,15 +582,15 @@ Area Table
    0 _CODE                                                                              size    0   flags 0
    1 RSEG                                                                               size    0   flags 0
    2 REG_BANK_0                                                                         size    8   flags 4
-   3 DSEG                                                                               size    4   flags 0
+   3 DSEG                                                                               size    2   flags 0
    4 OSEG                                                                               size    0   flags 4
    5 ISEG                                                                               size    0   flags 0
    6 IABS                                                                               size    0   flags 8
    7 BSEG                                                                               size    0   flags 80
    8 PSEG                                                                               size    0   flags 50
-   9 XSEG                                                                               size  231   flags 40
+   9 XSEG                                                                               size  233   flags 40
    A XABS                                                                               size    0   flags 48
-   B XISEG                                                                              size    1   flags 40
+   B XISEG                                                                              size  1CF   flags 40
    C HOME                                                                               size    0   flags 20
    D GSINIT0                                                                            size    0   flags 20
    E GSINIT1                                                                            size    0   flags 20
@@ -577,7 +600,7 @@ Area Table
   12 GSINIT5                                                                            size    0   flags 20
   13 GSINIT                                                                             size    0   flags 20
   14 GSFINAL                                                                            size    0   flags 20
-  15 CSEG                                                                               size 1B39   flags 20
+  15 CSEG                                                                               size 1B33   flags 20
   16 CONST                                                                              size    0   flags 20
-  17 XINIT                                                                              size    1   flags 20
+  17 XINIT                                                                              size  1CF   flags 20
   18 CABS                                                                               size    0   flags 28

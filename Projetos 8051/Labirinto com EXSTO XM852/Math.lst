@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-                              4 ; This file was generated Mon Aug 19 00:21:21 2019
+                              4 ; This file was generated Tue Aug 20 11:45:52 2019
                               5 ;--------------------------------------------------------
                               6 	.module Math
                               7 	.optsdcc -mmcs51 --model-large
@@ -101,7 +101,7 @@
                             101 ;n                         Allocated with name '_pow_n_1_1'
                             102 ;total                     Allocated with name '_pow_total_1_1'
                             103 ;------------------------------------------------------------
-                            104 ;	Math.c:3: unsigned char pow(unsigned char base, unsigned char power){
+                            104 ;	Math.c:6: unsigned char pow(unsigned char base, unsigned char power){
                             105 ;	-----------------------------------------
                             106 ;	 function pow
                             107 ;	-----------------------------------------
@@ -117,11 +117,11 @@
    0000 E5 82               117 	mov	a,dpl
    0002 90s00r01            118 	mov	dptr,#_pow_base_1_1
    0005 F0                  119 	movx	@dptr,a
-                            120 ;	Math.c:4: unsigned char n, total = 1;
+                            120 ;	Math.c:7: unsigned char n, total = 1;
    0006 90s00r02            121 	mov	dptr,#_pow_total_1_1
    0009 74 01               122 	mov	a,#0x01
    000B F0                  123 	movx	@dptr,a
-                            124 ;	Math.c:6: for(n = 0; n < power; n++){
+                            124 ;	Math.c:9: for(n = 0; n < power; n++){
    000C 90s00r01            125 	mov	dptr,#_pow_base_1_1
    000F E0                  126 	movx	a,@dptr
    0010 FA                  127 	mov	r2,a
@@ -134,7 +134,7 @@
    0019 EC                  134 	mov	a,r4
    001A 9B                  135 	subb	a,r3
    001B 50 10               136 	jnc	00104$
-                            137 ;	Math.c:7: total*=base; 
+                            137 ;	Math.c:10: total*=base; 
    001D 90s00r02            138 	mov	dptr,#_pow_total_1_1
    0020 E0                  139 	movx	a,@dptr
    0021 FD                  140 	mov	r5,a
@@ -143,11 +143,11 @@
    0027 EA                  143 	mov	a,r2
    0028 A4                  144 	mul	ab
    0029 F0                  145 	movx	@dptr,a
-                            146 ;	Math.c:6: for(n = 0; n < power; n++){
+                            146 ;	Math.c:9: for(n = 0; n < power; n++){
    002A 0C                  147 	inc	r4
    002B 80 EB               148 	sjmp	00101$
    002D                     149 00104$:
-                            150 ;	Math.c:10: return total;
+                            150 ;	Math.c:13: return total;
    002D 90s00r02            151 	mov	dptr,#_pow_total_1_1
    0030 E0                  152 	movx	a,@dptr
    0031 F5 82               153 	mov	dpl,a

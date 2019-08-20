@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-                              4 ; This file was generated Mon Aug 19 00:21:21 2019
+                              4 ; This file was generated Tue Aug 20 11:45:52 2019
                               5 ;--------------------------------------------------------
                               6 	.module Math
                               7 	.optsdcc -mmcs51 --model-large
@@ -53,12 +53,12 @@
                              53 ; external ram data
                              54 ;--------------------------------------------------------
                              55 	.area XSEG    (XDATA)
-   0382                      56 _pow_PARM_2:
-   0382                      57 	.ds 1
-   0383                      58 _pow_base_1_1:
-   0383                      59 	.ds 1
-   0384                      60 _pow_total_1_1:
-   0384                      61 	.ds 1
+   0384                      56 _pow_PARM_2:
+   0384                      57 	.ds 1
+   0385                      58 _pow_base_1_1:
+   0385                      59 	.ds 1
+   0386                      60 _pow_total_1_1:
+   0386                      61 	.ds 1
                              62 ;--------------------------------------------------------
                              63 ; absolute external ram data
                              64 ;--------------------------------------------------------
@@ -101,11 +101,11 @@
                             101 ;n                         Allocated with name '_pow_n_1_1'
                             102 ;total                     Allocated with name '_pow_total_1_1'
                             103 ;------------------------------------------------------------
-                            104 ;	Math.c:3: unsigned char pow(unsigned char base, unsigned char power){
+                            104 ;	Math.c:6: unsigned char pow(unsigned char base, unsigned char power){
                             105 ;	-----------------------------------------
                             106 ;	 function pow
                             107 ;	-----------------------------------------
-   3241                     108 _pow:
+   3207                     108 _pow:
                     0002    109 	ar2 = 0x02
                     0003    110 	ar3 = 0x03
                     0004    111 	ar4 = 0x04
@@ -114,44 +114,44 @@
                     0007    114 	ar7 = 0x07
                     0000    115 	ar0 = 0x00
                     0001    116 	ar1 = 0x01
-   3241 E5 82               117 	mov	a,dpl
-   3243 90 03 83            118 	mov	dptr,#_pow_base_1_1
-   3246 F0                  119 	movx	@dptr,a
-                            120 ;	Math.c:4: unsigned char n, total = 1;
-   3247 90 03 84            121 	mov	dptr,#_pow_total_1_1
-   324A 74 01               122 	mov	a,#0x01
-   324C F0                  123 	movx	@dptr,a
-                            124 ;	Math.c:6: for(n = 0; n < power; n++){
-   324D 90 03 83            125 	mov	dptr,#_pow_base_1_1
-   3250 E0                  126 	movx	a,@dptr
-   3251 FA                  127 	mov	r2,a
-   3252 90 03 82            128 	mov	dptr,#_pow_PARM_2
-   3255 E0                  129 	movx	a,@dptr
-   3256 FB                  130 	mov	r3,a
-   3257 7C 00               131 	mov	r4,#0x00
-   3259                     132 00101$:
-   3259 C3                  133 	clr	c
-   325A EC                  134 	mov	a,r4
-   325B 9B                  135 	subb	a,r3
-   325C 50 10               136 	jnc	00104$
-                            137 ;	Math.c:7: total*=base; 
-   325E 90 03 84            138 	mov	dptr,#_pow_total_1_1
-   3261 E0                  139 	movx	a,@dptr
-   3262 FD                  140 	mov	r5,a
-   3263 90 03 84            141 	mov	dptr,#_pow_total_1_1
-   3266 8D F0               142 	mov	b,r5
-   3268 EA                  143 	mov	a,r2
-   3269 A4                  144 	mul	ab
-   326A F0                  145 	movx	@dptr,a
-                            146 ;	Math.c:6: for(n = 0; n < power; n++){
-   326B 0C                  147 	inc	r4
-   326C 80 EB               148 	sjmp	00101$
-   326E                     149 00104$:
-                            150 ;	Math.c:10: return total;
-   326E 90 03 84            151 	mov	dptr,#_pow_total_1_1
-   3271 E0                  152 	movx	a,@dptr
-   3272 F5 82               153 	mov	dpl,a
-   3274 22                  154 	ret
+   3207 E5 82               117 	mov	a,dpl
+   3209 90 03 85            118 	mov	dptr,#_pow_base_1_1
+   320C F0                  119 	movx	@dptr,a
+                            120 ;	Math.c:7: unsigned char n, total = 1;
+   320D 90 03 86            121 	mov	dptr,#_pow_total_1_1
+   3210 74 01               122 	mov	a,#0x01
+   3212 F0                  123 	movx	@dptr,a
+                            124 ;	Math.c:9: for(n = 0; n < power; n++){
+   3213 90 03 85            125 	mov	dptr,#_pow_base_1_1
+   3216 E0                  126 	movx	a,@dptr
+   3217 FA                  127 	mov	r2,a
+   3218 90 03 84            128 	mov	dptr,#_pow_PARM_2
+   321B E0                  129 	movx	a,@dptr
+   321C FB                  130 	mov	r3,a
+   321D 7C 00               131 	mov	r4,#0x00
+   321F                     132 00101$:
+   321F C3                  133 	clr	c
+   3220 EC                  134 	mov	a,r4
+   3221 9B                  135 	subb	a,r3
+   3222 50 10               136 	jnc	00104$
+                            137 ;	Math.c:10: total*=base; 
+   3224 90 03 86            138 	mov	dptr,#_pow_total_1_1
+   3227 E0                  139 	movx	a,@dptr
+   3228 FD                  140 	mov	r5,a
+   3229 90 03 86            141 	mov	dptr,#_pow_total_1_1
+   322C 8D F0               142 	mov	b,r5
+   322E EA                  143 	mov	a,r2
+   322F A4                  144 	mul	ab
+   3230 F0                  145 	movx	@dptr,a
+                            146 ;	Math.c:9: for(n = 0; n < power; n++){
+   3231 0C                  147 	inc	r4
+   3232 80 EB               148 	sjmp	00101$
+   3234                     149 00104$:
+                            150 ;	Math.c:13: return total;
+   3234 90 03 86            151 	mov	dptr,#_pow_total_1_1
+   3237 E0                  152 	movx	a,@dptr
+   3238 F5 82               153 	mov	dpl,a
+   323A 22                  154 	ret
                             155 	.area CSEG    (CODE)
                             156 	.area CONST   (CODE)
                             157 	.area XINIT   (CODE)

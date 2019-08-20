@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-                              4 ; This file was generated Mon Aug 19 00:21:24 2019
+                              4 ; This file was generated Tue Aug 20 11:45:55 2019
                               5 ;--------------------------------------------------------
                               6 	.module TIMER
                               7 	.optsdcc -mmcs51 --model-large
@@ -333,7 +333,7 @@
                             333 ;miliseconds               Allocated with name '_delay_PARM_2'
                             334 ;time                      Allocated with name '_delay_time_1_1'
                             335 ;------------------------------------------------------------
-                            336 ;	TIMER.c:28: void delay(unsigned int time, unsigned char miliseconds){
+                            336 ;	TIMER.c:27: void delay(unsigned int time, unsigned char miliseconds){
                             337 ;	-----------------------------------------
                             338 ;	 function delay
                             339 ;	-----------------------------------------
@@ -345,11 +345,11 @@
    0026 A3                  345 	inc	dptr
    0027 EA                  346 	mov	a,r2
    0028 F0                  347 	movx	@dptr,a
-                            348 ;	TIMER.c:33: Timer0.flag=1;
+                            348 ;	TIMER.c:29: Timer0.flag=1;
    0029 90s00r06            349 	mov	dptr,#(_Timer0 + 0x0006)
    002C 74 01               350 	mov	a,#0x01
    002E F0                  351 	movx	@dptr,a
-                            352 ;	TIMER.c:35: if(!Timer0.finishMili && miliseconds){
+                            352 ;	TIMER.c:31: if(!Timer0.finishMili && miliseconds){	
    002F 90s00r04            353 	mov	dptr,#(_Timer0 + 0x0004)
    0032 E0                  354 	movx	a,@dptr
    0033 FA                  355 	mov	r2,a
@@ -360,7 +360,7 @@
    003C E0                  360 	movx	a,@dptr
    003D FB                  361 	mov	r3,a
    003E 60 7C               362 	jz	00110$
-                            363 ;	TIMER.c:36: Timer0.cycles = time/65;
+                            363 ;	TIMER.c:32: Timer0.cycles = time/65;
    0040 90s00r08            364 	mov	dptr,#_delay_time_1_1
    0043 E0                  365 	movx	a,@dptr
    0044 FB                  366 	mov	r3,a
@@ -388,7 +388,7 @@
    0069 A3                  388 	inc	dptr
    006A EE                  389 	mov	a,r6
    006B F0                  390 	movx	@dptr,a
-                            391 ;	TIMER.c:37: Timer0.lastClock = 65535 - ((time % 65)*1000);
+                            391 ;	TIMER.c:33: Timer0.lastClock = 65535 - ((time % 65)*1000);
    006C 90s00r00            392 	mov	dptr,#__moduint_PARM_2
    006F 74 41               393 	mov	a,#0x41
    0071 F0                  394 	movx	@dptr,a
@@ -432,30 +432,30 @@
    00A9 A3                  432 	inc	dptr
    00AA EC                  433 	mov	a,r4
    00AB F0                  434 	movx	@dptr,a
-                            435 ;	TIMER.c:39: TR0 = 1;
+                            435 ;	TIMER.c:35: TR0 = 1;
    00AC D2 8C               436 	setb	_TR0
-                            437 ;	TIMER.c:40: Timer0.finishMili = 1;
+                            437 ;	TIMER.c:36: Timer0.finishMili = 1;
    00AE 90s00r04            438 	mov	dptr,#(_Timer0 + 0x0004)
    00B1 74 01               439 	mov	a,#0x01
    00B3 F0                  440 	movx	@dptr,a
-                            441 ;	TIMER.c:42: while(Timer0.finishMili);
+                            441 ;	TIMER.c:38: while(Timer0.finishMili);
    00B4                     442 00101$:
    00B4 90s00r04            443 	mov	dptr,#(_Timer0 + 0x0004)
    00B7 E0                  444 	movx	a,@dptr
    00B8 60 3D               445 	jz	00113$
    00BA 80 F8               446 	sjmp	00101$
    00BC                     447 00110$:
-                            448 ;	TIMER.c:44: else if(!Timer0.finishMili){
+                            448 ;	TIMER.c:40: else if(!Timer0.finishMili){
    00BC EA                  449 	mov	a,r2
    00BD 70 38               450 	jnz	00113$
-                            451 ;	TIMER.c:45: Timer0.cycles = 1;
+                            451 ;	TIMER.c:41: Timer0.cycles = 1;
    00BF 90s00r00            452 	mov	dptr,#_Timer0
    00C2 74 01               453 	mov	a,#0x01
    00C4 F0                  454 	movx	@dptr,a
    00C5 A3                  455 	inc	dptr
    00C6 E4                  456 	clr	a
    00C7 F0                  457 	movx	@dptr,a
-                            458 ;	TIMER.c:46: Timer0.lastClock = 65535 - time;
+                            458 ;	TIMER.c:42: Timer0.lastClock = 65535 - time;
    00C8 90s00r08            459 	mov	dptr,#_delay_time_1_1
    00CB E0                  460 	movx	a,@dptr
    00CC FA                  461 	mov	r2,a
@@ -484,14 +484,14 @@
    00E7 A3                  484 	inc	dptr
    00E8 EB                  485 	mov	a,r3
    00E9 F0                  486 	movx	@dptr,a
-                            487 ;	TIMER.c:47: TR0 = 1;
+                            487 ;	TIMER.c:43: TR0 = 1;
    00EA D2 8C               488 	setb	_TR0
-                            489 ;	TIMER.c:49: while(!Timer0.finishMicro);
+                            489 ;	TIMER.c:45: while(!Timer0.finishMicro);
    00EC                     490 00104$:
    00EC 90s00r05            491 	mov	dptr,#(_Timer0 + 0x0005)
    00EF E0                  492 	movx	a,@dptr
    00F0 60 FA               493 	jz	00104$
-                            494 ;	TIMER.c:51: Timer0.finishMicro = 0;
+                            494 ;	TIMER.c:47: Timer0.finishMicro = 0;
    00F2 90s00r05            495 	mov	dptr,#(_Timer0 + 0x0005)
    00F5 E4                  496 	clr	a
    00F6 F0                  497 	movx	@dptr,a
@@ -501,7 +501,7 @@
                             501 ;Allocation info for local variables in function 'timer'
                             502 ;------------------------------------------------------------
                             503 ;------------------------------------------------------------
-                            504 ;	TIMER.c:61: void volatile timer() __interrupt 1{ 			//(slide aplicmicro 11_C.pdf pg.13)
+                            504 ;	TIMER.c:57: void volatile timer() __interrupt 1{ 			//(slide aplicmicro 11_C.pdf pg.13)
                             505 ;	-----------------------------------------
                             506 ;	 function timer
                             507 ;	-----------------------------------------
@@ -517,15 +517,15 @@
    0108 C0 07               517 	push	ar7
    010A C0 D0               518 	push	psw
    010C 75 D0 00            519 	mov	psw,#0x00
-                            520 ;	TIMER.c:63: TH0 = 0; 												// Zerar os bits mais significativos do contador
+                            520 ;	TIMER.c:59: TH0 = 0; 												// Zerar os bits mais significativos do contador
    010F 75 8C 00            521 	mov	_TH0,#0x00
-                            522 ;	TIMER.c:64: TL0 = 0; 												// Zerar os bits menos significativos do contador
+                            522 ;	TIMER.c:60: TL0 = 0; 												// Zerar os bits menos significativos do contador
    0112 75 8A 00            523 	mov	_TL0,#0x00
-                            524 ;	TIMER.c:65: TF0 = 0;												// Zero a flag do contador
+                            524 ;	TIMER.c:61: TF0 = 0;												// Zero a flag do contador
    0115 C2 8D               525 	clr	_TF0
-                            526 ;	TIMER.c:66: TR0 = 0;												// Paro timer0
+                            526 ;	TIMER.c:62: TR0 = 0;												// Paro timer0
    0117 C2 8C               527 	clr	_TR0
-                            528 ;	TIMER.c:68: if(Timer0.cycles > 1){
+                            528 ;	TIMER.c:64: if(Timer0.cycles > 1){
    0119 90s00r00            529 	mov	dptr,#_Timer0
    011C E0                  530 	movx	a,@dptr
    011D FA                  531 	mov	r2,a
@@ -538,7 +538,7 @@
    0125 E4                  538 	clr	a
    0126 9B                  539 	subb	a,r3
    0127 50 14               540 	jnc	00107$
-                            541 ;	TIMER.c:69: Timer0.cycles--;									// decrementa cycles
+                            541 ;	TIMER.c:65: Timer0.cycles--;									// decrementa cycles
    0129 EA                  542 	mov	a,r2
    012A 24 FF               543 	add	a,#0xff
    012C FC                  544 	mov	r4,a
@@ -551,14 +551,14 @@
    0136 A3                  551 	inc	dptr
    0137 ED                  552 	mov	a,r5
    0138 F0                  553 	movx	@dptr,a
-                            554 ;	TIMER.c:70: TR0 = 1;											// inicia contador
+                            554 ;	TIMER.c:66: TR0 = 1;											// inicia contador
    0139 D2 8C               555 	setb	_TR0
    013B 80 3E               556 	sjmp	00109$
    013D                     557 00107$:
-                            558 ;	TIMER.c:72: else if(Timer0.cycles == 1){
+                            558 ;	TIMER.c:68: else if(Timer0.cycles == 1){
    013D BA 01 32            559 	cjne	r2,#0x01,00104$
    0140 BB 00 2F            560 	cjne	r3,#0x00,00104$
-                            561 ;	TIMER.c:73: TH0 = Timer0.lastClock & 0xFF ;						// Atribui ao ultimo timer o valor dos bits mais significativos
+                            561 ;	TIMER.c:69: TH0 = Timer0.lastClock & 0xFF ;						// Atribui ao ultimo timer o valor dos bits mais significativos
    0143 90s00r02            562 	mov	dptr,#(_Timer0 + 0x0002)
    0146 E0                  563 	movx	a,@dptr
    0147 FC                  564 	mov	r4,a
@@ -568,9 +568,9 @@
    014B 8C 06               568 	mov	ar6,r4
    014D 7F 00               569 	mov	r7,#0x00
    014F 8E 8C               570 	mov	_TH0,r6
-                            571 ;	TIMER.c:74: TL0 = Timer0.lastClock >> 8;						// Atribui ao ultimo timer o valor dos bits menos significativos
+                            571 ;	TIMER.c:70: TL0 = Timer0.lastClock >> 8;						// Atribui ao ultimo timer o valor dos bits menos significativos
    0151 8D 8A               572 	mov	_TL0,r5
-                            573 ;	TIMER.c:75: Timer0.cycles--;									// decrementa cycles
+                            573 ;	TIMER.c:71: Timer0.cycles--;									// decrementa cycles
    0153 90s00r00            574 	mov	dptr,#_Timer0
    0156 E0                  575 	movx	a,@dptr
    0157 FC                  576 	mov	r4,a
@@ -587,19 +587,19 @@
    0165 A3                  587 	inc	dptr
    0166 ED                  588 	mov	a,r5
    0167 F0                  589 	movx	@dptr,a
-                            590 ;	TIMER.c:77: Timer0.finishMicro = 1;
+                            590 ;	TIMER.c:73: Timer0.finishMicro = 1;
    0168 90s00r05            591 	mov	dptr,#(_Timer0 + 0x0005)
    016B 74 01               592 	mov	a,#0x01
    016D F0                  593 	movx	@dptr,a
-                            594 ;	TIMER.c:79: TR0 = 1;											// inicia contador
+                            594 ;	TIMER.c:75: TR0 = 1;											// inicia contador
    016E D2 8C               595 	setb	_TR0
    0170 80 09               596 	sjmp	00109$
    0172                     597 00104$:
-                            598 ;	TIMER.c:81: else if(Timer0.cycles == 0){
+                            598 ;	TIMER.c:77: else if(Timer0.cycles == 0){
    0172 EA                  599 	mov	a,r2
    0173 4B                  600 	orl	a,r3
    0174 70 05               601 	jnz	00109$
-                            602 ;	TIMER.c:82: Timer0.finishMili = 0;								// finish é uma flag que indica que o tempo acabou
+                            602 ;	TIMER.c:78: Timer0.finishMili = 0;								// finish é uma flag que indica que o tempo acabou
    0176 90s00r04            603 	mov	dptr,#(_Timer0 + 0x0004)
    0179 E4                  604 	clr	a
    017A F0                  605 	movx	@dptr,a

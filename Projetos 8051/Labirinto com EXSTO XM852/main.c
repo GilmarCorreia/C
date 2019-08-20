@@ -17,7 +17,7 @@ Nomes:
 volatile struct position *player;
 
 void interruptConfig(){
-	IE = 0x82; 								// Habilitando interrupções, Serial e timer0 (slide sistmicro 03_Interrup��es.pdf pg.9)
+	IE = 0x82; 								// Habilitando interrupções, Serial e timer0 (slide sistmicro 03_Interrupções.pdf pg.9)
 	IP = 0x08;								// Prioridade de interrupção Serial
 }
 
@@ -64,10 +64,8 @@ void setInstructions(){
 void setLevel1(){
 	unsigned char control = 1;
 	
-	LCD_putTextAt("PASSA",1,CENTER);
-	LCD_putTextAt("A",2,CENTER);
-	LCD_putTextAt("LAMBIDA",3,CENTER);
-	LCD_putTextAt("NO BEICOLA 1",4,CENTER);
+	LCD_putTextAt("NIVEL",2,CENTER);
+	LCD_putTextAt("1",3,CENTER);
 	delay(3000,1);
 	clearLCD();
 	
@@ -87,10 +85,8 @@ void setLevel1(){
 void setLevel2(){
 	unsigned char control = 1;
 	
-	LCD_putTextAt("PASSA",1,CENTER);
-	LCD_putTextAt("A",2,CENTER);
-	LCD_putTextAt("LAMBIDA",3,CENTER);
-	LCD_putTextAt("NO BEICOLA 2",4,CENTER);
+	LCD_putTextAt("NIVEL",2,CENTER);
+	LCD_putTextAt("2",3,CENTER);
 	delay(3000,1);
 	clearLCD();
 	
@@ -110,10 +106,8 @@ void setLevel2(){
 void setLevel3(){
 	unsigned char control = 1;
 	
-	LCD_putTextAt("PASSA",1,CENTER);
-	LCD_putTextAt("A",2,CENTER);
-	LCD_putTextAt("LAMBIDA",3,CENTER);
-	LCD_putTextAt("NO BEICOLA 3",4,CENTER);
+	LCD_putTextAt("NIVEL",2,CENTER);
+	LCD_putTextAt("3",3,CENTER);
 	delay(3000,1);
 	clearLCD();
 	
@@ -133,10 +127,8 @@ void setLevel3(){
 void setLevel4(){
 	unsigned char control = 1;
 	
-	LCD_putTextAt("PASSA",1,CENTER);
-	LCD_putTextAt("A",2,CENTER);
-	LCD_putTextAt("LAMBIDA",3,CENTER);
-	LCD_putTextAt("NO BEICOLA 4",4,CENTER);
+	LCD_putTextAt("NIVEL",2,CENTER);
+	LCD_putTextAt("4",3,CENTER);
 	delay(3000,1);
 	clearLCD();
 	
@@ -156,10 +148,8 @@ void setLevel4(){
 void setLevel5(){
 	unsigned char control = 1;
 	
-	LCD_putTextAt("PASSA",1,CENTER);
-	LCD_putTextAt("A",2,CENTER);
-	LCD_putTextAt("LAMBIDA",3,CENTER);
-	LCD_putTextAt("NO BEICOLA 5",4,CENTER);
+	LCD_putTextAt("NIVEL",2,CENTER);
+	LCD_putTextAt("5",3,CENTER);
 	delay(3000,1);
 	clearLCD();
 	
@@ -176,8 +166,8 @@ void setLevel5(){
 	clearLCD();
 }
 void setFinish(){
-	LCD_putTextAt("AGOSTINHO",2,CENTER);
-	LCD_putTextAt("FOI PRESO",3,CENTER);
+	LCD_putTextAt("VOCE",2,CENTER);
+	LCD_putTextAt("VENCEU",3,CENTER);
 	delay(3000,1);
 }
 
@@ -185,22 +175,23 @@ void main(void){
 	
     configs();
 	
-	setInitialScreen();
+	while(1){
+		setInitialScreen();
 	
-	setInstructions();
+		setInstructions();
 	
-	setLevel1();
+		setLevel1();
 	
-	setLevel2();
+		setLevel2();
 
-	setLevel3();
+		setLevel3();
 	
-	setLevel4();
+		setLevel4();
+
+		setLevel5();
 	
-	setLevel5();
+		setFinish();
+	}
 	
-	setFinish();
-	
-	//sing(1);
 }
 

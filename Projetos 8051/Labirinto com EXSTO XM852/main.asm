@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Mon Aug 19 00:21:26 2019
+; This file was generated Tue Aug 20 11:45:57 2019
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mmcs51 --model-large
@@ -116,7 +116,18 @@
 	.globl _DPL
 	.globl _SP
 	.globl _P0
+	.globl _beep2_noteTime
+	.globl _beep2_melody
+	.globl _beep1_noteTime
+	.globl _beep1_melody
+	.globl _adobe_noteTime
+	.globl _adobe_melody
+	.globl _underworld_noteTime
+	.globl _underworld_melody
+	.globl _mainMario_noteTime
+	.globl _mainMario_melody
 	.globl _player
+	.globl _dacWrite
 	.globl _Timer0
 	.globl _map
 	.globl _SCmap
@@ -277,7 +288,7 @@ _map::
 	.ds 64
 _Timer0::
 	.ds 7
-_dacWrite	=	0xffc4
+_dacWrite	=	0xffe4
 _player::
 	.ds 3
 _setInitialScreen_control_1_1:
@@ -302,6 +313,26 @@ _setLevel5_control_1_1:
 	.area XISEG   (XDATA)
 _rxMsg:
 	.ds 1
+_mainMario_melody::
+	.ds 156
+_mainMario_noteTime::
+	.ds 78
+_underworld_melody::
+	.ds 112
+_underworld_noteTime::
+	.ds 56
+_adobe_melody::
+	.ds 32
+_adobe_noteTime::
+	.ds 16
+_beep1_melody::
+	.ds 4
+_beep1_noteTime::
+	.ds 2
+_beep2_melody::
+	.ds 4
+_beep2_noteTime::
+	.ds 2
 	.area HOME    (CODE)
 	.area GSINIT0 (CODE)
 	.area GSINIT1 (CODE)
@@ -366,7 +397,7 @@ _interruptConfig:
 	ar7 = 0x07
 	ar0 = 0x00
 	ar1 = 0x01
-;	main.c:20: IE = 0x82; 								// Habilitando interrupções, Serial e timer0 (slide sistmicro 03_Interrup��es.pdf pg.9)
+;	main.c:20: IE = 0x82; 								// Habilitando interrupções, Serial e timer0 (slide sistmicro 03_Interrupções.pdf pg.9)
 	mov	_IE,#0x82
 ;	main.c:21: IP = 0x08;								// Prioridade de interrupção Serial
 	mov	_IP,#0x08
@@ -568,9 +599,9 @@ _setLevel1:
 	mov	dptr,#_setLevel1_control_1_1
 	mov	a,#0x01
 	movx	@dptr,a
-;	main.c:67: LCD_putTextAt("PASSA",1,CENTER);
+;	main.c:67: LCD_putTextAt("NIVEL",2,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x01
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -578,9 +609,9 @@ _setLevel1:
 	mov	dptr,#__str_9
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:68: LCD_putTextAt("A",2,CENTER);
+;	main.c:68: LCD_putTextAt("1",3,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x02
+	mov	a,#0x03
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -588,7 +619,174 @@ _setLevel1:
 	mov	dptr,#__str_10
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:69: LCD_putTextAt("LAMBIDA",3,CENTER);
+;	main.c:69: delay(3000,1);
+	mov	dptr,#_delay_PARM_2
+	mov	a,#0x01
+	movx	@dptr,a
+	mov	dptr,#0x0BB8
+	lcall	_delay
+;	main.c:70: clearLCD();
+	lcall	_clearLCD
+;	main.c:72: player->sline = 7;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x07
+	lcall	__gptrput
+;	main.c:73: player->scol = 3;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	inc	r2
+	cjne	r2,#0x00,00108$
+	inc	r3
+00108$:
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x03
+	lcall	__gptrput
+;	main.c:74: player->line = 4;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x02
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x04
+	lcall	__gptrput
+;	main.c:75: player->col = 10;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x03
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x0A
+	lcall	__gptrput
+;	main.c:77: printMap();
+	lcall	_printMap
+;	main.c:79: while(control)
+00101$:
+	mov	dptr,#_setLevel1_control_1_1
+	movx	a,@dptr
+	mov	r2,a
+	jz	00103$
+;	main.c:80: control = configMap(player->line, player->col);
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x02
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	lcall	__gptrget
+	mov	r2,a
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r5,a
+	mov	a,#0x03
+	add	a,r3
+	mov	r3,a
+	clr	a
+	addc	a,r4
+	mov	r4,a
+	mov	dpl,r3
+	mov	dph,r4
+	mov	b,r5
+	lcall	__gptrget
+	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dpl,r2
+	lcall	_configMap
+	mov	a,dpl
+	mov	dptr,#_setLevel1_control_1_1
+	movx	@dptr,a
+	sjmp	00101$
+00103$:
+;	main.c:82: clearLCD();
+	ljmp	_clearLCD
+;------------------------------------------------------------
+;Allocation info for local variables in function 'setLevel2'
+;------------------------------------------------------------
+;control                   Allocated with name '_setLevel2_control_1_1'
+;------------------------------------------------------------
+;	main.c:85: void setLevel2(){
+;	-----------------------------------------
+;	 function setLevel2
+;	-----------------------------------------
+_setLevel2:
+;	main.c:86: unsigned char control = 1;
+	mov	dptr,#_setLevel2_control_1_1
+	mov	a,#0x01
+	movx	@dptr,a
+;	main.c:88: LCD_putTextAt("NIVEL",2,CENTER);
+	mov	dptr,#_LCD_putTextAt_PARM_2
+	mov	a,#0x02
+	movx	@dptr,a
+	mov	dptr,#_LCD_putTextAt_PARM_3
+	mov	a,#0x02
+	movx	@dptr,a
+	mov	dptr,#__str_9
+	mov	b,#0x80
+	lcall	_LCD_putTextAt
+;	main.c:89: LCD_putTextAt("2",3,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
 	mov	a,#0x03
 	movx	@dptr,a
@@ -598,9 +796,176 @@ _setLevel1:
 	mov	dptr,#__str_11
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:70: LCD_putTextAt("NO BEICOLA 1",4,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
+;	main.c:90: delay(3000,1);
+	mov	dptr,#_delay_PARM_2
+	mov	a,#0x01
+	movx	@dptr,a
+	mov	dptr,#0x0BB8
+	lcall	_delay
+;	main.c:91: clearLCD();
+	lcall	_clearLCD
+;	main.c:93: setMap2CGram();
+	lcall	_setMap2CGram
+;	main.c:95: player->sline = 7;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x07
+	lcall	__gptrput
+;	main.c:96: player->scol = 2;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	inc	r2
+	cjne	r2,#0x00,00108$
+	inc	r3
+00108$:
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x02
+	lcall	__gptrput
+;	main.c:97: player->line = 4;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x02
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
 	mov	a,#0x04
+	lcall	__gptrput
+;	main.c:98: player->col = 2;
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x03
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,#0x02
+	lcall	__gptrput
+;	main.c:100: while(control)
+00101$:
+	mov	dptr,#_setLevel2_control_1_1
+	movx	a,@dptr
+	mov	r2,a
+	jz	00103$
+;	main.c:101: control = configMap(player->line, player->col);
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	mov	a,#0x02
+	add	a,r2
+	mov	r2,a
+	clr	a
+	addc	a,r3
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	lcall	__gptrget
+	mov	r2,a
+	mov	dptr,#_player
+	movx	a,@dptr
+	mov	r3,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r4,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r5,a
+	mov	a,#0x03
+	add	a,r3
+	mov	r3,a
+	clr	a
+	addc	a,r4
+	mov	r4,a
+	mov	dpl,r3
+	mov	dph,r4
+	mov	b,r5
+	lcall	__gptrget
+	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dpl,r2
+	lcall	_configMap
+	mov	a,dpl
+	mov	dptr,#_setLevel2_control_1_1
+	movx	@dptr,a
+	sjmp	00101$
+00103$:
+;	main.c:103: clearLCD();
+	ljmp	_clearLCD
+;------------------------------------------------------------
+;Allocation info for local variables in function 'setLevel3'
+;------------------------------------------------------------
+;control                   Allocated with name '_setLevel3_control_1_1'
+;------------------------------------------------------------
+;	main.c:106: void setLevel3(){
+;	-----------------------------------------
+;	 function setLevel3
+;	-----------------------------------------
+_setLevel3:
+;	main.c:107: unsigned char control = 1;
+	mov	dptr,#_setLevel3_control_1_1
+	mov	a,#0x01
+	movx	@dptr,a
+;	main.c:109: LCD_putTextAt("NIVEL",2,CENTER);
+	mov	dptr,#_LCD_putTextAt_PARM_2
+	mov	a,#0x02
+	movx	@dptr,a
+	mov	dptr,#_LCD_putTextAt_PARM_3
+	mov	a,#0x02
+	movx	@dptr,a
+	mov	dptr,#__str_9
+	mov	b,#0x80
+	lcall	_LCD_putTextAt
+;	main.c:110: LCD_putTextAt("3",3,CENTER);
+	mov	dptr,#_LCD_putTextAt_PARM_2
+	mov	a,#0x03
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -608,15 +973,17 @@ _setLevel1:
 	mov	dptr,#__str_12
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:71: delay(3000,1);
+;	main.c:111: delay(3000,1);
 	mov	dptr,#_delay_PARM_2
 	mov	a,#0x01
 	movx	@dptr,a
 	mov	dptr,#0x0BB8
 	lcall	_delay
-;	main.c:72: clearLCD();
+;	main.c:112: clearLCD();
 	lcall	_clearLCD
-;	main.c:74: player->sline = 7;
+;	main.c:114: setMap3CGram();
+	lcall	_setMap3CGram
+;	main.c:116: player->sline = 5;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -629,9 +996,9 @@ _setLevel1:
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-	mov	a,#0x07
+	mov	a,#0x05
 	lcall	__gptrput
-;	main.c:75: player->scol = 3;
+;	main.c:117: player->scol = 5;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -648,9 +1015,9 @@ _setLevel1:
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
-	mov	a,#0x03
+	mov	a,#0x05
 	lcall	__gptrput
-;	main.c:76: player->line = 4;
+;	main.c:118: player->line = 4;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -671,7 +1038,7 @@ _setLevel1:
 	mov	b,r4
 	mov	a,#0x04
 	lcall	__gptrput
-;	main.c:77: player->col = 10;
+;	main.c:119: player->col = 10;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -692,15 +1059,13 @@ _setLevel1:
 	mov	b,r4
 	mov	a,#0x0A
 	lcall	__gptrput
-;	main.c:79: printMap();
-	lcall	_printMap
-;	main.c:81: while(control)
+;	main.c:121: while(control)
 00101$:
-	mov	dptr,#_setLevel1_control_1_1
+	mov	dptr,#_setLevel3_control_1_1
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:82: control = configMap(player->line, player->col);
+;	main.c:122: control = configMap(player->line, player->col);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -745,29 +1110,29 @@ _setLevel1:
 	mov	dpl,r2
 	lcall	_configMap
 	mov	a,dpl
-	mov	dptr,#_setLevel1_control_1_1
+	mov	dptr,#_setLevel3_control_1_1
 	movx	@dptr,a
 	sjmp	00101$
 00103$:
-;	main.c:84: clearLCD();
+;	main.c:124: clearLCD();
 	ljmp	_clearLCD
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'setLevel2'
+;Allocation info for local variables in function 'setLevel4'
 ;------------------------------------------------------------
-;control                   Allocated with name '_setLevel2_control_1_1'
+;control                   Allocated with name '_setLevel4_control_1_1'
 ;------------------------------------------------------------
-;	main.c:87: void setLevel2(){
+;	main.c:127: void setLevel4(){
 ;	-----------------------------------------
-;	 function setLevel2
+;	 function setLevel4
 ;	-----------------------------------------
-_setLevel2:
-;	main.c:88: unsigned char control = 1;
-	mov	dptr,#_setLevel2_control_1_1
+_setLevel4:
+;	main.c:128: unsigned char control = 1;
+	mov	dptr,#_setLevel4_control_1_1
 	mov	a,#0x01
 	movx	@dptr,a
-;	main.c:90: LCD_putTextAt("PASSA",1,CENTER);
+;	main.c:130: LCD_putTextAt("NIVEL",2,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x01
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -775,29 +1140,9 @@ _setLevel2:
 	mov	dptr,#__str_9
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:91: LCD_putTextAt("A",2,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_10
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:92: LCD_putTextAt("LAMBIDA",3,CENTER);
+;	main.c:131: LCD_putTextAt("4",3,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
 	mov	a,#0x03
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_11
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:93: LCD_putTextAt("NO BEICOLA 2",4,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x04
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -805,411 +1150,17 @@ _setLevel2:
 	mov	dptr,#__str_13
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:94: delay(3000,1);
+;	main.c:132: delay(3000,1);
 	mov	dptr,#_delay_PARM_2
 	mov	a,#0x01
 	movx	@dptr,a
 	mov	dptr,#0x0BB8
 	lcall	_delay
-;	main.c:95: clearLCD();
+;	main.c:133: clearLCD();
 	lcall	_clearLCD
-;	main.c:97: setMap2CGram();
-	lcall	_setMap2CGram
-;	main.c:99: player->sline = 7;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x07
-	lcall	__gptrput
-;	main.c:100: player->scol = 2;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	inc	r2
-	cjne	r2,#0x00,00108$
-	inc	r3
-00108$:
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x02
-	lcall	__gptrput
-;	main.c:101: player->line = 4;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x02
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x04
-	lcall	__gptrput
-;	main.c:102: player->col = 2;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x03
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x02
-	lcall	__gptrput
-;	main.c:104: while(control)
-00101$:
-	mov	dptr,#_setLevel2_control_1_1
-	movx	a,@dptr
-	mov	r2,a
-	jz	00103$
-;	main.c:105: control = configMap(player->line, player->col);
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x02
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	lcall	__gptrget
-	mov	r2,a
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r5,a
-	mov	a,#0x03
-	add	a,r3
-	mov	r3,a
-	clr	a
-	addc	a,r4
-	mov	r4,a
-	mov	dpl,r3
-	mov	dph,r4
-	mov	b,r5
-	lcall	__gptrget
-	mov	dptr,#_configMap_PARM_2
-	movx	@dptr,a
-	mov	dpl,r2
-	lcall	_configMap
-	mov	a,dpl
-	mov	dptr,#_setLevel2_control_1_1
-	movx	@dptr,a
-	sjmp	00101$
-00103$:
-;	main.c:107: clearLCD();
-	ljmp	_clearLCD
-;------------------------------------------------------------
-;Allocation info for local variables in function 'setLevel3'
-;------------------------------------------------------------
-;control                   Allocated with name '_setLevel3_control_1_1'
-;------------------------------------------------------------
-;	main.c:110: void setLevel3(){
-;	-----------------------------------------
-;	 function setLevel3
-;	-----------------------------------------
-_setLevel3:
-;	main.c:111: unsigned char control = 1;
-	mov	dptr,#_setLevel3_control_1_1
-	mov	a,#0x01
-	movx	@dptr,a
-;	main.c:113: LCD_putTextAt("PASSA",1,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_9
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:114: LCD_putTextAt("A",2,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_10
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:115: LCD_putTextAt("LAMBIDA",3,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x03
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_11
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:116: LCD_putTextAt("NO BEICOLA 3",4,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x04
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_14
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:117: delay(3000,1);
-	mov	dptr,#_delay_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
-	mov	dptr,#0x0BB8
-	lcall	_delay
-;	main.c:118: clearLCD();
-	lcall	_clearLCD
-;	main.c:120: setMap3CGram();
-	lcall	_setMap3CGram
-;	main.c:122: player->sline = 5;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x05
-	lcall	__gptrput
-;	main.c:123: player->scol = 5;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	inc	r2
-	cjne	r2,#0x00,00108$
-	inc	r3
-00108$:
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x05
-	lcall	__gptrput
-;	main.c:124: player->line = 4;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x02
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x04
-	lcall	__gptrput
-;	main.c:125: player->col = 10;
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x03
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,#0x0A
-	lcall	__gptrput
-;	main.c:127: while(control)
-00101$:
-	mov	dptr,#_setLevel3_control_1_1
-	movx	a,@dptr
-	mov	r2,a
-	jz	00103$
-;	main.c:128: control = configMap(player->line, player->col);
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r2,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	mov	a,#0x02
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	lcall	__gptrget
-	mov	r2,a
-	mov	dptr,#_player
-	movx	a,@dptr
-	mov	r3,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r4,a
-	inc	dptr
-	movx	a,@dptr
-	mov	r5,a
-	mov	a,#0x03
-	add	a,r3
-	mov	r3,a
-	clr	a
-	addc	a,r4
-	mov	r4,a
-	mov	dpl,r3
-	mov	dph,r4
-	mov	b,r5
-	lcall	__gptrget
-	mov	dptr,#_configMap_PARM_2
-	movx	@dptr,a
-	mov	dpl,r2
-	lcall	_configMap
-	mov	a,dpl
-	mov	dptr,#_setLevel3_control_1_1
-	movx	@dptr,a
-	sjmp	00101$
-00103$:
-;	main.c:130: clearLCD();
-	ljmp	_clearLCD
-;------------------------------------------------------------
-;Allocation info for local variables in function 'setLevel4'
-;------------------------------------------------------------
-;control                   Allocated with name '_setLevel4_control_1_1'
-;------------------------------------------------------------
-;	main.c:133: void setLevel4(){
-;	-----------------------------------------
-;	 function setLevel4
-;	-----------------------------------------
-_setLevel4:
-;	main.c:134: unsigned char control = 1;
-	mov	dptr,#_setLevel4_control_1_1
-	mov	a,#0x01
-	movx	@dptr,a
-;	main.c:136: LCD_putTextAt("PASSA",1,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_9
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:137: LCD_putTextAt("A",2,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_10
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:138: LCD_putTextAt("LAMBIDA",3,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x03
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_11
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:139: LCD_putTextAt("NO BEICOLA 4",4,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x04
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_15
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:140: delay(3000,1);
-	mov	dptr,#_delay_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
-	mov	dptr,#0x0BB8
-	lcall	_delay
-;	main.c:141: clearLCD();
-	lcall	_clearLCD
-;	main.c:143: setMap4CGram();
+;	main.c:135: setMap4CGram();
 	lcall	_setMap4CGram
-;	main.c:145: player->sline = 3;
+;	main.c:137: player->sline = 3;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1224,7 +1175,7 @@ _setLevel4:
 	mov	b,r4
 	mov	a,#0x03
 	lcall	__gptrput
-;	main.c:146: player->scol = 4;
+;	main.c:138: player->scol = 4;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1243,7 +1194,7 @@ _setLevel4:
 	mov	b,r4
 	mov	a,#0x04
 	lcall	__gptrput
-;	main.c:147: player->line = 4;
+;	main.c:139: player->line = 4;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1264,7 +1215,7 @@ _setLevel4:
 	mov	b,r4
 	mov	a,#0x04
 	lcall	__gptrput
-;	main.c:148: player->col = 16;
+;	main.c:140: player->col = 16;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1285,13 +1236,13 @@ _setLevel4:
 	mov	b,r4
 	mov	a,#0x10
 	lcall	__gptrput
-;	main.c:150: while(control)
+;	main.c:142: while(control)
 00101$:
 	mov	dptr,#_setLevel4_control_1_1
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:151: control = configMap(player->line, player->col);
+;	main.c:143: control = configMap(player->line, player->col);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1340,25 +1291,25 @@ _setLevel4:
 	movx	@dptr,a
 	sjmp	00101$
 00103$:
-;	main.c:153: clearLCD();
+;	main.c:145: clearLCD();
 	ljmp	_clearLCD
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'setLevel5'
 ;------------------------------------------------------------
 ;control                   Allocated with name '_setLevel5_control_1_1'
 ;------------------------------------------------------------
-;	main.c:156: void setLevel5(){
+;	main.c:148: void setLevel5(){
 ;	-----------------------------------------
 ;	 function setLevel5
 ;	-----------------------------------------
 _setLevel5:
-;	main.c:157: unsigned char control = 1;
+;	main.c:149: unsigned char control = 1;
 	mov	dptr,#_setLevel5_control_1_1
 	mov	a,#0x01
 	movx	@dptr,a
-;	main.c:159: LCD_putTextAt("PASSA",1,CENTER);
+;	main.c:151: LCD_putTextAt("NIVEL",2,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x01
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
@@ -1366,47 +1317,27 @@ _setLevel5:
 	mov	dptr,#__str_9
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:160: LCD_putTextAt("A",2,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_10
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:161: LCD_putTextAt("LAMBIDA",3,CENTER);
+;	main.c:152: LCD_putTextAt("5",3,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
 	mov	a,#0x03
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
 	movx	@dptr,a
-	mov	dptr,#__str_11
+	mov	dptr,#__str_14
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:162: LCD_putTextAt("NO BEICOLA 5",4,CENTER);
-	mov	dptr,#_LCD_putTextAt_PARM_2
-	mov	a,#0x04
-	movx	@dptr,a
-	mov	dptr,#_LCD_putTextAt_PARM_3
-	mov	a,#0x02
-	movx	@dptr,a
-	mov	dptr,#__str_16
-	mov	b,#0x80
-	lcall	_LCD_putTextAt
-;	main.c:163: delay(3000,1);
+;	main.c:153: delay(3000,1);
 	mov	dptr,#_delay_PARM_2
 	mov	a,#0x01
 	movx	@dptr,a
 	mov	dptr,#0x0BB8
 	lcall	_delay
-;	main.c:164: clearLCD();
+;	main.c:154: clearLCD();
 	lcall	_clearLCD
-;	main.c:166: setMap5CGram();
+;	main.c:156: setMap5CGram();
 	lcall	_setMap5CGram
-;	main.c:168: player->sline = 7;
+;	main.c:158: player->sline = 7;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1421,7 +1352,7 @@ _setLevel5:
 	mov	b,r4
 	mov	a,#0x07
 	lcall	__gptrput
-;	main.c:169: player->scol = 5;
+;	main.c:159: player->scol = 5;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1440,7 +1371,7 @@ _setLevel5:
 	mov	b,r4
 	mov	a,#0x05
 	lcall	__gptrput
-;	main.c:170: player->line = 4;
+;	main.c:160: player->line = 4;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1461,7 +1392,7 @@ _setLevel5:
 	mov	b,r4
 	mov	a,#0x04
 	lcall	__gptrput
-;	main.c:171: player->col = 1;
+;	main.c:161: player->col = 1;
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1482,13 +1413,13 @@ _setLevel5:
 	mov	b,r4
 	mov	a,#0x01
 	lcall	__gptrput
-;	main.c:173: while(control)
+;	main.c:163: while(control)
 00101$:
 	mov	dptr,#_setLevel5_control_1_1
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:174: control = configMap(player->line, player->col);
+;	main.c:164: control = configMap(player->line, player->col);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1537,38 +1468,38 @@ _setLevel5:
 	movx	@dptr,a
 	sjmp	00101$
 00103$:
-;	main.c:176: clearLCD();
+;	main.c:166: clearLCD();
 	ljmp	_clearLCD
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'setFinish'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	main.c:178: void setFinish(){
+;	main.c:168: void setFinish(){
 ;	-----------------------------------------
 ;	 function setFinish
 ;	-----------------------------------------
 _setFinish:
-;	main.c:179: LCD_putTextAt("AGOSTINHO",2,CENTER);
+;	main.c:169: LCD_putTextAt("VOCE",2,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
 	mov	a,#0x02
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
 	movx	@dptr,a
-	mov	dptr,#__str_17
+	mov	dptr,#__str_15
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:180: LCD_putTextAt("FOI PRESO",3,CENTER);
+;	main.c:170: LCD_putTextAt("VENCEU",3,CENTER);
 	mov	dptr,#_LCD_putTextAt_PARM_2
 	mov	a,#0x03
 	movx	@dptr,a
 	mov	dptr,#_LCD_putTextAt_PARM_3
 	mov	a,#0x02
 	movx	@dptr,a
-	mov	dptr,#__str_18
+	mov	dptr,#__str_16
 	mov	b,#0x80
 	lcall	_LCD_putTextAt
-;	main.c:181: delay(3000,1);
+;	main.c:171: delay(3000,1);
 	mov	dptr,#_delay_PARM_2
 	mov	a,#0x01
 	movx	@dptr,a
@@ -1578,29 +1509,32 @@ _setFinish:
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	main.c:184: void main(void){
+;	main.c:174: void main(void){
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:186: configs();
+;	main.c:176: configs();
 	lcall	_configs
-;	main.c:188: setInitialScreen();
+;	main.c:178: while(1){
+00102$:
+;	main.c:179: setInitialScreen();
 	lcall	_setInitialScreen
-;	main.c:190: setInstructions();
+;	main.c:181: setInstructions();
 	lcall	_setInstructions
-;	main.c:192: setLevel1();
+;	main.c:183: setLevel1();
 	lcall	_setLevel1
-;	main.c:194: setLevel2();
+;	main.c:185: setLevel2();
 	lcall	_setLevel2
-;	main.c:196: setLevel3();
+;	main.c:187: setLevel3();
 	lcall	_setLevel3
-;	main.c:198: setLevel4();
+;	main.c:189: setLevel4();
 	lcall	_setLevel4
-;	main.c:200: setLevel5();
+;	main.c:191: setLevel5();
 	lcall	_setLevel5
-;	main.c:202: setFinish();
-	ljmp	_setFinish
+;	main.c:193: setFinish();
+	lcall	_setFinish
+	sjmp	00102$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 __str_0:
@@ -1631,36 +1565,348 @@ __str_8:
 	.ascii "TA ou ESQUERDA"
 	.db 0x00
 __str_9:
-	.ascii "PASSA"
+	.ascii "NIVEL"
 	.db 0x00
 __str_10:
-	.ascii "A"
+	.ascii "1"
 	.db 0x00
 __str_11:
-	.ascii "LAMBIDA"
+	.ascii "2"
 	.db 0x00
 __str_12:
-	.ascii "NO BEICOLA 1"
+	.ascii "3"
 	.db 0x00
 __str_13:
-	.ascii "NO BEICOLA 2"
+	.ascii "4"
 	.db 0x00
 __str_14:
-	.ascii "NO BEICOLA 3"
+	.ascii "5"
 	.db 0x00
 __str_15:
-	.ascii "NO BEICOLA 4"
+	.ascii "VOCE"
 	.db 0x00
 __str_16:
-	.ascii "NO BEICOLA 5"
-	.db 0x00
-__str_17:
-	.ascii "AGOSTINHO"
-	.db 0x00
-__str_18:
-	.ascii "FOI PRESO"
+	.ascii "VENCEU"
 	.db 0x00
 	.area XINIT   (CODE)
 __xinit__rxMsg:
 	.db #0x00
+__xinit__mainMario_melody:
+	.byte #0x63,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x54,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xC7,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x63,#0x00
+	.byte #0x54,#0x00
+	.byte #0x4B,#0x00
+	.byte #0x00,#0x00
+	.byte #0x5E,#0x00
+	.byte #0x54,#0x00
+	.byte #0x00,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x70,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xC7,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0xA7,#0x00
+	.byte #0x63,#0x00
+	.byte #0x54,#0x00
+	.byte #0x4B,#0x00
+	.byte #0x00,#0x00
+	.byte #0x5E,#0x00
+	.byte #0x54,#0x00
+	.byte #0x00,#0x00
+	.byte #0x63,#0x00
+	.byte #0x00,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x70,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+__xinit__mainMario_noteTime:
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+	.db #0x0F
+__xinit__underworld_melody:
+	.byte #0xFB,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x2A,#0x01
+	.byte #0x95,#0x00
+	.byte #0x1A,#0x01
+	.byte #0x8D,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xFB,#0x00
+	.byte #0x7D,#0x00
+	.byte #0x2A,#0x01
+	.byte #0x95,#0x00
+	.byte #0x1A,#0x01
+	.byte #0x8D,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x78,#0x01
+	.byte #0xBC,#0x00
+	.byte #0xBF,#0x01
+	.byte #0xDF,#0x00
+	.byte #0xA6,#0x01
+	.byte #0xD3,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x78,#0x01
+	.byte #0xBC,#0x00
+	.byte #0xBF,#0x01
+	.byte #0xDF,#0x00
+	.byte #0xA6,#0x01
+	.byte #0xD3,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0xD3,#0x00
+	.byte #0xED,#0x00
+	.byte #0xDF,#0x00
+	.byte #0xED,#0x00
+	.byte #0xD3,#0x00
+	.byte #0xD3,#0x00
+	.byte #0x3C,#0x01
+	.byte #0x4F,#0x01
+	.byte #0xED,#0x00
+	.byte #0xFB,#0x00
+	.byte #0xB1,#0x00
+	.byte #0xBC,#0x00
+	.byte #0x8E,#0x01
+	.byte #0x8D,#0x00
+	.byte #0x95,#0x00
+	.byte #0x9E,#0x00
+	.byte #0xD3,#0x00
+	.byte #0x0A,#0x01
+	.byte #0x1A,#0x01
+	.byte #0x2A,#0x01
+	.byte #0x3C,#0x01
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+__xinit__underworld_noteTime:
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x06
+	.db #0x03
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x06
+	.db #0x03
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x06
+	.db #0x03
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x0C
+	.db #0x06
+	.db #0x06
+	.db #0x12
+	.db #0x12
+	.db #0x12
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x12
+	.db #0x12
+	.db #0x12
+	.db #0x12
+	.db #0x12
+	.db #0x12
+	.db #0x0A
+	.db #0x0A
+	.db #0x0A
+	.db #0x0A
+	.db #0x0A
+	.db #0x0A
+	.db #0x03
+	.db #0x03
+	.db #0x03
+__xinit__adobe_melody:
+	.byte #0x85,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x85,#0x00
+	.byte #0x70,#0x00
+	.byte #0x70,#0x00
+	.byte #0x00,#0x00
+	.byte #0x70,#0x00
+	.byte #0x95,#0x00
+	.byte #0x95,#0x00
+	.byte #0x00,#0x00
+	.byte #0x95,#0x00
+	.byte #0x85,#0x00
+	.byte #0x85,#0x00
+	.byte #0x00,#0x00
+	.byte #0x00,#0x00
+__xinit__adobe_noteTime:
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+	.db #0x06
+__xinit__beep1_melody:
+	.byte #0xFB,#0x00
+	.byte #0x00,#0x00
+__xinit__beep1_noteTime:
+	.db #0x06
+	.db #0x0C
+__xinit__beep2_melody:
+	.byte #0xED,#0x00
+	.byte #0x00,#0x00
+__xinit__beep2_noteTime:
+	.db #0x06
+	.db #0x0C
 	.area CABS    (ABS,CODE)

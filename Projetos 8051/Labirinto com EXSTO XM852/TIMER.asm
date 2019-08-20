@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Mon Aug 19 00:21:24 2019
+; This file was generated Tue Aug 20 11:45:55 2019
 ;--------------------------------------------------------
 	.module TIMER
 	.optsdcc -mmcs51 --model-large
@@ -333,7 +333,7 @@ _timerConfig:
 ;miliseconds               Allocated with name '_delay_PARM_2'
 ;time                      Allocated with name '_delay_time_1_1'
 ;------------------------------------------------------------
-;	TIMER.c:28: void delay(unsigned int time, unsigned char miliseconds){
+;	TIMER.c:27: void delay(unsigned int time, unsigned char miliseconds){
 ;	-----------------------------------------
 ;	 function delay
 ;	-----------------------------------------
@@ -345,11 +345,11 @@ _delay:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-;	TIMER.c:33: Timer0.flag=1;
+;	TIMER.c:29: Timer0.flag=1;
 	mov	dptr,#(_Timer0 + 0x0006)
 	mov	a,#0x01
 	movx	@dptr,a
-;	TIMER.c:35: if(!Timer0.finishMili && miliseconds){
+;	TIMER.c:31: if(!Timer0.finishMili && miliseconds){	
 	mov	dptr,#(_Timer0 + 0x0004)
 	movx	a,@dptr
 	mov	r2,a
@@ -360,7 +360,7 @@ _delay:
 	movx	a,@dptr
 	mov	r3,a
 	jz	00110$
-;	TIMER.c:36: Timer0.cycles = time/65;
+;	TIMER.c:32: Timer0.cycles = time/65;
 	mov	dptr,#_delay_time_1_1
 	movx	a,@dptr
 	mov	r3,a
@@ -388,7 +388,7 @@ _delay:
 	inc	dptr
 	mov	a,r6
 	movx	@dptr,a
-;	TIMER.c:37: Timer0.lastClock = 65535 - ((time % 65)*1000);
+;	TIMER.c:33: Timer0.lastClock = 65535 - ((time % 65)*1000);
 	mov	dptr,#__moduint_PARM_2
 	mov	a,#0x41
 	movx	@dptr,a
@@ -432,30 +432,30 @@ _delay:
 	inc	dptr
 	mov	a,r4
 	movx	@dptr,a
-;	TIMER.c:39: TR0 = 1;
+;	TIMER.c:35: TR0 = 1;
 	setb	_TR0
-;	TIMER.c:40: Timer0.finishMili = 1;
+;	TIMER.c:36: Timer0.finishMili = 1;
 	mov	dptr,#(_Timer0 + 0x0004)
 	mov	a,#0x01
 	movx	@dptr,a
-;	TIMER.c:42: while(Timer0.finishMili);
+;	TIMER.c:38: while(Timer0.finishMili);
 00101$:
 	mov	dptr,#(_Timer0 + 0x0004)
 	movx	a,@dptr
 	jz	00113$
 	sjmp	00101$
 00110$:
-;	TIMER.c:44: else if(!Timer0.finishMili){
+;	TIMER.c:40: else if(!Timer0.finishMili){
 	mov	a,r2
 	jnz	00113$
-;	TIMER.c:45: Timer0.cycles = 1;
+;	TIMER.c:41: Timer0.cycles = 1;
 	mov	dptr,#_Timer0
 	mov	a,#0x01
 	movx	@dptr,a
 	inc	dptr
 	clr	a
 	movx	@dptr,a
-;	TIMER.c:46: Timer0.lastClock = 65535 - time;
+;	TIMER.c:42: Timer0.lastClock = 65535 - time;
 	mov	dptr,#_delay_time_1_1
 	movx	a,@dptr
 	mov	r2,a
@@ -484,14 +484,14 @@ _delay:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-;	TIMER.c:47: TR0 = 1;
+;	TIMER.c:43: TR0 = 1;
 	setb	_TR0
-;	TIMER.c:49: while(!Timer0.finishMicro);
+;	TIMER.c:45: while(!Timer0.finishMicro);
 00104$:
 	mov	dptr,#(_Timer0 + 0x0005)
 	movx	a,@dptr
 	jz	00104$
-;	TIMER.c:51: Timer0.finishMicro = 0;
+;	TIMER.c:47: Timer0.finishMicro = 0;
 	mov	dptr,#(_Timer0 + 0x0005)
 	clr	a
 	movx	@dptr,a
@@ -501,7 +501,7 @@ _delay:
 ;Allocation info for local variables in function 'timer'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	TIMER.c:61: void volatile timer() __interrupt 1{ 			//(slide aplicmicro 11_C.pdf pg.13)
+;	TIMER.c:57: void volatile timer() __interrupt 1{ 			//(slide aplicmicro 11_C.pdf pg.13)
 ;	-----------------------------------------
 ;	 function timer
 ;	-----------------------------------------
@@ -517,15 +517,15 @@ _timer:
 	push	ar7
 	push	psw
 	mov	psw,#0x00
-;	TIMER.c:63: TH0 = 0; 												// Zerar os bits mais significativos do contador
+;	TIMER.c:59: TH0 = 0; 												// Zerar os bits mais significativos do contador
 	mov	_TH0,#0x00
-;	TIMER.c:64: TL0 = 0; 												// Zerar os bits menos significativos do contador
+;	TIMER.c:60: TL0 = 0; 												// Zerar os bits menos significativos do contador
 	mov	_TL0,#0x00
-;	TIMER.c:65: TF0 = 0;												// Zero a flag do contador
+;	TIMER.c:61: TF0 = 0;												// Zero a flag do contador
 	clr	_TF0
-;	TIMER.c:66: TR0 = 0;												// Paro timer0
+;	TIMER.c:62: TR0 = 0;												// Paro timer0
 	clr	_TR0
-;	TIMER.c:68: if(Timer0.cycles > 1){
+;	TIMER.c:64: if(Timer0.cycles > 1){
 	mov	dptr,#_Timer0
 	movx	a,@dptr
 	mov	r2,a
@@ -538,7 +538,7 @@ _timer:
 	clr	a
 	subb	a,r3
 	jnc	00107$
-;	TIMER.c:69: Timer0.cycles--;									// decrementa cycles
+;	TIMER.c:65: Timer0.cycles--;									// decrementa cycles
 	mov	a,r2
 	add	a,#0xff
 	mov	r4,a
@@ -551,14 +551,14 @@ _timer:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-;	TIMER.c:70: TR0 = 1;											// inicia contador
+;	TIMER.c:66: TR0 = 1;											// inicia contador
 	setb	_TR0
 	sjmp	00109$
 00107$:
-;	TIMER.c:72: else if(Timer0.cycles == 1){
+;	TIMER.c:68: else if(Timer0.cycles == 1){
 	cjne	r2,#0x01,00104$
 	cjne	r3,#0x00,00104$
-;	TIMER.c:73: TH0 = Timer0.lastClock & 0xFF ;						// Atribui ao ultimo timer o valor dos bits mais significativos
+;	TIMER.c:69: TH0 = Timer0.lastClock & 0xFF ;						// Atribui ao ultimo timer o valor dos bits mais significativos
 	mov	dptr,#(_Timer0 + 0x0002)
 	movx	a,@dptr
 	mov	r4,a
@@ -568,9 +568,9 @@ _timer:
 	mov	ar6,r4
 	mov	r7,#0x00
 	mov	_TH0,r6
-;	TIMER.c:74: TL0 = Timer0.lastClock >> 8;						// Atribui ao ultimo timer o valor dos bits menos significativos
+;	TIMER.c:70: TL0 = Timer0.lastClock >> 8;						// Atribui ao ultimo timer o valor dos bits menos significativos
 	mov	_TL0,r5
-;	TIMER.c:75: Timer0.cycles--;									// decrementa cycles
+;	TIMER.c:71: Timer0.cycles--;									// decrementa cycles
 	mov	dptr,#_Timer0
 	movx	a,@dptr
 	mov	r4,a
@@ -587,19 +587,19 @@ _timer:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-;	TIMER.c:77: Timer0.finishMicro = 1;
+;	TIMER.c:73: Timer0.finishMicro = 1;
 	mov	dptr,#(_Timer0 + 0x0005)
 	mov	a,#0x01
 	movx	@dptr,a
-;	TIMER.c:79: TR0 = 1;											// inicia contador
+;	TIMER.c:75: TR0 = 1;											// inicia contador
 	setb	_TR0
 	sjmp	00109$
 00104$:
-;	TIMER.c:81: else if(Timer0.cycles == 0){
+;	TIMER.c:77: else if(Timer0.cycles == 0){
 	mov	a,r2
 	orl	a,r3
 	jnz	00109$
-;	TIMER.c:82: Timer0.finishMili = 0;								// finish é uma flag que indica que o tempo acabou
+;	TIMER.c:78: Timer0.finishMili = 0;								// finish é uma flag que indica que o tempo acabou
 	mov	dptr,#(_Timer0 + 0x0004)
 	clr	a
 	movx	@dptr,a
