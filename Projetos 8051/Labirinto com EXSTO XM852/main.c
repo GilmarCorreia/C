@@ -77,7 +77,7 @@ void setLevel1(){
 	printMap();
 	
 	while(control)
-		control = configMap(player->line, player->col);
+		control = configMap(player->line, player->col, 1);
 	
 	clearLCD();
 }
@@ -98,7 +98,7 @@ void setLevel2(){
 	player->col = 2;
 	
 	while(control)
-		control = configMap(player->line, player->col);
+		control = configMap(player->line, player->col, 2);
 	
 	clearLCD();
 }
@@ -119,7 +119,7 @@ void setLevel3(){
 	player->col = 10;
 	
 	while(control)
-		control = configMap(player->line, player->col);
+		control = configMap(player->line, player->col,3);
 	
 	clearLCD();
 }
@@ -140,7 +140,7 @@ void setLevel4(){
 	player->col = 16;
 	
 	while(control)
-		control = configMap(player->line, player->col);
+		control = configMap(player->line, player->col,2);
 	
 	clearLCD();
 }
@@ -161,7 +161,7 @@ void setLevel5(){
 	player->col = 1;
 	
 	while(control)
-		control = configMap(player->line, player->col);
+		control = configMap(player->line, player->col,2);
 	
 	clearLCD();
 }

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Tue Aug 20 11:45:57 2019
+; This file was generated Wed Aug 21 09:12:25 2019
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mmcs51 --model-large
@@ -711,7 +711,7 @@ _setLevel1:
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:80: control = configMap(player->line, player->col);
+;	main.c:80: control = configMap(player->line, player->col, 1);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -752,6 +752,9 @@ _setLevel1:
 	mov	b,r5
 	lcall	__gptrget
 	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dptr,#_configMap_PARM_3
+	mov	a,#0x01
 	movx	@dptr,a
 	mov	dpl,r2
 	lcall	_configMap
@@ -888,7 +891,7 @@ _setLevel2:
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:101: control = configMap(player->line, player->col);
+;	main.c:101: control = configMap(player->line, player->col, 2);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -929,6 +932,9 @@ _setLevel2:
 	mov	b,r5
 	lcall	__gptrget
 	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dptr,#_configMap_PARM_3
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dpl,r2
 	lcall	_configMap
@@ -1065,7 +1071,7 @@ _setLevel3:
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:122: control = configMap(player->line, player->col);
+;	main.c:122: control = configMap(player->line, player->col,3);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1106,6 +1112,9 @@ _setLevel3:
 	mov	b,r5
 	lcall	__gptrget
 	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dptr,#_configMap_PARM_3
+	mov	a,#0x03
 	movx	@dptr,a
 	mov	dpl,r2
 	lcall	_configMap
@@ -1242,7 +1251,7 @@ _setLevel4:
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:143: control = configMap(player->line, player->col);
+;	main.c:143: control = configMap(player->line, player->col,2);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1283,6 +1292,9 @@ _setLevel4:
 	mov	b,r5
 	lcall	__gptrget
 	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dptr,#_configMap_PARM_3
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dpl,r2
 	lcall	_configMap
@@ -1419,7 +1431,7 @@ _setLevel5:
 	movx	a,@dptr
 	mov	r2,a
 	jz	00103$
-;	main.c:164: control = configMap(player->line, player->col);
+;	main.c:164: control = configMap(player->line, player->col,2);
 	mov	dptr,#_player
 	movx	a,@dptr
 	mov	r2,a
@@ -1460,6 +1472,9 @@ _setLevel5:
 	mov	b,r5
 	lcall	__gptrget
 	mov	dptr,#_configMap_PARM_2
+	movx	@dptr,a
+	mov	dptr,#_configMap_PARM_3
+	mov	a,#0x02
 	movx	@dptr,a
 	mov	dpl,r2
 	lcall	_configMap

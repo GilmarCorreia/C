@@ -34,6 +34,7 @@ void transNumber(unsigned char number){
 * 		recebe um char da serial
 */
 char receiver(){
+	
 	return SBUF;						// Recebe a mensagem do buffer
 }
 
@@ -41,7 +42,8 @@ char receiver(){
 /* FUNÇÃO receivedChar:
 * 		retorna o último char recebido pela Serial
 */
-char receivedChar(){
+char receivedChar() {
+	
 	return rxMsg;
 }
 
@@ -112,8 +114,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 
 			if(logic_op == 0){					// Se o jogador puder se movimentar
 			
-				//sing(4);						// Toca beep
-				
 				if(player->sline != 1)
 					player->sline--;			//decrementa a posição no mapa
 				else{
@@ -123,9 +123,7 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 					}
 				}
 			}
-			//else{
-				//sing(5); 						// Toca beep
-			//}
+
 		}
 		else if(rxMsg == 's' || rxMsg == 'S'){
 			
@@ -138,9 +136,7 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 			// ============================================= Lógica da Colisão para Baixo =============================================
 			
 			if(logic_op == 0){						// Se o jogador puder se movimentar
-			
-				//sing(4);							// Toca beep
-				
+
 				if(player->sline != 8)
 					player->sline++;				//incrementa a posição no mapa
 				else{
@@ -150,9 +146,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 					}
 				}
 			}
-			//else{
-			//	sing(5); 							// Toca beep
-			//}
 			
 		}
 		else if(rxMsg == 'd' || rxMsg == 'D'){
@@ -168,9 +161,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 			// ============================================= Lógica da Colisão para a Direita =============================================
 				
 			if(logic_op == 0){						// Se o jogador puder se movimentar
-				
-				//sing(4);							// Toca beep
-				
 				if(player->scol != 5)
 					player->scol++;					//incrementa a posição no mapa
 				else{
@@ -180,9 +170,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 					}
 				}
 			}
-			//else{
-			//	sing(5); 							// Toca beep
-			//}
 		}
 		else if(rxMsg == 'a' || rxMsg == 'A'){
 			
@@ -197,9 +184,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 			// ============================================= Lógica da Colisão para a Esquerda =============================================
 			
 			if(logic_op == 0){						// Se o jogador puder se movimentar
-				
-				//sing(4);							// Toca beep
-				
 				if(player->scol != 1)
 					player->scol--;					//decrementa a posição no mapa
 				else{
@@ -209,9 +193,6 @@ unsigned char serialControl(struct SChar scmap[8],struct Map map[4][16]){
 					}
 				}
 			}
-			//else{
-			//	sing(5); 							// Toca beep
-			//}
 		}
 
 		//printMap();									// Imprime o mapa do jogo novamente

@@ -45,7 +45,7 @@ struct Map map[4][16];
 
 void LCDconfig();
 
-unsigned char configMap(unsigned char pline, unsigned char pcol);
+unsigned char configMap(unsigned char pline, unsigned char pcol, unsigned char song);
 
 void setMap1CGram();
 

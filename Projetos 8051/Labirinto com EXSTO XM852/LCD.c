@@ -576,15 +576,15 @@ void setMap5CGram(){
 	
 }
 
-unsigned char configMap(unsigned char pline, unsigned char pcol){
+unsigned char configMap(unsigned char pline, unsigned char pcol, unsigned char song){
 	
 	unsigned char control = serialControl(SCmap, map);
-	//delay(100,0);
-	sing(3);
+	delay(100,0);
+	//sing(3);
 	setCursorAt(pline, pcol);
 	setChar((map[pline-1][pcol-1].schar) - 1);
-	//sing(3);
-	delay(100,0);
+	sing(song);
+	//delay(100,0);
 	
 	return control;
 }
@@ -681,7 +681,7 @@ unsigned char LCD_putText(char* text, unsigned char line, unsigned int time){
 
 
 		sing(1);
-		//delay(time,1);
+		delay(time-100,0);
 		
         chr = txt[0];
 

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.8.2 #5199 (Jul 29 2008) (MINGW32)
-; This file was generated Tue Aug 20 11:45:55 2019
+; This file was generated Wed Aug 21 09:12:24 2019
 ;--------------------------------------------------------
 	.module LCD
 	.optsdcc -mmcs51 --model-large
@@ -130,6 +130,7 @@
 	.globl _setPlayerCursor_PARM_4
 	.globl _setPlayerCursor_PARM_3
 	.globl _setPlayerCursor_PARM_2
+	.globl _configMap_PARM_3
 	.globl _configMap_PARM_2
 	.globl _printMapAt_PARM_2
 	.globl _setCursorAt_PARM_2
@@ -269,6 +270,10 @@ _LCD_putText_sloc0_1_0:
 	.ds 1
 _LCD_putText_sloc1_1_0:
 	.ds 1
+_LCD_putText_sloc2_1_0:
+	.ds 1
+_LCD_putText_sloc3_1_0:
+	.ds 1
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -400,6 +405,8 @@ _setMap5CGram_c6_1_1:
 _setMap5CGram_c7_1_1:
 	.ds 8
 _configMap_PARM_2:
+	.ds 1
+_configMap_PARM_3:
 	.ds 1
 _configMap_pline_1_1:
 	.ds 1
@@ -4210,10 +4217,11 @@ _setMap5CGram:
 ;Allocation info for local variables in function 'configMap'
 ;------------------------------------------------------------
 ;pcol                      Allocated with name '_configMap_PARM_2'
+;song                      Allocated with name '_configMap_PARM_3'
 ;pline                     Allocated with name '_configMap_pline_1_1'
 ;control                   Allocated with name '_configMap_control_1_1'
 ;------------------------------------------------------------
-;	LCD.c:579: unsigned char configMap(unsigned char pline, unsigned char pcol){
+;	LCD.c:579: unsigned char configMap(unsigned char pline, unsigned char pcol, unsigned char song){
 ;	-----------------------------------------
 ;	 function configMap
 ;	-----------------------------------------
@@ -4235,10 +4243,13 @@ _configMap:
 	mov	b,#0x00
 	lcall	_serialControl
 	mov	r2,dpl
-;	LCD.c:583: sing(3);
-	mov	dpl,#0x03
+;	LCD.c:582: delay(100,0);
+	mov	dptr,#_delay_PARM_2
+	clr	a
+	movx	@dptr,a
+	mov	dptr,#0x0064
 	push	ar2
-	lcall	_sing
+	lcall	_delay
 ;	LCD.c:584: setCursorAt(pline, pcol);
 	mov	dptr,#_configMap_pline_1_1
 	movx	a,@dptr
@@ -4276,12 +4287,11 @@ _configMap:
 	dec	r3
 	mov	dpl,r3
 	lcall	_setChar
-;	LCD.c:587: delay(100,0);
-	mov	dptr,#_delay_PARM_2
-	clr	a
-	movx	@dptr,a
-	mov	dptr,#0x0064
-	lcall	_delay
+;	LCD.c:586: sing(song);
+	mov	dptr,#_configMap_PARM_3
+	movx	a,@dptr
+	mov	dpl,a
+	lcall	_sing
 	pop	ar2
 ;	LCD.c:589: return control;
 	mov	dpl,r2
@@ -4746,6 +4756,8 @@ _LCD_putTextAt:
 ;------------------------------------------------------------
 ;sloc0                     Allocated with name '_LCD_putText_sloc0_1_0'
 ;sloc1                     Allocated with name '_LCD_putText_sloc1_1_0'
+;sloc2                     Allocated with name '_LCD_putText_sloc2_1_0'
+;sloc3                     Allocated with name '_LCD_putText_sloc3_1_0'
 ;line                      Allocated with name '_LCD_putText_PARM_2'
 ;time                      Allocated with name '_LCD_putText_PARM_3'
 ;text                      Allocated with name '_LCD_putText_text_1_1'
@@ -4941,67 +4953,53 @@ _LCD_putText:
 ;	LCD.c:675: for(i=0;i < size && control ==1 ;i++){
 	mov	dptr,#_LCD_putText_PARM_2
 	movx	a,@dptr
-	mov	_LCD_putText_sloc1_1_0,a
-	mov	a,r5
+	mov	_LCD_putText_sloc3_1_0,a
+	mov	dptr,#_LCD_putText_PARM_3
+	movx	a,@dptr
 	mov	r3,a
-	dec	a
+	inc	dptr
+	movx	a,@dptr
 	mov	r4,a
-	mov	r6,#0x00
+	mov	a,r3
+	add	a,#0x9c
+	mov	r3,a
+	mov	a,r4
+	addc	a,#0xff
+	mov	r4,a
+	mov	a,r5
+	mov	r6,a
+	dec	a
+	mov	r7,a
+	mov	r0,#0x00
 00104$:
 	clr	c
-	mov	a,r6
+	mov	a,r0
 	subb	a,r5
 	jc	00141$
 	ljmp	00107$
 00141$:
 	mov	dptr,#_LCD_putText_control_1_1
 	movx	a,@dptr
-	mov	r7,a
+	mov	r1,a
 	clr	a
-	cjne	r7,#0x01,00142$
+	cjne	r1,#0x01,00142$
 	inc	a
 00142$:
-	mov	r7,a
+	mov	r1,a
 	jnz	00144$
 	ljmp	00107$
 00144$:
 ;	LCD.c:677: setCursorHomeAtLine(line);
-	mov	dpl,_LCD_putText_sloc1_1_0
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	lcall	_setCursorHomeAtLine
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-;	LCD.c:679: for(j = 0; j<16 && control ==1;j++)
-	mov	r0,#0x00
-00113$:
-	cjne	r0,#0x10,00145$
-00145$:
-	jnc	00116$
-	mov	a,r7
-	jz	00116$
-;	LCD.c:680: setChar(txt[j]);				// Atribuindo escrita
-	mov	a,r0
-	add	a,#_LCD_putText_txt_1_1
-	mov	dpl,a
-	clr	a
-	addc	a,#(_LCD_putText_txt_1_1 >> 8)
-	mov	dph,a
-	movx	a,@dptr
-	mov	dpl,a
+	mov	dpl,_LCD_putText_sloc3_1_0
 	push	ar3
 	push	ar4
 	push	ar5
 	push	ar6
 	push	ar7
 	push	ar0
-	lcall	_setChar
+	push	ar1
+	lcall	_setCursorHomeAtLine
+	pop	ar1
 	pop	ar0
 	pop	ar7
 	pop	ar6
@@ -5009,7 +5007,42 @@ _LCD_putText:
 	pop	ar4
 	pop	ar3
 ;	LCD.c:679: for(j = 0; j<16 && control ==1;j++)
-	inc	r0
+	mov	_LCD_putText_sloc0_1_0,#0x00
+00113$:
+	mov	a,#0x100 - 0x10
+	add	a,_LCD_putText_sloc0_1_0
+	jc	00116$
+	mov	a,r1
+	jz	00116$
+;	LCD.c:680: setChar(txt[j]);				// Atribuindo escrita
+	push	ar7
+	mov	a,_LCD_putText_sloc0_1_0
+	add	a,#_LCD_putText_txt_1_1
+	mov	dpl,a
+	clr	a
+	addc	a,#(_LCD_putText_txt_1_1 >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	r7,a
+	mov	dpl,a
+	push	ar3
+	push	ar4
+	push	ar5
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	lcall	_setChar
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	pop	ar5
+	pop	ar4
+	pop	ar3
+;	LCD.c:679: for(j = 0; j<16 && control ==1;j++)
+	inc	_LCD_putText_sloc0_1_0
+	pop	ar7
 	sjmp	00113$
 00116$:
 ;	LCD.c:683: sing(1);
@@ -5018,7 +5051,30 @@ _LCD_putText:
 	push	ar4
 	push	ar5
 	push	ar6
+	push	ar7
+	push	ar0
 	lcall	_sing
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	pop	ar5
+	pop	ar4
+	pop	ar3
+;	LCD.c:684: delay(time-100,0);
+	mov	dptr,#_delay_PARM_2
+	clr	a
+	movx	@dptr,a
+	mov	dpl,r3
+	mov	dph,r4
+	push	ar3
+	push	ar4
+	push	ar5
+	push	ar6
+	push	ar7
+	push	ar0
+	lcall	_delay
+	pop	ar0
+	pop	ar7
 	pop	ar6
 	pop	ar5
 	pop	ar4
@@ -5026,34 +5082,38 @@ _LCD_putText:
 ;	LCD.c:686: chr = txt[0];
 	mov	dptr,#_LCD_putText_txt_1_1
 	movx	a,@dptr
-	mov	_LCD_putText_sloc0_1_0,a
+	mov	_LCD_putText_sloc2_1_0,a
 ;	LCD.c:688: for(k = 1; k< size && control ==1;k++)
+	push	ar7
 	mov	dptr,#_LCD_putText_control_1_1
 	movx	a,@dptr
-	mov	r0,a
+	mov	r7,a
 	clr	a
-	cjne	r0,#0x01,00148$
+	cjne	r7,#0x01,00147$
 	inc	a
-00148$:
-	mov	r0,a
-	mov	r1,#0x01
+00147$:
+	mov	_LCD_putText_sloc0_1_0,a
+	mov	_LCD_putText_sloc1_1_0,#0x01
+;	LCD.c:699: return control;
+	pop	ar7
+;	LCD.c:688: for(k = 1; k< size && control ==1;k++)
 00118$:
 	clr	c
-	mov	a,r1
-	subb	a,r3
+	mov	a,_LCD_putText_sloc1_1_0
+	subb	a,r6
 	jnc	00121$
-	mov	a,r0
+	mov	a,_LCD_putText_sloc0_1_0
 	jz	00121$
 ;	LCD.c:689: txt[k-1] = txt[k];
-	push	ar4
-	mov	a,r1
+	push	ar7
+	mov	a,_LCD_putText_sloc1_1_0
 	dec	a
 	add	a,#_LCD_putText_txt_1_1
-	mov	r4,a
+	mov	r7,a
 	clr	a
 	addc	a,#(_LCD_putText_txt_1_1 >> 8)
-	mov	r7,a
-	mov	a,r1
+	mov	r1,a
+	mov	a,_LCD_putText_sloc1_1_0
 	add	a,#_LCD_putText_txt_1_1
 	mov	dpl,a
 	clr	a
@@ -5061,30 +5121,34 @@ _LCD_putText:
 	mov	dph,a
 	movx	a,@dptr
 	mov	r2,a
-	mov	dpl,r4
-	mov	dph,r7
+	mov	dpl,r7
+	mov	dph,r1
 	movx	@dptr,a
 ;	LCD.c:688: for(k = 1; k< size && control ==1;k++)
-	inc	r1
-	pop	ar4
+	inc	_LCD_putText_sloc1_1_0
+	pop	ar7
 	sjmp	00118$
 00121$:
 ;	LCD.c:691: txt[size-1] = chr;
-	mov	a,r4
+	mov	a,r7
 	add	a,#_LCD_putText_txt_1_1
 	mov	dpl,a
 	clr	a
 	addc	a,#(_LCD_putText_txt_1_1 >> 8)
 	mov	dph,a
-	mov	a,_LCD_putText_sloc0_1_0
+	mov	a,_LCD_putText_sloc2_1_0
 	movx	@dptr,a
 ;	LCD.c:693: control = serialBegin();
 	push	ar3
 	push	ar4
 	push	ar5
 	push	ar6
+	push	ar7
+	push	ar0
 	lcall	_serialBegin
 	mov	r2,dpl
+	pop	ar0
+	pop	ar7
 	pop	ar6
 	pop	ar5
 	pop	ar4
@@ -5096,7 +5160,7 @@ _LCD_putText:
 	mov	a,r2
 	jz	00107$
 ;	LCD.c:675: for(i=0;i < size && control ==1 ;i++){
-	inc	r6
+	inc	r0
 	ljmp	00104$
 00107$:
 ;	LCD.c:699: return control;
